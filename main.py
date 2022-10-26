@@ -7,7 +7,7 @@ def main():
     n = random.randint(150, 220)  # zakres przyjętych w miesiącu mszy
     i = 0
     sack = []
-    amounts = [50, 60, 70, 80]  # przykładowe ofiary za mszę
+    amounts = [-12, 50, 60, 70, 80]  # przykładowe ofiary za mszę
     priests = ["p1", "p2", "p3", "p4", "p5"]  # lista księży na parafii
 
     # generator na potrzeby testu funkcji

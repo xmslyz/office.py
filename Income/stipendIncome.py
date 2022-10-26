@@ -8,6 +8,16 @@ class massPayment(Income):
         self.recived = who_recived
         self.applied = who_applied
 
+    @property
+    def amount(self):
+        return self.__amount
+    @amount.setter
+    def amount(self, amount):
+        if amount < 0:
+            self.__amount = 0
+        else:
+            self.__amount = amount
+
     def show_payment(self):
         print(f"Stypendium w wysokości {self.amount} przyjął {self.recived}. Mszę odprawił {self.applied}")
 
