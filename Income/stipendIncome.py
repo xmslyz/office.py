@@ -9,18 +9,20 @@ class massPayment(Income):
         self.applied = who_applied
 
     def show_payment(self):
-        print(f"Stypendium w wysokości {self.amount} przyjął {self.recived}.\nMszę odprawił {self.applied}")
+        print(f"Stypendium w wysokości {self.amount} przyjął {self.recived}. Mszę odprawił {self.applied}")
 
 
 class count_stipends(massPayment):
 
-    def sum_stipends_for_reciver(sack, recived_money):
+    # zwraca sumę przyjętych ofiar za msze przez konkretnego ks.
+    def sum_stipends_for_reciver(sack, reciever):
         suma = 0
         for stipends in sack:
-            if stipends.recived == recived_money:
+            if stipends.recived == reciever:
                 suma += stipends.amount
         return suma
 
+    # zwraca listę przyjętych ofiar za msze przez konkretnego ks.
     def list_of_stipends_for_reciever(sack, reciever):
         lista = []
         for stipends in sack:
@@ -28,18 +30,22 @@ class count_stipends(massPayment):
                 lista.append(stipends.amount)
         return lista
 
+    # zwraca sumę wszystkich przyjętych ofiar za msze
     def sum_all_stipends(sack):
         suma = 0
         for stipends in sack:
             suma += stipends.amount
         return suma
 
+    # zwraca ilość przyjętych mszy
     def sum_of_masses(sack):
         return len(sack)
 
+    # zwraca średnią (stypendium)
     def mediana_stipends(sack):
         return count_stipends.sum_all_stipends(sack) / count_stipends.sum_of_masses(sack)
 
+    # zwraca ilość odprawionych mszy przez danego ks.
     def sum_of_applied_masses(sack, applier):
         suma = 0
         for stipends in sack:
@@ -47,5 +53,6 @@ class count_stipends(massPayment):
                 suma += 1
         return suma
 
-    def payment_title_mass(sack, applier):
+    # zwraca quotę za odprawione msze
+    def quota(sack, applier):
         return count_stipends.mediana_stipends(sack) * count_stipends.sum_of_applied_masses(sack, applier)
