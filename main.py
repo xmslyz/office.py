@@ -17,16 +17,16 @@ def main():
         i += 1
 
     # do konsoli
-    for x in priests:
-        print(f'{x} przyjął stypendiów w kwocie {count_stipends.sum_stipends_for_reciver(sack, x)} zł')
-        print(count_stipends.list_of_stipends_for_reciever(sack, x))
-        print(count_stipends.sum_of_applied_masses(sack, x))
-        print(f'{count_stipends.quota(sack, x):.2f} zł')
-        print("---")
-
     print(f'Suma wszystkich stypendiów w tym miesiącu wynosi: {count_stipends.sum_all_stipends(sack)} zł')
     print(f'Ilość mszy w miesiącu wyniosła: {count_stipends.sum_of_masses(sack)}')
     print(f'{count_stipends.mediana_stipends(sack):.2f} zł')
+    print("")
+    for x in priests:
+        print(f'{x} przyjął stypendiów w kwocie {count_stipends.sum_stipends_for_reciver(sack, x)} zł')
+        print(f'Lista przyjętych stypendiów {count_stipends.list_of_stipends_for_reciever(sack, x)}')
+        print(f'{x} odprawił {count_stipends.sum_of_applied_masses(sack, x)} mszy.')
+        print(f'{count_stipends.quota(sack, x):.2f} zł')
+        print()
 
 
 if __name__ == '__main__':
