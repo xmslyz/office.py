@@ -1,5 +1,5 @@
 import random
-from Income.stipendIncome import MassStipend, CountStipends
+from Income.stipend_income import MassStipend, CountStipends
 
 
 def random_values_generator():
