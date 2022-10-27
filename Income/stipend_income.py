@@ -14,8 +14,7 @@ class MassStipend(Income):
         return self.__amount
     @amount.setter
     def amount(self, amount):
-        # self.__amount = 0 if amount < 0 else self.__amount = amount
-        self.__amount = amount
+        self.__amount = 0 if amount < 0 else amount
 
     def show_stipend(self):
         print(f"{self.type} w wysokości {self.amount} przyjął {self.priest_reciving}. Mszę odprawił {self.priest_applying}")
