@@ -1,7 +1,7 @@
 from Income.income import Income
 
 
-class massPayment(Income):
+class massStipend(Income):
 
     def __init__(self, amount, who_recived, who_applied):
         self.amount = amount
@@ -18,11 +18,11 @@ class massPayment(Income):
         else:
             self.__amount = amount
 
-    def show_payment(self):
+    def show_stipend(self):
         print(f"Stypendium w wysokości {self.amount} przyjął {self.recived}. Mszę odprawił {self.applied}")
 
 
-class count_stipends(massPayment):
+class count_stipends(massStipend):
 
     # zwraca sumę przyjętych ofiar za msze przez konkretnego ks.
     def sum_stipends_for_reciver(sack, reciever):

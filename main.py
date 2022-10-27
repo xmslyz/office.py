@@ -1,5 +1,5 @@
 import random
-from Income.stipendIncome import massPayment, count_stipends
+from Income.stipendIncome import massStipend, count_stipends
 
 
 def main():
@@ -12,7 +12,7 @@ def main():
 
     # generator na potrzeby testu funkcji
     while i < n:
-        j = massPayment(random.choice(amounts), random.choice(priests), random.choice(priests))
+        j = massStipend(random.choice(amounts), random.choice(priests), random.choice(priests))
         sack.append(j)
         i += 1
 

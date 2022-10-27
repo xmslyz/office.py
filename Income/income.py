@@ -4,5 +4,5 @@ from abc import ABC, abstractmethod
 class Income(ABC):
 
     @abstractmethod
-    def show_payment(self):
+    def show_stipend(self):
         pass
