@@ -3,7 +3,8 @@ from Income.income import Income
 
 class massStipend(Income):
 
-    def __init__(self, amount, who_recived, who_applied):
+    def __init__(self, income_type, amount, who_recived, who_applied):
+        self.type = income_type
         self.amount = amount
         self.recived = who_recived
         self.applied = who_applied
@@ -19,24 +20,30 @@ class massStipend(Income):
             self.__amount = amount
 
     def show_stipend(self):
-        print(f"Stypendium w wysokości {self.amount} przyjął {self.recived}. Mszę odprawił {self.applied}")
+        print(f"{self.type} w wysokości {self.amount} przyjął {self.recived}. Mszę odprawił {self.applied}")
+
+    def show_type(self):
+        print(self.type)
+
+    def amount_value(self):
+        return self.__amount
 
 
 class count_stipends(massStipend):
 
     # zwraca sumę przyjętych ofiar za msze przez konkretnego ks.
-    def sum_stipends_for_reciver(sack, reciever):
+    def sum_stipends_for_reciver(sack, receiver):
         suma = 0
         for stipends in sack:
-            if stipends.recived == reciever:
+            if stipends.recived == receiver:
                 suma += stipends.amount
         return suma
 
     # zwraca listę przyjętych ofiar za msze przez konkretnego ks.
-    def list_of_stipends_for_reciever(sack, reciever):
+    def list_of_stipends_for_reciever(sack, receiver):
         lista = []
         for stipends in sack:
-            if stipends.recived == reciever:
+            if stipends.recived == receiver:
                 lista.append(stipends.amount)
         return lista
 
