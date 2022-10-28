@@ -30,15 +30,13 @@ def random_values_generator():
         j = MassStipend("Stypendium", random.choice(amounts), random.choice(priests), random.choice(priests), celebration_date, random.choice(celebration_type))
         sack.append(j)
 
-    return sack
-
-    # print(f'Suma wszystkich stypendiów w tym miesiącu wynosi: {CountStipends.sum_all_stipends(sack)} zł')
-    # print(f'Ilość mszy w miesiącu wyniosła: {CountStipends.sum_of_masses(sack)}')
-    # print(f'{CountStipends.mediana_stipends(sack):.2f} zł')
-    # print("")
-    # for x in priests:
-    #     print(f'{x} przyjął stypendiów w kwocie {CountStipends.sum_stipends_recived_by_a_priest(sack, x)} zł')
-    #     print(f'Lista przyjętych stypendiów {CountStipends.list_of_stipends_recieved_by_a_priest(sack, x)}')
-    #     print(f'{x} odprawił {CountStipends.sum_of_applied_masses(sack, x)} mszy.')
-    #     print(f'{CountStipends.quota(sack, x):.2f} zł')
-    #     print()
+    print(f'Suma wszystkich stypendiów w tym miesiącu wynosi: {CountStipends.sum_all_stipends(sack)} zł')
+    print(f'Ilość mszy w miesiącu wyniosła: {CountStipends.sum_of_masses(sack)}')
+    print(f'{CountStipends.mediana_stipends(sack):.2f} zł')
+    print("")
+    for x in priests:
+        print(f'{x} przyjął stypendiów w kwocie {CountStipends.sum_stipends_recived_by_a_priest(sack, x)} zł')
+        print(f'Lista przyjętych stypendiów {CountStipends.list_of_stipends_recieved_by_a_priest(sack, x)}')
+        print(f'{x} odprawił {CountStipends.sum_of_applied_masses(sack, x)} mszy.')
+        print(f'{CountStipends.quota(sack, x):.2f} zł')
+        print()
