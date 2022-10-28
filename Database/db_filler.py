@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from Random_Generator import random_values_generator as rvg
 
 
 class DatabaseFiller:
@@ -20,6 +21,6 @@ class DatabaseFiller:
         __meth()
         self.__close_conection()
 
-    def qqq(self):
-        __sql = f'SELECT name FROM sqlite_master WHERE type="table"'
-        print(self.__cur.execute(__sql).fetchall())
+    def filler_with_dbObject(self):
+        rvl = rvg.random_value_list_generator(0, 10)
+        self.__cur.executemany("INSERT INTO main_table VALUES(?, ?, ?, ?, ?, ?)", rvl)

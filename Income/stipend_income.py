@@ -2,7 +2,6 @@ from Income.income import Income
 
 
 class MassStipend(Income):
-
     def __init__(self, income_type, amount, who_recived, who_applied, celebration_date, celebration_type):
         self.type = income_type
         self.amount = amount
