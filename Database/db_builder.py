@@ -4,20 +4,15 @@ from MSGs import PopupMsgs as msg
 
 
 class BazaDanych:
-    def __init__(self, path="Database\\database\\", dbname=None, table_name="default.db"):
+    def __init__(self, path="Database\\database\\", dbname="default.db", table_name="table"):
         self.path = path
         self.dbname = dbname
         self.table_name = table_name
+        self.full_path = os.path.join(os.path.abspath(os.getcwd()), self.path, dbname)
+        print(self.full_path)
 
     def show_db_details(self):
         print(f"Tworzenie tabeli {self.table_name} w bazie danych {self.dbname} w katalogu {self.path}.")
-
-    def database_builder(self):
-        if not self.__path_finder():  # gdy nie istnieje struktura katalogu
-            self.__path_maker()
-
-        dbfile = self.__path_maker()
-        sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
     def __path_finder(self) -> str:
         new_path = os.path.join(os.path.abspath(os.getcwd()), self.path)
@@ -39,51 +34,68 @@ class BazaDanych:
             new_dbfile = os.path.join(new_dbfile, self.dbname)
             return new_dbfile
 
-
-def database_table_builder(tablename="table_1", dbfile=None, path=()):
-
-
-
-    """ Problem z kontrolą wyjątków """
-    if not dbfile:
-        dbfile = "default.db"
-
-    if not path:
-        path = os.path.join(os.path.abspath(os.getcwd()), "Database\\database\\")
-
-    if os.path.exists(path):
-        new_dbfile = os.path.join(path, dbfile)
-        con = sqlite3.connect(new_dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+    def __dbtable_finder(self):
+        con = sqlite3.connect(self.dbname, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         cur = con.cursor()
-        __sql = f'CREATE TABLE IF NOT EXISTS {tablename} ' \
-                f'(type TEXT NOT NULL, date DATE, amount REAL, priest_reciving TEXT, celebrated TEXT)'
+        __sql = f'SELECT name FROM sqlite_master WHERE type="table" AND name={self.table_name}'
         try:
-            msg.PopupMsgs.popup_msg("Okienko", "Tabela już istnieje w tym miejscu") \
-                if is_table_in_db(new_dbfile) \
-                else msg.PopupMsgs.popup_msg("Okienko", "Tabela została utworzona")
-            cur.execute(__sql)
-        except sqlite3.OperationalError:
-            msg.PopupMsgs.popup_msg("Wyjątek", "Tabela bazy danych już istnieje, bądź jest otwarta")
+            if cur.execute(__sql).fetchone() is not None:
+                return True
+            else:
+                return False
         finally:
             con.commit()
             cur.close()
 
+    def database_creator(self):
+        self.__database_file_builder()
+        self.__database_table_builder()
+        print("done")
 
+    def __database_file_builder(self):
+        if not self.__path_finder():  # gdy nie istnieje struktura katalogu
+            self.__path_maker()
 
+        dbfile = self.__path_maker()
+        sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
-
-def dbtable_finder(path, dbfile, tablename):
-    con = sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-    cur = con.cursor()
-    __sql = f'SELECT name FROM sqlite_master WHERE type="table" AND name={tablename}'
-    try:
-        if cur.execute(__sql).fetchone() is not None:
-            return True
+    def __database_table_builder(self):
+        if self.__dbtable_finder():
+            print(True)
         else:
-            return False
-    finally:
-        con.commit()
-        cur.close()
+            print(False)
+
+
+
+    # """ Problem z kontrolą wyjątków """
+    # if not dbfile:
+    #     dbfile = "default.db"
+    #
+    # if not path:
+    #     path = os.path.join(os.path.abspath(os.getcwd()), "Database\\database\\")
+    #
+    # if os.path.exists(path):
+    #     new_dbfile = os.path.join(path, dbfile)
+    #     con = sqlite3.connect(new_dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+    #     cur = con.cursor()
+    #     __sql = f'CREATE TABLE IF NOT EXISTS {tablename} ' \
+    #             f'(type TEXT NOT NULL, date DATE, amount REAL, priest_reciving TEXT, celebrated TEXT)'
+    #     try:
+    #         msg.PopupMsgs.popup_msg("Okienko", "Tabela już istnieje w tym miejscu") \
+    #             if is_table_in_db(new_dbfile) \
+    #             else msg.PopupMsgs.popup_msg("Okienko", "Tabela została utworzona")
+    #         cur.execute(__sql)
+    #     except sqlite3.OperationalError:
+    #         msg.PopupMsgs.popup_msg("Wyjątek", "Tabela bazy danych już istnieje, bądź jest otwarta")
+    #     finally:
+    #         con.commit()
+    #         cur.close()
+
+
+
+
+
+
 
 
 def database_eraser(dbfile=None):
