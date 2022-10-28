@@ -8,7 +8,7 @@ def main():
     # rvg.random_values_generator()
     myDB = db.BazaDanych()
     myDB.show_db_details()
-    # myDB.database_creator()
+    myDB.database_creator()
 
 
 if __name__ == '__main__':

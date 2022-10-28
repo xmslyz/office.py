@@ -4,19 +4,17 @@ from MSGs import PopupMsgs as msg
 
 
 class BazaDanych:
-    def __init__(self, path="Database\\database\\", dbname="default.db", table_name="table"):
+    def __init__(self, path="Database\\database\\", dbname="default.db", table_name="main_table"):
         self.path = path
         self.dbname = dbname
         self.table_name = table_name
         self.full_path = os.path.join(os.path.abspath(os.getcwd()), self.path, dbname)
-        print(self.full_path)
 
     def show_db_details(self):
         print(f"Tworzenie tabeli {self.table_name} w bazie danych {self.dbname} w katalogu {self.path}.")
 
     def __path_finder(self) -> str:
-        new_path = os.path.join(os.path.abspath(os.getcwd()), self.path)
-        return True if os.path.exists(new_path) else False
+        return True if os.path.exists(self.full_path) else False
 
     def __path_maker(self) -> str:
         if not self.dbname:
@@ -35,14 +33,13 @@ class BazaDanych:
             return new_dbfile
 
     def __dbtable_finder(self):
-        con = sqlite3.connect(self.dbname, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        con = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         cur = con.cursor()
-        __sql = f'SELECT name FROM sqlite_master WHERE type="table" AND name={self.table_name}'
+        __sql = f'SELECT name FROM sqlite_master'
         try:
-            if cur.execute(__sql).fetchone() is not None:
-                return True
-            else:
-                return False
+            print(cur.execute(__sql).fetchall())
+            for table in cur.execute(__sql).fetchall():
+                return True if ({self.table_name},) == table else False
         finally:
             con.commit()
             cur.close()
@@ -50,7 +47,6 @@ class BazaDanych:
     def database_creator(self):
         self.__database_file_builder()
         self.__database_table_builder()
-        print("done")
 
     def __database_file_builder(self):
         if not self.__path_finder():  # gdy nie istnieje struktura katalogu
@@ -60,42 +56,19 @@ class BazaDanych:
         sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
     def __database_table_builder(self):
+        con = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        cur = con.cursor()
         if self.__dbtable_finder():
-            print(True)
+            print(f"Tabela o nazwie {self.table_name} już istnieje. Wybierz inną nazwę lub usuń istniejącą.")
         else:
-            print(False)
-
-
-
-    # """ Problem z kontrolą wyjątków """
-    # if not dbfile:
-    #     dbfile = "default.db"
-    #
-    # if not path:
-    #     path = os.path.join(os.path.abspath(os.getcwd()), "Database\\database\\")
-    #
-    # if os.path.exists(path):
-    #     new_dbfile = os.path.join(path, dbfile)
-    #     con = sqlite3.connect(new_dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-    #     cur = con.cursor()
-    #     __sql = f'CREATE TABLE IF NOT EXISTS {tablename} ' \
-    #             f'(type TEXT NOT NULL, date DATE, amount REAL, priest_reciving TEXT, celebrated TEXT)'
-    #     try:
-    #         msg.PopupMsgs.popup_msg("Okienko", "Tabela już istnieje w tym miejscu") \
-    #             if is_table_in_db(new_dbfile) \
-    #             else msg.PopupMsgs.popup_msg("Okienko", "Tabela została utworzona")
-    #         cur.execute(__sql)
-    #     except sqlite3.OperationalError:
-    #         msg.PopupMsgs.popup_msg("Wyjątek", "Tabela bazy danych już istnieje, bądź jest otwarta")
-    #     finally:
-    #         con.commit()
-    #         cur.close()
-
-
-
-
-
-
+            __sql = f'CREATE TABLE {self.table_name} ' \
+                    f'(type TEXT NOT NULL, date DATE, amount REAL, priest_reciving TEXT, celebrated TEXT)'
+            try:
+                cur.execute(__sql)
+            except:
+                print("Tabela już istnieje")
+        con.commit()
+        cur.close()
 
 
 def database_eraser(dbfile=None):
