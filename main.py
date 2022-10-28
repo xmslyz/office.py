@@ -6,7 +6,9 @@ from Random_Generator import random_values_generator as rvg
 
 def main():
     # rvg.random_values_generator()
-    db.database_builder()
+    myDB = db.BazaDanych()
+    myDB.show_db_details()
+    myDB.database_builder()
 
 
 if __name__ == '__main__':

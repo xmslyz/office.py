@@ -9,27 +9,34 @@ class BazaDanych:
         self.dbname = dbname
         self.table_name = table_name
 
-    def database_builder(self):
-        if not path_finder(self):  # gdy nie istnieje struktura katalogu
-            path_maker(self)
+    def show_db_details(self):
+        print(f"Tworzenie tabeli {self.table_name} w bazie danych {self.dbname} w katalogu {self.path}.")
 
-        dbfile = path_maker(self)
+    def database_builder(self):
+        if not self.__path_finder():  # gdy nie istnieje struktura katalogu
+            self.__path_maker()
+
+        dbfile = self.__path_maker()
         sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
-    def path_maker(self) -> str:
-        if not dbfile:
-            if not path:
-                path = "Database\\database"
-            new_dbfile = os.path.join(os.path.abspath(os.getcwd()), path)
+    def __path_finder(self) -> str:
+        new_path = os.path.join(os.path.abspath(os.getcwd()), self.path)
+        return True if os.path.exists(new_path) else False
+
+    def __path_maker(self) -> str:
+        if not self.dbname:
+            if not self.path:
+                self.path = "Database\\database"
+            new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, "default.db")
             return new_dbfile
         else:
-            if not path:
-                path = "Database\\database"
-            new_dbfile = os.path.join(os.path.abspath(os.getcwd()), path)
+            if not self.path:
+                self.path = "Database\\database"
+            new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
-            new_dbfile = os.path.join(new_dbfile, dbfile)
+            new_dbfile = os.path.join(new_dbfile, self.dbname)
             return new_dbfile
 
 
@@ -62,9 +69,7 @@ def database_table_builder(tablename="table_1", dbfile=None, path=()):
             cur.close()
 
 
-def path_finder(path) -> str:
-    new_path = os.path.join(os.path.abspath(os.getcwd()), path)
-    return True if os.path.exists(new_path) else False
+
 
 
 def dbtable_finder(path, dbfile, tablename):
@@ -81,9 +86,6 @@ def dbtable_finder(path, dbfile, tablename):
         cur.close()
 
 
-
-
-
 def database_eraser(dbfile=None):
     pass
     # dbfile = os.path.abspath(dbfile)
@@ -97,3 +99,4 @@ def database_eraser(dbfile=None):
     # finally:
     #     con.commit()
     #     cur.close()
+
