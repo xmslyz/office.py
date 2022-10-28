@@ -29,8 +29,16 @@ class MassStipend(Income):
 
 class CountStipends(MassStipend):
 
-    # zwraca listę przyjętych ofiar za msze przez konkretnego ks.
+    def sqlist_stipends_recieved_by_a_priest(receiving_money):
+        # zwraca listę przyjętych ofiar za msze przez konkretnego ks.
+        lista = []
+        for stipend in sack:
+            if stipend.priest_reciving == receiving_money:
+                lista.append(stipend.amount)
+        return lista
+
     def list_of_stipends_recieved_by_a_priest(sack, receiving_money):
+        # zwraca listę przyjętych ofiar za msze przez konkretnego ks.
         lista = []
         for stipend in sack:
             if stipend.priest_reciving == receiving_money:

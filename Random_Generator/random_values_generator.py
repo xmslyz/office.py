@@ -7,13 +7,14 @@ def random_value_list_generator(array_from, array_to):
     n = random.randint(array_from, array_to)  # zakres przyjętych w miesiącu mszy
     sack = []
     celebration_date = datetime.datetime.now()
-    celebration_type = ["gregoriańska", "pogrzebowa", "ślubna", "chrzecielna", "poza"]
+    celebration_type = ["in loco", "extra", "gregorianas", "pro defunctis", "pro sponsos", "pro baptismatos"]
     amounts = [100, 50, 60, 70, 80]  # przykładowe ofiary za mszę
     priests = ["p1", "p2", "p3", "p4", "p5"]  # lista księży na parafii
 
     for _ in range(n):
         j = ("Stypendium", random.choice(amounts), random.choice(priests), random.choice(priests), celebration_date, random.choice(celebration_type))
         sack.append(j)
+    print(f"Wygenerowano {len(sack)} pozycji")
     return sack
 
 
@@ -21,7 +22,7 @@ def random_values_generator():
     n = random.randint(150, 220)  # zakres przyjętych w miesiącu mszy
     sack = []
     celebration_date = datetime.datetime.now()
-    celebration_type = ["gregoriańska", "pogrzebowa", "ślubna", "chrzecielna", "poza"]
+    celebration_type = ["in loco", "extra", "gregorianas", "pro defunctis", "pro sponsos", "pro baptismatos"]
     amounts = [100, 50, 60, 70, 80]  # przykładowe ofiary za mszę
     priests = ["q1", "q2", "q3", "q4", "q5"]  # lista księży na parafii
 
