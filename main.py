@@ -18,7 +18,7 @@ def main():
     # myDBfiller.make_connection(myDBfiller.filler_with_dbObject)
 
     myDBsearher = dbs.DatabaseSearcher()
-    myDBsearher.make_connection(myDBsearher.sql_simple_querry, "main_table", "amount", "celebrated", "p2")
+    myDBsearher.make_connection(myDBsearher.sql_querry_SELECT__FROM__WHERE__IS__, "amount", "main_table", "celebrated", "p2")
 
 
 if __name__ == '__main__':
