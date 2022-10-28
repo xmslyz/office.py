@@ -12,6 +12,10 @@ class Database:
     def show_db_details(self):
         print(f"Tworzenie tabeli {self.table_name} w bazie danych {self.dbname} w katalogu {self.path}.")
 
+    def database_creator(self):
+        self.__database_file_builder()
+        self.__database_table_builder()
+
     def __path_finder(self) -> str:
         return True if os.path.exists(self.full_path) else False
 
@@ -41,10 +45,6 @@ class Database:
         finally:
             con.commit()
             cur.close()
-
-    def database_creator(self):
-        self.__database_file_builder()
-        self.__database_table_builder()
 
     def __database_file_builder(self):
         if not self.__path_finder():  # gdy nie istnieje struktura katalogu
