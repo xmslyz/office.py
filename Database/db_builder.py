@@ -2,8 +2,8 @@ import os
 import sqlite3
 
 
-class BazaDanych:
-    def __init__(self, path="Database\\database\\", dbname="default.db", table_name="main_table"):
+class Database:
+    def __init__(self, path="Files\\Database\\", dbname="default.db", table_name="main_table"):
         self.path = path
         self.dbname = dbname
         self.table_name = table_name
@@ -18,14 +18,14 @@ class BazaDanych:
     def __path_maker(self) -> str:
         if not self.dbname:
             if not self.path:
-                self.path = "Database\\database"
+                self.path = "Files\\Database\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, "default.db")
             return new_dbfile
         else:
             if not self.path:
-                self.path = "Database\\database"
+                self.path = "Files\\Database\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, self.dbname)
@@ -34,11 +34,10 @@ class BazaDanych:
     def __dbtable_finder(self):
         con = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         cur = con.cursor()
-        __sql = f'SELECT name FROM sqlite_master'
+        __sql = f'SELECT name FROM sqlite_master WHERE type="table"'
         try:
-            print(cur.execute(__sql).fetchall())
-            for table in cur.execute(__sql).fetchall():
-                return True if ({self.table_name},) == table else False
+            for _ in cur.execute(__sql).fetchall():
+                return True if _ == (self.table_name,) else False
         finally:
             con.commit()
             cur.close()
@@ -64,7 +63,7 @@ class BazaDanych:
                     f'(type TEXT NOT NULL, date DATE, amount REAL, priest_reciving TEXT, celebrated TEXT)'
             try:
                 cur.execute(__sql)
-            except:
-                print("Tabela już istnieje")
+            except sqlite3.OperationalError:
+                print("Tabela o podanych parametrach już istnieje.")
         con.commit()
         cur.close()
