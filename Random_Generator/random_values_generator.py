@@ -1,3 +1,4 @@
+import datetime
 import random
 from Income.stipend_income import MassStipend, CountStipends
 
@@ -6,12 +7,14 @@ def random_values_generator():
     n = random.randint(150, 220)  # zakres przyjętych w miesiącu mszy
     i = 0
     sack = []
+    celebration_date = datetime.datetime.now()
+    celebration_type = ["gregoriańska", "pogrzebowa", "ślubna", "chrzecielna", "poza"]
     amounts = [100, 50, 60, 70, 80]  # przykładowe ofiary za mszę
     priests = ["p1", "p2", "p3", "p4", "p5"]  # lista księży na parafii
 
     # generator na potrzeby testu funkcji
     for _ in range(n):
-        j = MassStipend("Stypendium", random.choice(amounts), random.choice(priests), random.choice(priests))
+        j = MassStipend("Stypendium", random.choice(amounts), random.choice(priests), random.choice(priests), celebration_date, random.choice(celebration_type))
         sack.append(j)
         i += 1
 
