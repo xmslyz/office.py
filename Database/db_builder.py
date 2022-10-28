@@ -1,6 +1,5 @@
 import os
 import sqlite3
-from MSGs import PopupMsgs as msg
 
 
 class BazaDanych:
@@ -69,19 +68,3 @@ class BazaDanych:
                 print("Tabela już istnieje")
         con.commit()
         cur.close()
-
-
-def database_eraser(dbfile=None):
-    pass
-    # dbfile = os.path.abspath(dbfile)
-    # con = sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-    # cur = con.cursor()
-    # try:
-    #     cur.execute('DROP TABLE test')
-    #     msg.PopupMsgs.popup_msg("Sukces", "Tabela bazy danych została usunięta")
-    # except:
-    #     msg.PopupMsgs.popup_msg("Błąd", "Nie ma takiej tabeli w bazie danch")
-    # finally:
-    #     con.commit()
-    #     cur.close()
-
