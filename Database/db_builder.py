@@ -75,3 +75,19 @@ class Database:
                 print("Tabela o podanych parametrach już istnieje.")
         con.commit()
         cur.close()
+
+    def database_table_droper(full_path):
+        con = sqlite3.connect(full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        cur = con.cursor()
+        try:
+            cur.execute('DROP TABLE main_table')
+        except sqlite3.OperationalError:
+            print("Podana tabela nie istnieje.")
+
+    def path_destroyer(full_path):
+        try:
+            os.remove(os.path.join(full_path, "default.db"))
+            os.removedirs(full_path)
+        except FileNotFoundError:
+            print("System nie może odnaleźć określonej ścieżki")
+
