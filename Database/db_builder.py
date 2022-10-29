@@ -59,14 +59,16 @@ class Database:
         if self.__dbtable_finder():
             print(f"Tabela o nazwie {self.__table_name} już istnieje. Wybierz inną nazwę lub usuń istniejącą.")
         else:
-            __sql = f'CREATE TABLE {self.__table_name} ' \
+            __sql = f'CREATE TABLE ' \
+                    f'{self.__table_name} ' \
                     f'(type TEXT NOT NULL, ' \
                     f'amount REAL, ' \
                     f'priest_reciving TEXT, ' \
-                    f'celebrated TEXT, ' \
+                    f'celebrated_by TEXT, ' \
                     f'celebration_date TEXT, ' \
                     f'celebration_hour TEXT, ' \
-                    f'celebration_type TEXT )'
+                    f'celebration_type TEXT, ' \
+                    f'first_mass INTEGER)'  # bolean type 0 / 1
             try:
                 cur.execute(__sql)
             except sqlite3.OperationalError:

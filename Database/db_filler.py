@@ -16,11 +16,8 @@ class DatabaseFiller:
         self.__con.commit()
         self.__cur.close()
 
-    def make_connection(self, __meth):
+    def filler_with_dbObject(self, begin_range_with, end_range_with):
         self.__open_connection()
-        __meth()
+        rvl = rvg.random_value_list_generator(begin_range_with, end_range_with)
+        self.__cur.executemany("INSERT INTO main_table VALUES(?, ?, ?, ?, ?, ?, ?, ?)", rvl)
         self.__close_conection()
-
-    def filler_with_dbObject(self):
-        rvl = rvg.random_value_list_generator(0, 10)
-        self.__cur.executemany("INSERT INTO main_table VALUES(?, ?, ?, ?, ?, ?)", rvl)

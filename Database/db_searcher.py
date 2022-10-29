@@ -15,13 +15,15 @@ class DatabaseSearcher:
         self.__con.commit()
         self.__cur.close()
 
-    def make_connection(self, __meth, *args):
+    def sql_querry(self, sql_stmt) -> str:
+        """
+        Enter valid sql statement
+        :param sql_stmt: sql SELECT_STMT
+        :return: cursor.fetchall()
+        """
         self.__open_connection()
-        __meth(*args)
-        self.__close_conection()
-
-    def sql_querry_SELECT__FROM__WHERE__IS__(self, column_to_select, table, column_to_lookfor, querry):
-        # zwraca listę przyjętych ofiar za msze przez konkretnego ks.
-        __sql = f"SELECT {column_to_select} FROM {table} WHERE {column_to_lookfor} IS '{querry}'"
-        for row in self.__cur.execute(__sql):
-            print(sum(row))
+        try:
+            self.__cur.execute(sql_stmt)
+            return self.__cur.fetchall()
+        finally:
+            self.__close_conection()
