@@ -65,10 +65,46 @@ class ComputingStipends:
         assert self.sum_of_aplicated_stipends() > 0
         return round(self.sum_all_stipends() / self.sum_of_aplicated_stipends(), 2)
 
-    # zwraca ilość odprawionych mszy przez danego ks.
-    def __sum_of_applied_masses(self):
-        pass
 
-    # zwraca quotę za odprawione msze
-    def __quota(self):
-        pass
+class Priest(ComputingStipends):
+    def __init__(self, priest):
+        super().__init__()
+        self.priest = priest
+
+    def number_of_all_masses_applied_by_a_priest(self):
+        """
+        Ilość wszystkich mszy odprawionych przez ks.
+        :return: int
+        """
+        sql_stmt = f'SELECT first_mass FROM main_table WHERE celebrated_by IS "{self.priest}";'
+        return len(self.db_query.sql_querry(sql_stmt))
+
+    #
+    def number_of_first_masses_applied_by_a_priest(self):
+        """
+        Ilość 'pierwszych mszy' odprawionych przez ks.
+        :return: int
+        """
+        sql_stmt = f'SELECT first_mass FROM main_table WHERE celebrated_by IS "{self.priest}";'
+        suma = 0
+        for _ in self.db_query.sql_querry(sql_stmt):
+            if isinstance(_[0], int):
+                suma += int(_[0])
+            else:
+                continue
+        return suma
+
+    def quota_for_priest(self):
+        """
+        (Quota) Iloraz ilości odprawionych mszy i średniej wartości intencji.
+        :return: float
+        """
+        total_stipend = self.number_of_first_masses_applied_by_a_priest() * self.mediana_stipends()
+        return round(total_stipend, 2)
+
+    def bination_quota_for_priest(self):
+        """
+        (Binacje) Iloraz ilości odprawionych (kolejnych w danym dniu mszy) i stałej wartości intencji "binacyjnej.
+        :return: float
+        """
+        return (self.number_of_all_masses_applied_by_a_priest() - self.number_of_first_masses_applied_by_a_priest()) * 50.00

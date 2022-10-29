@@ -1,6 +1,4 @@
 import random
-from Income.stipend_income import MassStipend
-from Counters.StipendsCounter import ComputingStipends
 
 
 def random_value_list_generator(array_from, array_to):
@@ -33,30 +31,3 @@ def random_value_list_generator(array_from, array_to):
                 sack.append(j)
     print(f"AutoRandomGenerated: {len(sack)} rows")
     return sack
-
-
-def table_reader(sack, priest):
-    # n = random.randint(150, 220)  # zakres przyjętych w miesiącu mszy
-    # sack = []
-    # celebration_date = datetime.datetime.now()
-    # celebration_type = ["in loco", "extra", "gregorianas", "pro defunctis", "pro sponsos", "pro baptismatos"]
-    # amounts = [100, 50, 60, 70, 80]  # przykładowe ofiary za mszę
-    # priests = ["q1", "q2", "q3", "q4", "q5"]  # lista księży na parafii
-    #
-    # # generator na potrzeby testu funkcji
-    # for _ in range(n):
-    #     j = MassStipend("Stypendium", random.choice(amounts), random.choice(priests), random.choice(priests),
-    #                     celebration_date, random.choice(celebration_type))
-    #     sack.append(j)
-
-    print(f'Suma wszystkich stypendiów w tym miesiącu wynosi: {ComputingStipends.sum_all_stipends(sack)} zł')
-    print(f'Ilość mszy w miesiącu wyniosła: {ComputingStipends.sum_of_masses(sack)}')
-    print(f'{ComputingStipends.mediana_stipends(sack):.2f} zł')
-    print("")
-
-    # for x in priests:
-    #     print(f'{x} przyjął stypendiów w kwocie {ComputingStipends.sum_stipends_recived_by_a_priest(sack, x)} zł')
-    #     print(f'Lista przyjętych stypendiów {ComputingStipends.list_of_stipends_recieved_by_a_priest(sack, x)}')
-    #     print(f'{x} odprawił {ComputingStipends.sum_of_applied_masses(sack, x)} mszy.')
-    #     print(f'{ComputingStipends.quota(sack, x):.2f} zł')
-    #     print()

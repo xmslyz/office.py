@@ -17,7 +17,7 @@ class DatabaseSearcher:
 
     def sql_querry(self, sql_stmt) -> str:
         """
-        Enter valid sql statement
+        Enter valid sql statement.
         :param sql_stmt: sql SELECT_STMT
         :return: cursor.fetchall()
         """

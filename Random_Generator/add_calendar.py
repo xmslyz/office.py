@@ -29,6 +29,13 @@ class DatabaseCalendarFiller:
         self.__cur.close()
 
     def addRecord(self, year, month, day):
+        """
+        A random row filler in a database.
+        :param year:
+        :param month:
+        :param day:
+        :return:
+        """
         self.__open_connection()
 
         stipend_type = ["Stypendium mszalne"]
@@ -67,6 +74,13 @@ class Month:
         return datetime(self.year, self.month, day).weekday() == 6
 
     def addRecords(self, qdatabase, days1to6, days7):
+        """
+        For each day, put in database number of rows, according to the type of day of the week.
+        :param qdatabase: Where to put data.
+        :param days1to6: Amount of masses in days of the week in a parish.
+        :param days7: Amount of masses in Sunday in a parish.
+        :return: None
+        """
         days_in_month = calendar.monthrange(self.year, self.month)
         for day in range(1, days_in_month[-1] + 1):
             for recordIdx in range(days7 if self.isSunday(day) else days1to6):
