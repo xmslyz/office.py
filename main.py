@@ -15,23 +15,19 @@ def main():
     print("---------------------------------------------------------")
     """ Tworzenie bazy danych """
     # myDB = dbb.Database()
-    # myDB.show_db_details()
     # myDB.database_creator()
-
-    """ Tworzenie tabeli """
-    # myDBfiller = dbf.DatabaseFiller()
-    # myDBfiller.filler_with_dbObject(1, 4)
 
     """ Wypełnianie tabeli randomowymi danymi """
     # database = DatabaseCalendarFiller()
     # Month(2022, 11).addRecords(database, 8, 6)
-    # print(database.getData())
 
     s_counter = sc.ComputingStipends()
-    suma = 0
-    for _ in s_counter.list_of_stipends_recieved_by_a_priest('SELECT amount FROM main_table WHERE priest_reciving IS "p1"'):
-        suma += sum(_)
-    print(suma)
+    print(s_counter.sum_all_stipends())
+    print(s_counter.sum_of_paid_intentions())
+    print(s_counter.sum_of_aplicated_stipends())
+    print(s_counter.bool_if_application())
+    print(s_counter.evaluate_paid_masses_vs_application())
+    print(s_counter.mediana_stipends())
 
     print("---------------------------------------------------------")
     print("Program zakończył działanie")

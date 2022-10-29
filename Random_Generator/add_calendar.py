@@ -40,7 +40,7 @@ class DatabaseCalendarFiller:
 
         self.__cur.execute(self.__INSERT_COMMAND,
                            (stipend_type[0],
-                            random.choice(amounts),
+                            float(random.choice(amounts)),
                             random.choice(priests),
                             random.choice(priests),
                             f'{year}-{month:02}-{day:02}',
