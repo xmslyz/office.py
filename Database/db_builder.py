@@ -60,7 +60,13 @@ class Database:
             print(f"Tabela o nazwie {self.__table_name} już istnieje. Wybierz inną nazwę lub usuń istniejącą.")
         else:
             __sql = f'CREATE TABLE {self.__table_name} ' \
-                    f'(type TEXT NOT NULL, amount REAL, priest_reciving TEXT, celebrated TEXT, celebration_date DATE, celebration_type TEXT )'
+                    f'(type TEXT NOT NULL, ' \
+                    f'amount REAL, ' \
+                    f'priest_reciving TEXT, ' \
+                    f'celebrated TEXT, ' \
+                    f'celebration_date TEXT, ' \
+                    f'celebration_hour TEXT, ' \
+                    f'celebration_type TEXT )'
             try:
                 cur.execute(__sql)
             except sqlite3.OperationalError:
