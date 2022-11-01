@@ -7,7 +7,7 @@ def main():
     # mm.final_prompt()
 
     path = "myPath"
-    dbname = "m+y-S*Q+L@b'a>s?e.exe"
+    dbname = "m+y-S*Q+L@b'a>s?ye.exe"
     table_name = "mojatabelka"
 
     mysql = (("type TEXT NOT NULL",),
