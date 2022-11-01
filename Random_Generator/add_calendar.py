@@ -13,10 +13,10 @@ class DatabaseCalendarFiller:
     Choć dziś już umiem go modfikować i naprawiać usterki.
     Orginalny plik: Random_Generator.addData
     """
-    __INSERT_COMMAND = "INSERT INTO main_table VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    __INSERT_COMMAND = "INSERT INTO mass_intentions VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     __SELECT_COMMAND = "SELECT * FROM main_table"
 
-    def __init__(self, path="Files\\Database\\default.db"):
+    def __init__(self, path="Files\\DatabaseConstructor\\default.db"):
         self.__path = path
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path)
 

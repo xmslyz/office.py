@@ -48,7 +48,7 @@ class Month:
         database.commit()
 
 # aplikacja
-# database = Database('person.db')
+# database = DatabaseConstructor('person.db')
 # Month(2022,5).addRecords(database, 4, 3)
 
 # odczyt

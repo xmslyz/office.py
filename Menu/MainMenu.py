@@ -1,14 +1,14 @@
 import datetime
 import os
 import sqlite3
-import Database.db_builder as dbb
 from Counters import StipendsCounter as sc
 from Random_Generator.add_calendar import DatabaseCalendarFiller, Month
+from Database.db_builder import DatabaseConstructor as dbbuilder
 
 
 class MainMenu:
-    # def __init__(self):
-    #     pass
+    def __init__():
+        pass
 
     def intro_prompt():
         print('-' * 50)
@@ -17,7 +17,31 @@ class MainMenu:
         print('-' * 50)
         print("Program zakończył działanie")
 
-    def main_options():
+    def menu_main():
+
+        exit_key = "0"
+        counter = 3
+
+        while True:
+            print(f'Wybierz opcje.')
+            print('[1] Baza danych')
+            print('[2] Raporty')
+            print('\n[0] Opuść program')
+            print('-' * 50)
+            word = input("Enter number: ").lower()
+            counter = counter - 1
+
+            if word == '1':
+                os.system('cls')
+            if word == '2':
+                os.system('cls')
+                MainMenu.raport_menu()
+            if word == '0':
+                exit()
+            if word != exit_key and counter < 1:
+                exit()
+
+    def db_menu():
         exit_key = "0"
         counter = 3
 
@@ -27,8 +51,7 @@ class MainMenu:
             print('[2] Zapełnij losowo tabelę bazy danych')
             print('[3] Usuń tabelę z bazy danych')
             print('[4] Usuń bazę danych')
-            print('[5] Menu: Wykaz ogólny')
-            print('[6] Menu: Wykaz szczegółowy')
+            print('\n[9] Wróć do poprzedniego menu')
             print('\n[0] Opuść program')
             print('-' * 50)
             word = input("Enter number: ").lower()
@@ -36,11 +59,10 @@ class MainMenu:
             counter = counter - 1
             if word == '1':
                 os.system('cls')
-                myDB = dbb.Database()
-                myDB.database_creator()
+                self.build_db.db_constructor()
                 print(f"Gotowe.")
                 print('\n')
-                MainMenu.main_options()
+                # MainMenu.db_menu()
             if word == '2':
                 os.system('cls')
                 print("Opercja może trwać kilka sekund.")
@@ -53,30 +75,56 @@ class MainMenu:
                 timeafter = datetime.datetime.now()
                 print(f"Gotowe. Wykonano w {timeafter - timebefore} s.")
                 print('\n')
-                MainMenu.main_options()
+                # MainMenu.db_menu()
             if word == '3':
                 os.system('cls')
-                dbb.Database.database_table_droper(os.path.join(os.path.abspath(os.getcwd()), "Files\\Database\\default.db"))
+                # myDB.database_table_droper(os.__path.join(os.__path.abspath(os.getcwd()), "Files\\DatabaseConstructor\\default.db"))
+                # myDB.database_table_droper()
                 print(f"Gotowe.")
                 print('\n')
-                MainMenu.main_options()
+                # MainMenu.db_menu()
             if word == '4':
                 os.system('cls')
-                dbb.Database.path_destroyer(os.path.join(os.path.abspath(os.getcwd()), "Files\\Database\\"))
+                # myDB.path_destroyer()
+                # myDB.path_destroyer(os.__path.join(os.__path.abspath(os.getcwd()), "Files\\DatabaseConstructor\\"))
                 print("Gotowe.")
                 print('\n')
-                MainMenu.main_options()
-            if word == '5':
-                MainMenu.counter_menu()
-            if word == '6':
-                MainMenu.detailed_menu()
+                # MainMenu.db_menu()
+            if word == '9':
+                os.system('cls')
+                # MainMenu.menu_main()
             if word == '0':
                 exit()
             if word != exit_key and counter < 1:
                 exit()
 
+    def raport_menu():
+        exit_key = "0"
+        counter = 3
+        while True:
+            print(f'Wybierz opcje.')
+            print('[1] Wykaz ogólny')
+            print('[2] Wykaz szczegółowy')
+            print('\n[9] Wróć do poprzedniego menu')
+            print('\n[0] Opuść program')
+            print('-' * 50)
+            word = input("Enter number: ").lower()
+
+            counter = counter - 1
+            if word == '1':
+                MainMenu.counter_menu()
+            if word == '2':
+                MainMenu.detailed_menu()
+            if word == '0':
+                exit()
+            if word == '9':
+                os.system('cls')
+                MainMenu.raport_menu()
+            if word != exit_key and counter < 1:
+                exit()
+
     def counter_menu():
-        s_counter = sc.ComputingStipends()
+        s_counter = sc.ComputingStipends("mass_intentions")
         exit_key = "0"
         counter = 3
 
@@ -88,6 +136,7 @@ class MainMenu:
             print('[4] Zgodność:')
             print('[5] Różnica w "zgodności":')
             print('[6] Średnie stypendium:')
+            print('[7] Ilość mszy gregoriańskich:')
             print('\n[9] Wróć do poprzedniego menu')
             print('[0] Opuść program')
             print('-' * 50)
@@ -96,12 +145,12 @@ class MainMenu:
             counter = counter - 1
             if word == '1':
                 os.system('cls')
-                print(s_counter.sum_all_stipends())
+                print(f'{s_counter.amount_of_all_stipends_recived()} zł')
                 print('\n')
                 MainMenu.counter_menu()
             if word == '2':
                 os.system('cls')
-                print(s_counter.sum_of_paid_intentions())
+                print(s_counter.amount_of_all_paid_intentions())
                 print('\n')
                 MainMenu.counter_menu()
             if word == '3':
@@ -121,12 +170,17 @@ class MainMenu:
                 MainMenu.counter_menu()
             if word == '6':
                 os.system('cls')
-                print(s_counter.mediana_stipends())
+                print(f'{s_counter.mediana_stipends()} zł')
+                print('\n')
+                MainMenu.counter_menu()
+            if word == '7':
+                os.system('cls')
+                print(f'{s_counter.amount_of_all_gregorian_intentions()}')
                 print('\n')
                 MainMenu.counter_menu()
             if word == '9':
                 os.system('cls')
-                MainMenu.main_options()
+                MainMenu.raport_menu()
             if word == '0':
                 exit()
             if word != exit_key and counter < 1:
@@ -189,27 +243,27 @@ class MainMenu:
             counter = counter - 1
             if word == '1':
                 os.system('cls')
-                print(father.number_of_all_masses_applied_by_a_priest())
+                print(father.amount_of_all_masses_applied_by_a_priest())
                 print('\n')
                 MainMenu.priest_menu(priest)
             if word == '2':
                 os.system('cls')
-                print(father.number_of_first_masses_applied_by_a_priest())
+                print(father.amount_of_first_masses_applied_by_a_priest())
                 print('\n')
                 MainMenu.priest_menu(priest)
             if word == '3':
                 os.system('cls')
-                print(father.quota_for_priest())
+                print(f'{father.quota_for_priest()} zł')
                 print('\n')
                 MainMenu.priest_menu(priest)
             if word == '4':
                 os.system('cls')
-                print(father.bination_quota_for_priest())
+                print(f'{father.bination_quota_for_priest()} zł')
                 print('\n')
                 MainMenu.priest_menu(priest)
             if word == '9':
                 os.system('cls')
-                MainMenu.main_options()
+                MainMenu.raport_menu()
             if word == '0':
                 exit()
             if word != exit_key and counter < 1:

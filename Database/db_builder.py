@@ -1,35 +1,34 @@
 import os
 import sqlite3
 
+from Database.Settings import DatabaseSettings as dbs
 
-class Database:
-    def __init__(self, path="Files\\Database\\", dbname="default.db", table_name="main_table"):
-        self.__path = path
-        self.__dbname = dbname
-        self.__table_name = table_name
-        self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path, dbname)
 
-    def show_db_details(self):
-        print(f"Tworzenie tabeli {self.__table_name} w bazie danych {self.__dbname} w katalogu {self.__path}.")
+class DatabaseConstructor:
+    def __init__(self, db_setup):
+        self.__path = db_setup.get_path()
+        self.__dbname = db_setup.get_dbname()
+        self.__table_name = db_setup.get_table_name()
+        self.__full_path = db_setup.get_full_path()
 
-    def database_creator(self):
+    def db_constructor(self, table_create_vals) -> tuple:
         self.__database_file_builder()
-        self.__database_table_builder()
+        self.__database_table_builder(table_create_vals)
 
     def __path_finder(self) -> str:
         return True if os.path.exists(self.__full_path) else False
 
-    def __path_maker(self) -> str:
+    def __path_maker(self):
         if not self.__dbname:
             if not self.__path:
-                self.__path = "Files\\Database\\"
+                self.__path = "Files\\DatabaseConstructor\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.__path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, "default.db")
             return new_dbfile
         else:
             if not self.__path:
-                self.__path = "Files\\Database\\"
+                self.__path = "Files\\DatabaseConstructor\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.__path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, self.__dbname)
@@ -49,26 +48,24 @@ class Database:
     def __database_file_builder(self):
         if not self.__path_finder():  # gdy nie istnieje struktura katalogu
             self.__path_maker()
+            dbfile = self.__path_maker()
+            sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
-        dbfile = self.__path_maker()
-        sqlite3.connect(dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-
-    def __database_table_builder(self):
+    def __database_table_builder(self, sql_create_stmt):
         con = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         cur = con.cursor()
         if self.__dbtable_finder():
             print(f"Tabela o nazwie {self.__table_name} już istnieje. Wybierz inną nazwę lub usuń istniejącą.")
         else:
-            __sql = f'CREATE TABLE ' \
-                    f'{self.__table_name} ' \
-                    f'(type TEXT NOT NULL, ' \
-                    f'amount REAL, ' \
-                    f'priest_reciving TEXT, ' \
-                    f'celebrated_by TEXT, ' \
-                    f'celebration_date TEXT, ' \
-                    f'celebration_hour TEXT, ' \
-                    f'celebration_type TEXT, ' \
-                    f'first_mass INTEGER)'  # bolean type 0 / 1
+            new_sql_stmt = f'CREATE TABLE {self.__table_name} ('
+            comas = len(sql_create_stmt)
+            for _ in sql_create_stmt:
+                if comas > 1:
+                    new_sql_stmt += ', '.join([_[0], ""])
+                else:
+                    new_sql_stmt += ''.join([_[0], ""])
+                comas -= 1
+            __sql = new_sql_stmt + ")"
             try:
                 cur.execute(__sql)
             except sqlite3.OperationalError:
@@ -76,18 +73,41 @@ class Database:
         con.commit()
         cur.close()
 
-    def database_table_droper(full_path):
-        con = sqlite3.connect(full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-        cur = con.cursor()
-        try:
-            cur.execute('DROP TABLE main_table')
-        except sqlite3.OperationalError:
-            print("Podana tabela nie istnieje.")
 
-    def path_destroyer(full_path):
-        try:
-            os.remove(os.path.join(full_path, "default.db"))
-            os.removedirs(full_path)
-        except FileNotFoundError:
-            print("System nie może odnaleźć określonej ścieżki")
+class DatabaseBuilder:
+    def builder(path, dbname, table_name, sql_stmt):
+        """
+        Builds ready to use database with its class
+        :param path: path in a main catalogue
+        :param dbname: database name
+        :param table_name: table name
+        :param sql_stmt: tuple of tuples : names of columns and its types : ((col1 type), (col2 type))
+        """
+        seti = dbs.DatabaseSettings()
+        seti.set_dbname(dbname)
+        seti.set_path(path)
+        seti.set_table_name(table_name)
+
+        mydbb = DatabaseConstructor(seti)
+        mydbb.db_constructor(sql_stmt)
+
+
+class DatabaseDestructor:
+    pass
+    # def database_table_droper(self):
+    #     con = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+    #     cur = con.cursor()
+    #     __sql = f'DROP TABLE {self.__table_name}'
+    #     try:
+    #         cur.execute(__sql)
+    #     except sqlite3.OperationalError:
+    #         print("Podana tabela nie istnieje.")
+    #
+    # def path_destroyer(self):
+    #     try:
+    #         os.remove(os.path.join(self.__full_path, "default.db"))
+    #         os.removedirs(self.__full_path)
+    #     except FileNotFoundError:
+    #         print("System nie może odnaleźć określonej ścieżki")
+
 
