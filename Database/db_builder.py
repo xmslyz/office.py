@@ -93,21 +93,45 @@ class DatabaseBuilder:
 
 
 class DatabaseDestructor:
-    pass
-    # def database_table_droper(self):
-    #     con = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-    #     cur = con.cursor()
-    #     __sql = f'DROP TABLE {self.__table_name}'
-    #     try:
-    #         cur.execute(__sql)
-    #     except sqlite3.OperationalError:
-    #         print("Podana tabela nie istnieje.")
-    #
-    # def path_destroyer(self):
-    #     try:
-    #         os.remove(os.path.join(self.__full_path, "default.db"))
-    #         os.removedirs(self.__full_path)
-    #     except FileNotFoundError:
-    #         print("System nie może odnaleźć określonej ścieżki")
+    def __init__(self, path, dbname, table_name):
+        seti = dbs.DatabaseSettings()
+        seti.set_dbname(dbname)
+        seti.set_path(path)
+        seti.set_table_name(table_name)
+
+        self.__dbname = seti.get_dbname()
+        self.__path = seti.get_path()
+        self.__table_name = seti.get_table_name()
+        self.__full_path = seti.get_full_path()
+
+    def database_table_droper(self):
+        if os.path.exists(self.__full_path):
+            con = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+            cur = con.cursor()
+            try:
+                __sql = f'DROP TABLE {self.__table_name}'
+                cur.execute(__sql)
+                print("Tabela usunięta")
+            except sqlite3.OperationalError:
+                print("Podana tabela nie istnieje.")
+            finally:
+                con.commit()
+                cur.close()
+
+    def file_destroyer(self):
+        try:
+            os.remove(os.path.join(self.__full_path)) if os.path.exists(self.__full_path) else None
+            print("Plik usunięty")
+        except PermissionError:
+            print("Plik nie może zostać usunięty, ponieważ nie można uzyskać dostępu do pliku.")
+
+    def path_destroyer(self):
+        try:
+            os.removedirs(self.__path) if os.path.exists(self.__path) else None
+            print("Katalog usunięty")
+        except PermissionError:
+            print("Brak dostępu. Katalog nie może zostać usunięty.")
+        except OSError:
+            print("Katalog nie jest pusty")
 
 
