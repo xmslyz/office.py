@@ -9,6 +9,11 @@ from Database.db_builder import DatabaseConstructor as dbbuilder
 
 
 class MainMenu:
+    """
+    TA KLASA JEST TYLKO I WYŁĄCZNIE TYMCZASOWA. MA USPRAWNIĆ TESTOWANIE MODUŁÓW I SPRAWDZANIE WYNIKÓW.
+    JAK SIĘ NAUCZĘ ROBIĆ TESTY TO BĘDZIE USUNIĘTA.
+    NA RAZIE MUSZĘ SOBIE RADZIĆ TAK :)
+    """
     def __init__():
         pass
 
