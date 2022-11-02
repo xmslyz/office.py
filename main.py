@@ -1,14 +1,18 @@
 import gc
-import time
 
+from Menu import MainMenu as mm
 from Database import db_builder as dbb
 
-path = "myPath"
-dbname = "m+y-S*Q+L@b'a>s?ye.exe"
-table_name = "mojatabelka"
+path = "Files\\Databases"
+dbname = "default"
+table_name = "intentions"
 
 
 def budowa_bazy_danych():
+    assert path == "Files\\Databases"
+    assert dbname == "default"
+    assert table_name == "intentions"
+
     mysql = (("type TEXT NOT NULL",),
              ("amount REAL",),
              ("priest_reciving TEXT",),
@@ -29,12 +33,9 @@ def destrukcja_bazydanych():
 
 
 def main():
-    budowa_bazy_danych()
-    # destrukcja_bazydanych()
-
-    # mm.intro_prompt()
-    # mm.menu_main()
-    # mm.final_prompt()
+    mm.MainMenu.intro_prompt()
+    mm.MainMenu.menu_main()
+    mm.MainMenu.final_prompt()
 
 
 if __name__ == '__main__':

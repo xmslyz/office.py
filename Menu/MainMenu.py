@@ -1,6 +1,8 @@
 import datetime
 import os
 import sqlite3
+
+import main
 from Counters import StipendsCounter as sc
 from Random_Generator.add_calendar import DatabaseCalendarFiller, Month
 from Database.db_builder import DatabaseConstructor as dbbuilder
@@ -20,8 +22,7 @@ class MainMenu:
     def menu_main():
 
         exit_key = "0"
-        counter = 3
-
+        counter = 2
         while True:
             print(f'Wybierz opcje.')
             print('[1] Baza danych')
@@ -33,6 +34,7 @@ class MainMenu:
 
             if word == '1':
                 os.system('cls')
+                MainMenu.db_menu()
             if word == '2':
                 os.system('cls')
                 MainMenu.raport_menu()
@@ -42,6 +44,12 @@ class MainMenu:
                 exit()
 
     def db_menu():
+        my_path = "Files\\Databases\\default.db"
+        my_table = "intentions"
+
+        assert my_path == "Files\\Databases\\default.db"
+        assert my_table == "intentions"
+
         exit_key = "0"
         counter = 3
 
@@ -49,50 +57,40 @@ class MainMenu:
             print(f'Wybierz opcje.')
             print('[1] Stwórz bazę danych')
             print('[2] Zapełnij losowo tabelę bazy danych')
-            print('[3] Usuń tabelę z bazy danych')
-            print('[4] Usuń bazę danych')
+            print('[3] Usuń bazy danych')
             print('\n[9] Wróć do poprzedniego menu')
-            print('\n[0] Opuść program')
+            print('[0] Opuść program')
             print('-' * 50)
             word = input("Enter number: ").lower()
 
             counter = counter - 1
             if word == '1':
                 os.system('cls')
-                self.build_db.db_constructor()
-                print(f"Gotowe.")
-                print('\n')
-                # MainMenu.db_menu()
+                main.budowa_bazy_danych()
+                MainMenu.db_menu()
             if word == '2':
                 os.system('cls')
                 print("Opercja może trwać kilka sekund.")
                 timebefore = datetime.datetime.now()
-                database = DatabaseCalendarFiller()
+                database = DatabaseCalendarFiller(my_path)
                 try:
-                    Month(2022, 11).addRecords(database, 2, 4)
+                    Month(2022, 11).addRecords(my_table, database, 2, 4)
                 except sqlite3.OperationalError:
                     print("Tabela nie znajduje się w bazie danych.")
+
                 timeafter = datetime.datetime.now()
                 print(f"Gotowe. Wykonano w {timeafter - timebefore} s.")
                 print('\n')
-                # MainMenu.db_menu()
+                MainMenu.db_menu()
             if word == '3':
                 os.system('cls')
-                # myDB.database_table_droper(os.__path.join(os.__path.abspath(os.getcwd()), "Files\\DatabaseConstructor\\default.db"))
-                # myDB.database_table_droper()
+                main.destrukcja_bazydanych()
                 print(f"Gotowe.")
                 print('\n')
-                # MainMenu.db_menu()
-            if word == '4':
-                os.system('cls')
-                # myDB.path_destroyer()
-                # myDB.path_destroyer(os.__path.join(os.__path.abspath(os.getcwd()), "Files\\DatabaseConstructor\\"))
-                print("Gotowe.")
-                print('\n')
-                # MainMenu.db_menu()
+                MainMenu.db_menu()
             if word == '9':
                 os.system('cls')
-                # MainMenu.menu_main()
+                MainMenu.menu_main()
             if word == '0':
                 exit()
             if word != exit_key and counter < 1:
@@ -124,7 +122,10 @@ class MainMenu:
                 exit()
 
     def counter_menu():
-        s_counter = sc.ComputingStipends("mass_intentions")
+        table_name = "intentions"
+        assert table_name == "intentions"
+
+        s_counter = sc.ComputingStipends(table_name)
         exit_key = "0"
         counter = 3
 
@@ -225,12 +226,15 @@ class MainMenu:
             if word != exit_key and counter < 1:
                 exit()
 
-    def priest_menu(priest):
+    def priest_menu(queried_priest):
+        table_name = "intentions"
+        assert table_name == "intentions"
+
         exit_key = "0"
         counter = 3
 
         while True:
-            print(f'Wybrano księdza "{priest}".')
+            print(f'Wybrano księdza "{queried_priest}".')
             print('[1] Ilość wszystkich odprawionych mszy')  #
             print('[2] Ilość "pierwszych" mszy')  #
             print('[3] Całkowite stypendium')  #
@@ -239,28 +243,28 @@ class MainMenu:
             print('[0] Opuść program')
             print('-' * 50)
             word = input("Enter number: ").lower()
-            father = sc.Priest(priest)
+            father = sc.Priest(table_name=table_name, priest=queried_priest)
             counter = counter - 1
             if word == '1':
                 os.system('cls')
                 print(father.amount_of_all_masses_applied_by_a_priest())
                 print('\n')
-                MainMenu.priest_menu(priest)
+                MainMenu.priest_menu(queried_priest)
             if word == '2':
                 os.system('cls')
                 print(father.amount_of_first_masses_applied_by_a_priest())
                 print('\n')
-                MainMenu.priest_menu(priest)
+                MainMenu.priest_menu(queried_priest)
             if word == '3':
                 os.system('cls')
                 print(f'{father.quota_for_priest()} zł')
                 print('\n')
-                MainMenu.priest_menu(priest)
+                MainMenu.priest_menu(queried_priest)
             if word == '4':
                 os.system('cls')
                 print(f'{father.bination_quota_for_priest()} zł')
                 print('\n')
-                MainMenu.priest_menu(priest)
+                MainMenu.priest_menu(queried_priest)
             if word == '9':
                 os.system('cls')
                 MainMenu.raport_menu()

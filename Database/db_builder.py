@@ -21,14 +21,14 @@ class DatabaseConstructor:
     def __path_maker(self):
         if not self.__dbname:
             if not self.__path:
-                self.__path = "Files\\DatabaseConstructor\\"
+                self.__path = "Files\\Database\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.__path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, "default.db")
             return new_dbfile
         else:
             if not self.__path:
-                self.__path = "Files\\DatabaseConstructor\\"
+                self.__path = "Files\\Database\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.__path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, self.__dbname)
@@ -83,6 +83,7 @@ class DatabaseBuilder:
         :param table_name: table name
         :param sql_stmt: tuple of tuples : names of columns and its types : ((col1 type), (col2 type))
         """
+
         seti = dbs.DatabaseSettings()
         seti.set_dbname(dbname)
         seti.set_path(path)
