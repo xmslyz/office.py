@@ -1,15 +1,16 @@
 import os
 import sqlite3
 
-from Database.Settings import DatabaseSettings as dbs
+from Database.Settings import DBSettings as dbs
 
 
 class DatabaseConstructor:
-    def __init__(self, db_setup):
-        self.__path = db_setup.get_path()
-        self.__dbname = db_setup.get_dbname()
-        self.__table_name = db_setup.get_table_name()
-        self.__full_path = db_setup.get_full_path()
+    def __init__(self, setup_db):
+
+        self.__path = setup_db.db_path
+        self.__dbname = setup_db.db_name
+        self.__table_name = setup_db.db_table_name
+        self.__full_path = setup_db.db_full_path
 
     def db_constructor(self, table_create_vals) -> tuple:
         self.__database_file_builder()
@@ -84,10 +85,11 @@ class DatabaseBuilder:
         :param sql_stmt: tuple of tuples : names of columns and its types : ((col1 type), (col2 type))
         """
 
-        seti = dbs.DatabaseSettings()
-        seti.set_dbname(dbname)
-        seti.set_path(path)
-        seti.set_table_name(table_name)
+        seti = dbs.DBSettings()
+        seti.db_path = path
+        seti.db_name = dbname
+        seti.db_table_name = table_name
+        seti.db_full_path = ""
 
         mydbb = DatabaseConstructor(seti)
         mydbb.db_constructor(sql_stmt)
@@ -95,15 +97,16 @@ class DatabaseBuilder:
 
 class DatabaseDestructor:
     def __init__(self, path, dbname, table_name):
-        seti = dbs.DatabaseSettings()
-        seti.set_dbname(dbname)
-        seti.set_path(path)
-        seti.set_table_name(table_name)
+        seti = dbs.DBSettings()
+        # seti.set_dbname(dbname)
+        dbs.DBSettings.db_name = dbname
+        dbs.DBSettings.db_name = path
+        dbs.DBSettings.db_name = table_name
 
-        self.__dbname = seti.get_dbname()
-        self.__path = seti.get_path()
-        self.__table_name = seti.get_table_name()
-        self.__full_path = seti.get_full_path()
+        self.__dbname = dbs.DBSettings.db_name
+        self.__path = dbs.DBSettings.db_path
+        self.__table_name = dbs.DBSettings.db_table_name
+        self.__full_path = dbs.DBSettings.db_full_path
 
     def database_table_droper(self):
         if os.path.exists(self.__full_path):

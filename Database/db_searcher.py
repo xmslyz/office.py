@@ -3,7 +3,8 @@ import sqlite3
 
 
 class DatabaseSearcher:
-    def __init__(self, path="Files\\Databases\\default.db"):
+    def __init__(self, table_name="intentions", path="Files\\Databases\\default.db"):
+        self.table_name = table_name
         self.__path = path
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path)
 
@@ -25,6 +26,9 @@ class DatabaseSearcher:
         try:
             self.__cur.execute(sql_stmt)
             return self.__cur.fetchall()
+        except sqlite3.OperationalError:
+            print("No such table. Program will close up now.")
+            exit()
         finally:
             self.__close_conection()
 
@@ -36,6 +40,7 @@ class DatabaseSearcher:
                    qcelebration_date=None,
                    qcelebration_hour=None,
                    qcelebration_type=None,
+                   qgregorian=None,
                    qfirst_mass=None):
 
         __sql_sub1 = ""
@@ -46,6 +51,7 @@ class DatabaseSearcher:
         __sql_sub6 = ""
         __sql_sub7 = ""
         __sql_sub8 = ""
+        __sql_sub9 = ""
 
         if qtype is not None:
             __sql_sub1 = f'type IS "{qtype}"'
@@ -68,10 +74,22 @@ class DatabaseSearcher:
         if qcelebration_type is not None:
             __sql_sub7 = f' AND celebration_type IS "{qcelebration_type}"'
 
-        if qfirst_mass is not None:
-            __sql_sub8 = f' AND first_mass IS "{qfirst_mass}"'
+        if qgregorian is not None:
+            __sql_sub8 = f' AND gregorian IS "{qgregorian}"'
 
-        __sql = f'SELECT * FROM intentions WHERE {__sql_sub1}{__sql_sub2}{__sql_sub3}{__sql_sub4}{__sql_sub5}{__sql_sub6}{__sql_sub7}{__sql_sub8};'
+        if qfirst_mass is not None:
+            __sql_sub9 = f' AND first_mass IS "{qfirst_mass}"'
+
+        __sql = f'SELECT * FROM {self.table_name} ' \
+                f'WHERE {__sql_sub1}' \
+                f'{__sql_sub2}' \
+                f'{__sql_sub3}' \
+                f'{__sql_sub4}' \
+                f'{__sql_sub5}' \
+                f'{__sql_sub6}' \
+                f'{__sql_sub7}' \
+                f'{__sql_sub8}' \
+                f'{__sql_sub9};'
         return self.sql_querry(__sql)
 
     def sql_not_filter(self,
@@ -82,6 +100,7 @@ class DatabaseSearcher:
                        qcelebration_date=None,
                        qcelebration_hour=None,
                        qcelebration_type=None,
+                       qgregorian=None,
                        qfirst_mass=None):
 
         __sql_sub1 = ""
@@ -92,6 +111,7 @@ class DatabaseSearcher:
         __sql_sub6 = ""
         __sql_sub7 = ""
         __sql_sub8 = ""
+        __sql_sub9 = ""
 
         if qtype is not None:
             __sql_sub1 = f'type IS "{qtype}"'
@@ -114,10 +134,23 @@ class DatabaseSearcher:
         if qcelebration_type is not None:
             __sql_sub7 = f' AND celebration_type IS NOT "{qcelebration_type}"'
 
-        if qfirst_mass is not None:
-            __sql_sub8 = f' AND first_mass IS NOT "{qfirst_mass}"'
+        if qgregorian is not None:
+            __sql_sub8 = f' AND gregorian IS NOT "{qgregorian}"'
 
-        __sql = f'SELECT * FROM intentions WHERE {__sql_sub1}{__sql_sub2}{__sql_sub3}{__sql_sub4}{__sql_sub5}{__sql_sub6}{__sql_sub7}{__sql_sub8};'
+        if qfirst_mass is not None:
+            __sql_sub9 = f' AND first_mass IS NOT "{qfirst_mass}"'
+
+        __sql = f'SELECT * FROM {self.table_name} ' \
+                f'WHERE ' \
+                f'{__sql_sub1}' \
+                f'{__sql_sub2}' \
+                f'{__sql_sub3}' \
+                f'{__sql_sub4}' \
+                f'{__sql_sub5}' \
+                f'{__sql_sub6}' \
+                f'{__sql_sub7}' \
+                f'{__sql_sub8}' \
+                f'{__sql_sub9};'
         return self.sql_querry(__sql)
 
     def sql_like_filter(self,
@@ -128,6 +161,7 @@ class DatabaseSearcher:
                         qcelebration_date=None,
                         qcelebration_hour=None,
                         qcelebration_type=None,
+                        qgregorian=None,
                         qfirst_mass=None):
 
         __sql_sub1 = ""
@@ -138,6 +172,7 @@ class DatabaseSearcher:
         __sql_sub6 = ""
         __sql_sub7 = ""
         __sql_sub8 = ""
+        __sql_sub9 = ""
 
         if qtype is not None:
             __sql_sub1 = f'type IS "{qtype}"'
@@ -160,8 +195,21 @@ class DatabaseSearcher:
         if qcelebration_type is not None:
             __sql_sub7 = f' AND celebration_type LIKE ("{qcelebration_type}")'
 
-        if qfirst_mass is not None:
-            __sql_sub8 = f' AND first_mass IS LIKE ("{qfirst_mass}")'
+        if qgregorian is not None:
+            __sql_sub8 = f' AND gregorian LIKE "{qgregorian}"'
 
-        __sql = f'SELECT * FROM intentions WHERE {__sql_sub1}{__sql_sub2}{__sql_sub3}{__sql_sub4}{__sql_sub5}{__sql_sub6}{__sql_sub7}{__sql_sub8};'
+        if qfirst_mass is not None:
+            __sql_sub9 = f' AND first_mass LIKE ("{qfirst_mass}")'
+
+        __sql = f'SELECT * FROM {self.table_name} ' \
+                f'WHERE ' \
+                f'{__sql_sub1}' \
+                f'{__sql_sub2}' \
+                f'{__sql_sub3}' \
+                f'{__sql_sub4}' \
+                f'{__sql_sub5}' \
+                f'{__sql_sub6}' \
+                f'{__sql_sub7}' \
+                f'{__sql_sub8}' \
+                f'{__sql_sub9};'
         return self.sql_querry(__sql)

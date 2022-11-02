@@ -27,7 +27,7 @@ class DatabaseCalendarFiller:
         self.__cur.close()
 
     def addRecord(self, table_name, year, month, day):
-        insert_command = f"INSERT INTO {table_name} VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        insert_command = f"INSERT INTO {table_name} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
         self.__open_connection()
 
         stipend_type = ["Stypendium mszalne"]
@@ -45,6 +45,7 @@ class DatabaseCalendarFiller:
                             f'{year}-{month:02}-{day:02}',
                             random.choice(celebration_time),
                             random.choice(celebration_type),
+                            0,
                             random.choice(first_mass)))
         self.__close_conection()
 

@@ -1,20 +1,19 @@
-from Database import db_searcher as dbs
-from Database.Costants.constants import second_mass_constant
+from Database.Constants.constants import second_mass_constant
 
 BINACJA = second_mass_constant()
 
 
 class ComputingStipends:
-    def __init__(self, table_name):
+    def __init__(self, table_name, scanner):
         self.table_name = table_name
-        self.db_query = dbs.DatabaseSearcher()
+        self.db_query = scanner
 
     #  all masses
-    def amount_of_all_recived(self):
+    def list_of_all_recived(self):
         result = self.db_query.sql_filter()
         qlist = []
         for _ in result:
-            qlist.append(_[1])
+            qlist.append(_)
         return qlist
 
     def sum_of_all_recived(self):
@@ -54,18 +53,22 @@ class ComputingStipends:
     #  gregorian masses
     #
     def list_of_all_gregorian(self):
-        result = self.db_query.sql_filter(qcelebration_type="gregorianas")
+        result = self.db_query.sql_filter(qgregorian=1)
+        qlist = []
+        for _ in result:
+            qlist.append(_)
+        return qlist
+
+    def amount_of_all_gregorian(self):
+        return len(self.db_query.sql_filter(qgregorian=1))
+
+    def sum_of_all_gregorian(self):
+        result = self.db_query.sql_filter(qgregorian=1)
         qlist = []
         for _ in result:
             if isinstance((_[1]), float):
                 qlist.append(_[1])
-        return qlist
-
-    def amount_of_all_gregorian(self):
-        return len(self.db_query.sql_filter(qcelebration_type="gregorianas"))
-
-    def sum_of_all_gregorian(self):
-        return sum(self.list_of_all_gregorian())
+        return sum(qlist)
 
     def gregorian_mediana(self):
         return self.sum_of_all_gregorian() / self.amount_of_all_gregorian()
@@ -97,7 +100,7 @@ class ComputingStipends:
         return qlist
 
     def not_paid_aplicated(self):
-        result = self.db_query.sql_like_filter(qamount='', qcelebrated_by="_%")
+        result = self.db_query.sql_like_filter(qamount='', qcelebrated_by="_%", qgregorian='0')
         qlist = []
         for _ in result:
             qlist.append(_)
@@ -112,9 +115,10 @@ class ComputingStipends:
 
 
 class Priest(ComputingStipends):
-    def __init__(self, table_name, who_recived):
-        super().__init__(table_name)
+    def __init__(self, table_name, scanner, who_recived):
+        super().__init__(table_name, scanner)
         self.who_recived = who_recived
+        self.db_query = scanner
 
     def list_of_recieved_by_a_priest(self):
         result = self.db_query.sql_filter(qpriest_reciving=self.who_recived)
@@ -123,6 +127,9 @@ class Priest(ComputingStipends):
             if isinstance((_[1]), float):
                 qlist.append(float(_[1]))
         return qlist
+
+    def sum_of_recieved_by_a_priest(self):
+        return sum(self.list_of_recieved_by_a_priest())
 
     def amount_of_all_masses_applied_by_a_priest(self):
         """
@@ -158,21 +165,7 @@ class Priest(ComputingStipends):
         :return: float
         """
         bination = self.amount_of_all_masses_applied_by_a_priest() - self.amount_of_first_masses_applied_by_a_priest()
-        return bination * BINACJA
+        return round(float(bination * BINACJA), 2)
 
     def total_wage_for_priest(self):
-        return self.quota_for_priest() + self.bination_quota_for_priest()
-
-    # def amount_of_binations(self): ???
-    #     # 1. ILOŚĆ BINACJI: "SELECT first_mass FROM{self.table_name} WHERE celebrated_by IS {who_celebrated}"
-    #     sql_stmt = f"SELECT celebrated_by " \
-    #                f"FROM {self.table_name} " \
-    #                f"LEFT OUTER JOIN personal_data " \
-    #                f"ON {self.table_name}.celebrated_by = personal_data.abrev " \
-    #                f"WHERE personal_data.abrev IS NULL " \
-    #                f"AND {self.table_name}.celebrated_by IS NOT '' " \
-    #                f"AND {self.table_name}.celebrated_by NOT LIKE '%+'"
-    #     return len(self.db_query.sql_querry(sql_stmt))
-
-    # def number_of_masses_pokrytych_przez_kr():
-    #     return sqlQ.count_vlen(f"SELECT cuota FROM {self.__table_name} WHERE recibio = 'KR'")
+        return round(self.quota_for_priest() + self.bination_quota_for_priest(), 2)

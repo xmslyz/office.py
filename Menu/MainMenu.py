@@ -91,7 +91,7 @@ class MainMenu:
                 main.destrukcja_bazydanych()
                 print(f"Gotowe.")
                 print('\n')
-                MainMenu.db_menu()
+                MainMenu.menu_main()
             if word == '9':
                 os.system('cls')
                 MainMenu.menu_main()
