@@ -4,7 +4,7 @@ from Random_Generator import random_values_generator as rvg
 
 
 class DatabaseFiller:
-    def __init__(self, path="Files\\DatabaseConstructor\\default.db"):
+    def __init__(self, path="Files\\Database\\default.db"):
         self.__path = path
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path)
 

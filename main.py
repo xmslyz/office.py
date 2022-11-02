@@ -1,8 +1,11 @@
+import datetime
 import gc
-
+from Database import db_searcher as dbs
+from Counters import StipendsCounter
 from Menu import MainMenu as mm
 from Database import db_builder as dbb
 
+# DEFAULTOWE NAZWY BAZY DANEJ, TABELI I KATAOGÓW
 path = "Files\\Databases"
 dbname = "default"
 table_name = "intentions"
@@ -36,6 +39,11 @@ def main():
     mm.MainMenu.intro_prompt()
     mm.MainMenu.menu_main()
     mm.MainMenu.final_prompt()
+
+    timebefore = datetime.datetime.now()
+    # test
+    timeafter = datetime.datetime.now()
+    print(f"Wykonano w {timeafter - timebefore} s.")
 
 
 if __name__ == '__main__':

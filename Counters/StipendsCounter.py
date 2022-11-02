@@ -1,4 +1,7 @@
 from Database import db_searcher as dbs
+from Database.Costants.constants import second_mass_constant
+
+BINACJA = second_mass_constant()
 
 
 class ComputingStipends:
@@ -6,105 +9,147 @@ class ComputingStipends:
         self.table_name = table_name
         self.db_query = dbs.DatabaseSearcher()
 
-    def list_of_stipends_recieved_by_a_priest(self, who_recived):
-        """
+    #  all masses
+    def amount_of_all_recived(self):
+        result = self.db_query.sql_filter()
+        qlist = []
+        for _ in result:
+            qlist.append(_[1])
+        return qlist
 
-        :param who_recived:
-        :return:
-        """
-        sql_stmt = f'SELECT amount FROM {self.table_name} WHERE priest_reciving IS "{who_recived}"'
-        return self.db_query.sql_querry(sql_stmt)
+    def sum_of_all_recived(self):
+        result = self.db_query.sql_filter()
+        qlist = []
+        for _ in result:
+            if isinstance((_[1]), float):
+                qlist.append(float(_[1]))
+        return sum(qlist)
 
-    def amount_of_all_stipends_recived(self):
-        """
-        Suma wszystkich przyjętych ofiar za msze.
-        :return: int
-        """
-        sql_stmt = f'SELECT amount FROM {self.table_name};'
-        suma = 0
-        for _ in self.db_query.sql_querry(sql_stmt):
-            if isinstance(_[0], float):
-                suma += int(_[0])
-            else:
-                continue
-        return suma
+    def amount_of_all_paid(self):
+        result = self.db_query.sql_not_filter(qamount="")
+        qlist = []
+        for _ in result:
+            qlist.append(_[1])
+        return len(qlist)
 
-    def amount_of_all_paid_intentions(self):
-        """
-        Ilość opłaconych intencji mszalnych (intentia missae).
-        :return: int
-        """
-        sql_stmt = f'SELECT amount FROM {self.table_name} WHERE amount IS NOT "";'
-        return len(self.db_query.sql_querry(sql_stmt))
+    def mediana(self):
+        no_greg_sum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - self.sum_of_binations()
+        total = no_greg_sum + self.gregorian_sum_of_medianas()
+        return round(total / (self.amount_of_aplicated() - self.amount_of_binations()), 2)
 
-    def amount_of_all_gregorian_intentions(self):
-        sql_stmt = f'SELECT celebration_type FROM {self.table_name} WHERE celebration_type IS "gregorianas";'
-        return len(self.db_query.sql_querry(sql_stmt))
+    #
+    #  binations
+    #
+    def list_of_binations(self):
+        return self.db_query.sql_filter(qfirst_mass="0")
 
-    def sum_of_aplicated_stipends(self):
-        """
-        Ilość odprawionych mszy (applicatio missae).
-        :return: int
-        """
-        sql_stmt = f'SELECT celebrated_by FROM {self.table_name} WHERE celebrated_by IS NOT "";'
-        return len(self.db_query.sql_querry(sql_stmt))
+    def amount_of_binations(self):
+        return len(self.list_of_binations())
 
-    def evaluate_paid_masses_vs_application(self):
-        """
-        Różnica w ilości przyjętch stypendiów i odprawionych mszy.
-        N { 0 { M
-        (N - ilość nieopłaconych stypendiów, M - ilość nieodprawionych mszy.
-        :return:
-        """
-        return (self.amount_of_all_paid_intentions() + self.amount_of_all_gregorian_intentions()) - self.sum_of_aplicated_stipends()
+    def sum_of_binations(self):
+        return self.amount_of_binations() * BINACJA
 
-    def bool_if_application(self):
-        """
-        Sprawdza, czy wszystkie opłacone msze zostały odprawione.
-        :return:
-        """
-        return True if self.evaluate_paid_masses_vs_application() == 0 else False
 
-    # zwraca średnią (stypendium)
-    def mediana_stipends(self):
-        assert self.sum_of_aplicated_stipends() > 0
-        return round(self.amount_of_all_stipends_recived() / self.sum_of_aplicated_stipends(), 2)
+    #
+    #  gregorian masses
+    #
+    def list_of_all_gregorian(self):
+        result = self.db_query.sql_filter(qcelebration_type="gregorianas")
+        qlist = []
+        for _ in result:
+            if isinstance((_[1]), float):
+                qlist.append(_[1])
+        return qlist
+
+    def amount_of_all_gregorian(self):
+        return len(self.db_query.sql_filter(qcelebration_type="gregorianas"))
+
+    def sum_of_all_gregorian(self):
+        return sum(self.list_of_all_gregorian())
+
+    def gregorian_mediana(self):
+        return self.sum_of_all_gregorian() / self.amount_of_all_gregorian()
+
+    def gregorian_sum_of_medianas(self):
+        return self.gregorian_mediana() * self.amount_of_all_gregorian()
+
+    #
+    # aplication
+    #
+    def list_of_aplicated_stipends(self):
+        result = self.db_query.sql_not_filter(qcelebrated_by="")
+        qlist = []
+        for _ in result:
+            qlist.append(_)
+        return qlist
+
+    def amount_of_aplicated(self):
+        return len(self.list_of_aplicated_stipends())
+
+    #
+    #  evaluation
+    #
+    def paid_not_applicated(self):
+        result = self.db_query.sql_like_filter(qamount='%.%', qcelebrated_by="")
+        qlist = []
+        for _ in result:
+            qlist.append(_)
+        return qlist
+
+    def not_paid_aplicated(self):
+        result = self.db_query.sql_like_filter(qamount='', qcelebrated_by="_%")
+        qlist = []
+        for _ in result:
+            qlist.append(_)
+        return qlist
+
+    def not_paid_not_aplicated(self):
+        result = self.db_query.sql_filter(qamount="", qcelebrated_by="")
+        qlist = []
+        for _ in result:
+            qlist.append(_)
+        return qlist
 
 
 class Priest(ComputingStipends):
-    def __init__(self, table_name, priest):
+    def __init__(self, table_name, who_recived):
         super().__init__(table_name)
-        self.priest = priest
+        self.who_recived = who_recived
+
+    def list_of_recieved_by_a_priest(self):
+        result = self.db_query.sql_filter(qpriest_reciving=self.who_recived)
+        qlist = []
+        for _ in result:
+            if isinstance((_[1]), float):
+                qlist.append(float(_[1]))
+        return qlist
 
     def amount_of_all_masses_applied_by_a_priest(self):
         """
         Ilość wszystkich mszy odprawionych przez ks.
         :return: int
         """
-        sql_stmt = f'SELECT first_mass FROM {self.table_name} WHERE celebrated_by IS "{self.priest}";'
-        return len(self.db_query.sql_querry(sql_stmt))
+        result = self.db_query.sql_filter(qcelebrated_by=self.who_recived)
+        return len(result)
 
-    #
     def amount_of_first_masses_applied_by_a_priest(self):
         """
-        Ilość 'pierwszych mszy' odprawionych przez ks.
+        Ilość 'pierwszych mszy' mszy odprawionych przez ks.
         :return: int
         """
-        sql_stmt = f'SELECT first_mass FROM {self.table_name} WHERE celebrated_by IS "{self.priest}";'
-        suma = 0
-        for _ in self.db_query.sql_querry(sql_stmt):
-            if isinstance(_[0], int):
-                suma += int(_[0])
-            else:
-                continue
-        return suma
+        result = self.db_query.sql_filter(qcelebrated_by=self.who_recived, qfirst_mass="1")
+        return len(result)
+
+    def amount_of_bination_applied_by_a_priest(self):
+        result = self.db_query.sql_filter(qcelebrated_by=self.who_recived, qfirst_mass="0")
+        return len(result)
 
     def quota_for_priest(self):
         """
         (Quota) Iloraz ilości odprawionych mszy i średniej wartości intencji.
         :return: float
         """
-        total_stipend = self.amount_of_first_masses_applied_by_a_priest() * self.mediana_stipends()
+        total_stipend = self.amount_of_first_masses_applied_by_a_priest() * self.mediana()
         return round(total_stipend, 2)
 
     def bination_quota_for_priest(self):
@@ -112,69 +157,22 @@ class Priest(ComputingStipends):
         (Binacje) Iloraz ilości odprawionych (kolejnych w danym dniu mszy) i stałej wartości intencji "binacyjnej.
         :return: float
         """
-        return (self.amount_of_all_masses_applied_by_a_priest() - self.amount_of_first_masses_applied_by_a_priest()) * 50.00
+        bination = self.amount_of_all_masses_applied_by_a_priest() - self.amount_of_first_masses_applied_by_a_priest()
+        return bination * BINACJA
 
-    def amount_of_binations(self):
-        sql_stmt = f"SELECT celebro " \
-                   f"FROM {self.table_name} " \
-                   f"LEFT OUTER JOIN personal_data " \
-                   f"ON {self.table_name}.celebro = personal_data.abrev " \
-                   f"WHERE personal_data.abrev IS NULL " \
-                   f"AND {self.table_name}.celebro IS NOT '' " \
-                   f"AND {self.table_name}.celebro NOT LIKE '%+'"
-        return len(self.db_query.sql_querry(sql_stmt))
+    def total_wage_for_priest(self):
+        return self.quota_for_priest() + self.bination_quota_for_priest()
 
+    # def amount_of_binations(self): ???
+    #     # 1. ILOŚĆ BINACJI: "SELECT first_mass FROM{self.table_name} WHERE celebrated_by IS {who_celebrated}"
+    #     sql_stmt = f"SELECT celebrated_by " \
+    #                f"FROM {self.table_name} " \
+    #                f"LEFT OUTER JOIN personal_data " \
+    #                f"ON {self.table_name}.celebrated_by = personal_data.abrev " \
+    #                f"WHERE personal_data.abrev IS NULL " \
+    #                f"AND {self.table_name}.celebrated_by IS NOT '' " \
+    #                f"AND {self.table_name}.celebrated_by NOT LIKE '%+'"
+    #     return len(self.db_query.sql_querry(sql_stmt))
 
-# def number_of_second_mass():
-#     return sqlQ.count_vlen(f"SELECT celebro FROM {self.__table_name} WHERE celebro LIKE '%+'")
-
-
-# def number_of_masses_nonProfit():
-#     return sqlQ.count_vlen(f"SELECT cuota FROM {self.__table_name} WHERE cuota IS NULL OR cuota IS '' AND tipo IS NOT 'gregorianka'")
-
-
-# def number_of_masses_pokrytych_przez_parafie():
-#     return sqlQ.count_vlen(f"SELECT cuota FROM {self.__table_name} WHERE recibio = 'KR'")
-
-
-# def sum_of_all_stipends():
-#     return sqlQ.count_and_return_its_int_sum(f"SELECT cuota FROM {self.__table_name} WHERE cuota IS NOT NULL AND cuota IS NOT '' OR tipo IS 'gregorianka'")
-
-
-# def value_of_gregoriankas():
-#     return sqlQ.count_and_return_its_int_sum(f"SELECT cuota FROM {self.__table_name} WHERE tipo IS 'gregorianka'")
-
-
-# def number_of_gregoriankas():
-#     return sqlQ.count_vlen(f"SELECT cuota FROM {self.__table_name} WHERE tipo IS 'gregorianka'")
-
-
-# def avg_sum_gregoriankas():
-#     if int(number_of_gregoriankas()) > 0:
-#         return int(value_of_gregoriankas()) // int(number_of_gregoriankas())
-#     else:
-#         return 0
-
-
-# def sum_of_all_extra_masses():
-#     x = number_of_masses_extra()
-#     y = zmpage.wcztaj_value_z_zmienne_json("zmienne.json", "int_g")
-#     return int(x) * int(y)
-
-
-# def sum_of_all_second_masses():
-#     x = number_of_second_mass()
-#     y = zmpage.wcztaj_value_z_zmienne_json("zmienne.json", "int_bin")
-#     return int(x) * int(y)
-
-
-# def sum_of_masses_netto():
-#     return sum_of_all_stipends() - sum_of_all_extra_masses() - sum_of_all_second_masses()
-
-
-# def number_of_all_masses_netto():
-#     return int(number_of_masses()) - int(number_of_masses_extra()) - int(number_of_second_mass())
-
-
-# def average_stipend():
-#     return sum_of_masses_netto() / number_of_all_masses_netto() if number_of_all_masses_netto() > 0 else 0
+    # def number_of_masses_pokrytych_przez_kr():
+    #     return sqlQ.count_vlen(f"SELECT cuota FROM {self.__table_name} WHERE recibio = 'KR'")

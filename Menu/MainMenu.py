@@ -5,7 +5,6 @@ import sqlite3
 import main
 from Counters import StipendsCounter as sc
 from Random_Generator.add_calendar import DatabaseCalendarFiller, Month
-from Database.db_builder import DatabaseConstructor as dbbuilder
 
 
 class MainMenu:
@@ -135,55 +134,20 @@ class MainMenu:
         counter = 3
 
         while True:
+            print(f'{s_counter.sum_of_all_recived()} zł')
+            print(s_counter.amount_of_all_paid())
+            print(s_counter.amount_of_aplicated())
+            print(s_counter.paid_not_applicated())
+            print(f'{s_counter.mediana()} zł')
+            print(f'{s_counter.amount_of_all_gregorian()}')
+            print('-' * 50)
+            print('-' * 50)
             print(f'Wybierz opcje.')
-            print('[1] Suma przyjętych stypendiów')
-            print('[2] Ilość opłaconych mszy')
-            print('[3] Ilość odprawionych mszy:')
-            print('[4] Zgodność:')
-            print('[5] Różnica w "zgodności":')
-            print('[6] Średnie stypendium:')
-            print('[7] Ilość mszy gregoriańskich:')
             print('\n[9] Wróć do poprzedniego menu')
             print('[0] Opuść program')
             print('-' * 50)
             word = input("Enter number: ").lower()
-
             counter = counter - 1
-            if word == '1':
-                os.system('cls')
-                print(f'{s_counter.amount_of_all_stipends_recived()} zł')
-                print('\n')
-                MainMenu.counter_menu()
-            if word == '2':
-                os.system('cls')
-                print(s_counter.amount_of_all_paid_intentions())
-                print('\n')
-                MainMenu.counter_menu()
-            if word == '3':
-                os.system('cls')
-                print(s_counter.sum_of_aplicated_stipends())
-                print('\n')
-                MainMenu.counter_menu()
-            if word == '4':
-                os.system('cls')
-                print(s_counter.bool_if_application())
-                print('\n')
-                MainMenu.counter_menu()
-            if word == '5':
-                os.system('cls')
-                print(s_counter.evaluate_paid_masses_vs_application())
-                print('\n')
-                MainMenu.counter_menu()
-            if word == '6':
-                os.system('cls')
-                print(f'{s_counter.mediana_stipends()} zł')
-                print('\n')
-                MainMenu.counter_menu()
-            if word == '7':
-                os.system('cls')
-                print(f'{s_counter.amount_of_all_gregorian_intentions()}')
-                print('\n')
-                MainMenu.counter_menu()
             if word == '9':
                 os.system('cls')
                 MainMenu.raport_menu()
@@ -234,42 +198,22 @@ class MainMenu:
     def priest_menu(queried_priest):
         table_name = "intentions"
         assert table_name == "intentions"
-
         exit_key = "0"
         counter = 3
-
         while True:
             print(f'Wybrano księdza "{queried_priest}".')
-            print('[1] Ilość wszystkich odprawionych mszy')  #
-            print('[2] Ilość "pierwszych" mszy')  #
-            print('[3] Całkowite stypendium')  #
-            print('[4] Binacje')  #
+            pc = sc.Priest(table_name, "p1")
+            print(pc.amount_of_all_masses_applied_by_a_priest())
+            print(pc.amount_of_first_masses_applied_by_a_priest())
+            print(pc.amount_of_bination_applied_by_a_priest())
+            print(pc.quota_for_priest())
+            print(pc.bination_quota_for_priest())
+            print(pc.total_wage_for_priest())
             print('\n[9] Wróć do poprzedniego menu')
             print('[0] Opuść program')
             print('-' * 50)
             word = input("Enter number: ").lower()
-            father = sc.Priest(table_name=table_name, priest=queried_priest)
             counter = counter - 1
-            if word == '1':
-                os.system('cls')
-                print(father.amount_of_all_masses_applied_by_a_priest())
-                print('\n')
-                MainMenu.priest_menu(queried_priest)
-            if word == '2':
-                os.system('cls')
-                print(father.amount_of_first_masses_applied_by_a_priest())
-                print('\n')
-                MainMenu.priest_menu(queried_priest)
-            if word == '3':
-                os.system('cls')
-                print(f'{father.quota_for_priest()} zł')
-                print('\n')
-                MainMenu.priest_menu(queried_priest)
-            if word == '4':
-                os.system('cls')
-                print(f'{father.bination_quota_for_priest()} zł')
-                print('\n')
-                MainMenu.priest_menu(queried_priest)
             if word == '9':
                 os.system('cls')
                 MainMenu.raport_menu()

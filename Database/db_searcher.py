@@ -71,13 +71,97 @@ class DatabaseSearcher:
         if qfirst_mass is not None:
             __sql_sub8 = f' AND first_mass IS "{qfirst_mass}"'
 
-        __sql = f'SELECT * FROM main_table WHERE {__sql_sub1}{__sql_sub2}{__sql_sub3}{__sql_sub4}{__sql_sub5}{__sql_sub6}{__sql_sub7}{__sql_sub8};'
+        __sql = f'SELECT * FROM intentions WHERE {__sql_sub1}{__sql_sub2}{__sql_sub3}{__sql_sub4}{__sql_sub5}{__sql_sub6}{__sql_sub7}{__sql_sub8};'
         return self.sql_querry(__sql)
 
+    def sql_not_filter(self,
+                       qtype="Stypendium mszalne",
+                       qamount=None,
+                       qpriest_reciving=None,
+                       qcelebrated_by=None,
+                       qcelebration_date=None,
+                       qcelebration_hour=None,
+                       qcelebration_type=None,
+                       qfirst_mass=None):
 
-class DatabaseFilter:
-    def __init__(self):
-        self.dbs = DatabaseSearcher()
+        __sql_sub1 = ""
+        __sql_sub2 = ""
+        __sql_sub3 = ""
+        __sql_sub4 = ""
+        __sql_sub5 = ""
+        __sql_sub6 = ""
+        __sql_sub7 = ""
+        __sql_sub8 = ""
 
-    def filter(self):
-        pass
+        if qtype is not None:
+            __sql_sub1 = f'type IS "{qtype}"'
+
+        if qamount is not None:
+            __sql_sub2 = f' AND amount IS NOT "{qamount}"'
+
+        if qpriest_reciving is not None:
+            __sql_sub3 = f' AND priest_reciving IS NOT "{qpriest_reciving}"'
+
+        if qcelebrated_by is not None:
+            __sql_sub4 = f' AND celebrated_by IS NOT "{qcelebrated_by}"'
+
+        if qcelebration_date is not None:
+            __sql_sub5 = f' AND celebration_date IS NOT "{qcelebration_date}"'
+
+        if qcelebration_hour is not None:
+            __sql_sub6 = f' AND celebration_hour IS NOT "{qcelebration_hour}"'
+
+        if qcelebration_type is not None:
+            __sql_sub7 = f' AND celebration_type IS NOT "{qcelebration_type}"'
+
+        if qfirst_mass is not None:
+            __sql_sub8 = f' AND first_mass IS NOT "{qfirst_mass}"'
+
+        __sql = f'SELECT * FROM intentions WHERE {__sql_sub1}{__sql_sub2}{__sql_sub3}{__sql_sub4}{__sql_sub5}{__sql_sub6}{__sql_sub7}{__sql_sub8};'
+        return self.sql_querry(__sql)
+
+    def sql_like_filter(self,
+                        qtype="Stypendium mszalne",
+                        qamount=None,
+                        qpriest_reciving=None,
+                        qcelebrated_by=None,
+                        qcelebration_date=None,
+                        qcelebration_hour=None,
+                        qcelebration_type=None,
+                        qfirst_mass=None):
+
+        __sql_sub1 = ""
+        __sql_sub2 = ""
+        __sql_sub3 = ""
+        __sql_sub4 = ""
+        __sql_sub5 = ""
+        __sql_sub6 = ""
+        __sql_sub7 = ""
+        __sql_sub8 = ""
+
+        if qtype is not None:
+            __sql_sub1 = f'type IS "{qtype}"'
+
+        if qamount is not None:
+            __sql_sub2 = f' AND amount LIKE ("{qamount}")'
+
+        if qpriest_reciving is not None:
+            __sql_sub3 = f' AND priest_reciving LIKE ("{qpriest_reciving}")'
+
+        if qcelebrated_by is not None:
+            __sql_sub4 = f' AND celebrated_by LIKE ("{qcelebrated_by}")'
+
+        if qcelebration_date is not None:
+            __sql_sub5 = f' AND celebration_date LIKE ("{qcelebration_date}")'
+
+        if qcelebration_hour is not None:
+            __sql_sub6 = f' AND celebration_hour LIKE ("{qcelebration_hour}")'
+
+        if qcelebration_type is not None:
+            __sql_sub7 = f' AND celebration_type LIKE ("{qcelebration_type}")'
+
+        if qfirst_mass is not None:
+            __sql_sub8 = f' AND first_mass IS LIKE ("{qfirst_mass}")'
+
+        __sql = f'SELECT * FROM intentions WHERE {__sql_sub1}{__sql_sub2}{__sql_sub3}{__sql_sub4}{__sql_sub5}{__sql_sub6}{__sql_sub7}{__sql_sub8};'
+        return self.sql_querry(__sql)
