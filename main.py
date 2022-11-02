@@ -67,7 +67,6 @@ def main():
     for x in range(1, 6):
         sp = Counters.StipendsCounter.Priest("test", scanner=db_query, who_recived=f"p{x}")
 
-
         print(f"p{x}")
         print(sp.list_of_recieved_by_a_priest())
         print(sp.sum_of_recieved_by_a_priest())
