@@ -2,8 +2,8 @@ import os
 import sqlite3
 
 
-class DatabaseSearcher:
-    def __init__(self, table_name="intentions", path="Files\\Databases\\default.db"):
+class RecordsScanner:
+    def __init__(self, table_name="intentions", path="DatabaseLayer\\SQLDataBase\\default.db"):
         self.table_name = table_name
         self.__path = path
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path)
@@ -32,16 +32,16 @@ class DatabaseSearcher:
         finally:
             self.__close_conection()
 
-    def sql_filter(self,
-                   qtype="Stypendium mszalne",
-                   qamount=None,
-                   qpriest_reciving=None,
-                   qcelebrated_by=None,
-                   qcelebration_date=None,
-                   qcelebration_hour=None,
-                   qcelebration_type=None,
-                   qgregorian=None,
-                   qfirst_mass=None):
+    def select_all_where_q_is(self,
+                              qtype="Stypendium mszalne",
+                              qamount=None,
+                              qpriest_reciving=None,
+                              qcelebrated_by=None,
+                              qcelebration_date=None,
+                              qcelebration_hour=None,
+                              qcelebration_type=None,
+                              qgregorian=None,
+                              qfirst_mass=None):
 
         __sql_sub1 = ""
         __sql_sub2 = ""
@@ -92,16 +92,16 @@ class DatabaseSearcher:
                 f'{__sql_sub9};'
         return self.sql_querry(__sql)
 
-    def sql_not_filter(self,
-                       qtype="Stypendium mszalne",
-                       qamount=None,
-                       qpriest_reciving=None,
-                       qcelebrated_by=None,
-                       qcelebration_date=None,
-                       qcelebration_hour=None,
-                       qcelebration_type=None,
-                       qgregorian=None,
-                       qfirst_mass=None):
+    def select_all_where_q_is_not(self,
+                                  qtype="Stypendium mszalne",
+                                  qamount=None,
+                                  qpriest_reciving=None,
+                                  qcelebrated_by=None,
+                                  qcelebration_date=None,
+                                  qcelebration_hour=None,
+                                  qcelebration_type=None,
+                                  qgregorian=None,
+                                  qfirst_mass=None):
 
         __sql_sub1 = ""
         __sql_sub2 = ""
@@ -153,16 +153,16 @@ class DatabaseSearcher:
                 f'{__sql_sub9};'
         return self.sql_querry(__sql)
 
-    def sql_like_filter(self,
-                        qtype="Stypendium mszalne",
-                        qamount=None,
-                        qpriest_reciving=None,
-                        qcelebrated_by=None,
-                        qcelebration_date=None,
-                        qcelebration_hour=None,
-                        qcelebration_type=None,
-                        qgregorian=None,
-                        qfirst_mass=None):
+    def select_all_where_q_like(self,
+                                qtype="Stypendium mszalne",
+                                qamount=None,
+                                qpriest_reciving=None,
+                                qcelebrated_by=None,
+                                qcelebration_date=None,
+                                qcelebration_hour=None,
+                                qcelebration_type=None,
+                                qgregorian=None,
+                                qfirst_mass=None):
 
         __sql_sub1 = ""
         __sql_sub2 = ""

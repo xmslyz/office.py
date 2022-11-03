@@ -1,13 +1,13 @@
 from unittest import TestCase
-import Counters.StipendsCounter
-from Database import db_searcher as dbs
+import BuisnessLayer.Accounts.MonthlyStatementsComputer
+from BuisnessLayer.Database import ScanRecords as dbs
 
 
 class TestComputingStipends(TestCase):
 
     def test_sum_of_all_recived(self):
-        db_query = dbs.DatabaseSearcher(path="tests\\test.db", table_name="test")
-        ssc = Counters.StipendsCounter.ComputingStipends("test", scanner=db_query)
+        db_query = dbs.RecordsScanner(path="tests\\test.db", table_name="test")
+        ssc = BuisnessLayer.Counters.StipendsCounter.GeneralStmt("test", scanner=db_query)
         assert ssc.sum_of_all_recived() == 1
 
     def test_amount_of_all_paid(self):

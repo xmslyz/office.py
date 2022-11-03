@@ -1,7 +1,27 @@
 import os
 import sqlite3
 
-from Database.Settings import DBSettings as dbs
+from BuisnessLayer.Database import AtributesSetter as dbs
+
+
+class DatabaseBuilder:
+    def builder(path, dbname, table_name, sql_stmt):
+        """
+        Builds ready to use database with its class
+        :param path: path in a main catalogue
+        :param dbname: database name
+        :param table_name: table name
+        :param sql_stmt: tuple of tuples : names of columns and its types : ((col1 type), (col2 type))
+        """
+
+        seti = dbs.DBSettings()
+        seti.db_path = path
+        seti.db_name = dbname
+        seti.db_table_name = table_name
+        seti.db_full_path = ""
+
+        mydbb = DatabaseConstructor(seti)
+        mydbb.db_constructor(sql_stmt)
 
 
 class DatabaseConstructor:
@@ -22,14 +42,14 @@ class DatabaseConstructor:
     def __path_maker(self):
         if not self.__dbname:
             if not self.__path:
-                self.__path = "Files\\Database\\"
+                self.__path = "DatabaseLayer\\SQLDataBase\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.__path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, "default.db")
             return new_dbfile
         else:
             if not self.__path:
-                self.__path = "Files\\Database\\"
+                self.__path = "DatabaseLayer\\SQLDataBase\\"
             new_dbfile = os.path.join(os.path.abspath(os.getcwd()), self.__path)
             os.makedirs(new_dbfile, mode=0o700, exist_ok=True)
             new_dbfile = os.path.join(new_dbfile, self.__dbname)
@@ -75,24 +95,7 @@ class DatabaseConstructor:
         cur.close()
 
 
-class DatabaseBuilder:
-    def builder(path, dbname, table_name, sql_stmt):
-        """
-        Builds ready to use database with its class
-        :param path: path in a main catalogue
-        :param dbname: database name
-        :param table_name: table name
-        :param sql_stmt: tuple of tuples : names of columns and its types : ((col1 type), (col2 type))
-        """
 
-        seti = dbs.DBSettings()
-        seti.db_path = path
-        seti.db_name = dbname
-        seti.db_table_name = table_name
-        seti.db_full_path = ""
-
-        mydbb = DatabaseConstructor(seti)
-        mydbb.db_constructor(sql_stmt)
 
 
 class DatabaseDestructor:
