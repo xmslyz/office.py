@@ -1,8 +1,6 @@
 import os
 import sqlite3
 import datetime
-
-from BuisnessLayer.Random_Generator import random_values_generator as rvg
 import BuisnessLayer.Database.ScanRecords as dbs
 
 
@@ -18,12 +16,6 @@ class StipendEntries:
     def __close_conection(self):
         self.__con.commit()
         self.__cur.close()
-
-    def forge_with_random_objects(self, begin_range_with, end_range_with):
-        self.__open_connection()
-        rvl = rvg.random_value_list_generator(begin_range_with, end_range_with)
-        self.__cur.executemany("INSERT INTO intentions VALUES(?, ?, ?, ?, ?, ?, ?, ?)", rvl)
-        self.__close_conection()
 
     def single_entry(self, table_name, val):
         if self.is_first_checker(val) == 0:

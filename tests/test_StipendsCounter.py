@@ -7,7 +7,7 @@ class TestComputingStipends(TestCase):
 
     def test_sum_of_all_recived(self):
         db_query = dbs.RecordsScanner(path="tests\\test.db", table_name="test")
-        ssc = BuisnessLayer.Counters.StipendsCounter.GeneralStmt("test", scanner=db_query)
+        ssc = BuisnessLayer.Accounts.MonthlyStatementsComputer.GeneralStmt("test", scanner=db_query, qdate="2022-05")
         assert ssc.sum_of_all_recived() == 1
 
     def test_amount_of_all_paid(self):

@@ -77,10 +77,11 @@ class StipendRecord(Income):
             result = bool(datetime.datetime.strptime(value, format))
         except ValueError:
             result = False
-        if result:
-            self.__celebration_date = value
-        else:
-            print("Wrong date format")
+        finally:
+            if result:
+                self.__celebration_date = value
+            else:
+                print("Wrong date format")
 
     @property
     def hour_of_celebration(self):
@@ -96,12 +97,12 @@ class StipendRecord(Income):
             result = bool(datetime.datetime.strptime(value, format))
         except ValueError:
             result = False
-
-        if result:
-            n_val = value
-            self.__celebration_hour = n_val[0:5]
-        else:
-            print("Wrong time format")
+        finally:
+            if result:
+                n_val = value
+                self.__celebration_hour = n_val[0:5]
+            else:
+                print("Wrong time format")
 
     @property
     def type_of_mass(self):

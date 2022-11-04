@@ -63,7 +63,6 @@ class GeneralStmt:
     def sum_of_binations(self):
         return self.amount_of_binations() * BINACJA
 
-
     #
     #  gregorian masses
     #
@@ -173,7 +172,7 @@ class PriestStmt(GeneralStmt):
 
     def amount_of_first_masses_applied_by_a_priest(self):
         """
-        Ilość 'pierwszych mszy' mszy odprawionych przez ks.
+        Ilość 'pierwszych mszy' odprawionych przez ks.
         :return: int
         """
         result = self.db_query.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="1")
