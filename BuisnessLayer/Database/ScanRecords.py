@@ -162,7 +162,8 @@ class RecordsScanner:
                                 qcelebration_hour=None,
                                 qcelebration_type=None,
                                 qgregorian=None,
-                                qfirst_mass=None):
+                                qfirst_mass=None,
+                                qid=None):
 
         __sql_sub1 = ""
         __sql_sub2 = ""
@@ -173,6 +174,7 @@ class RecordsScanner:
         __sql_sub7 = ""
         __sql_sub8 = ""
         __sql_sub9 = ""
+        __sql_sub10 = ""
 
         if qtype is not None:
             __sql_sub1 = f'type IS "{qtype}"'
@@ -201,6 +203,9 @@ class RecordsScanner:
         if qfirst_mass is not None:
             __sql_sub9 = f' AND first_mass LIKE ("{qfirst_mass}")'
 
+        if qid is not None:
+            __sql_sub10 = f' AND id LIKE ("{qid}")'
+
         __sql = f'SELECT * FROM {self.table_name} ' \
                 f'WHERE ' \
                 f'{__sql_sub1}' \
@@ -211,5 +216,6 @@ class RecordsScanner:
                 f'{__sql_sub6}' \
                 f'{__sql_sub7}' \
                 f'{__sql_sub8}' \
-                f'{__sql_sub9};'
+                f'{__sql_sub9}' \
+                f'{__sql_sub10};'
         return self.sql_querry(__sql)

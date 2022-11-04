@@ -4,23 +4,32 @@ BINACJA = second_mass_constant()
 
 
 class GeneralStmt:
-    def __init__(self, table_name, scanner):
+    def __init__(self, table_name, scanner, qdate):
         self.table_name = table_name
         self.db_query = scanner
+        self.qdate = qdate
+
+    def record_by_id(self, qid):
+        x = self.db_query.select_all_where_q_like(qid=qid)
+        if x:
+            print(x[0])
+        else:
+            print("No record with this id")
 
     #  all masses
     def list_of_all_recived(self):
         result = self.db_query.select_all_where_q_is()
         qlist = []
         for _ in result:
-            qlist.append(_)
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
         return qlist
 
     def sum_of_all_recived(self):
         result = self.db_query.select_all_where_q_is()
         qlist = []
         for _ in result:
-            if isinstance((_[2]), float):
+            if _[5][0:7] == self.qdate and isinstance((_[2]), float):
                 qlist.append(float(_[2]))
         return sum(qlist)
 
@@ -28,7 +37,8 @@ class GeneralStmt:
         result = self.db_query.select_all_where_q_is_not(qamount="")
         qlist = []
         for _ in result:
-            qlist.append(_[2])
+            if _[5][0:7] == self.qdate:
+                qlist.append(_[2])
         return len(qlist)
 
     def mediana(self):
@@ -40,7 +50,12 @@ class GeneralStmt:
     #  binations
     #
     def list_of_binations(self):
-        return self.db_query.select_all_where_q_is(qfirst_mass="0")
+        result = self.db_query.select_all_where_q_is(qfirst_mass="0")
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
+        return qlist
 
     def amount_of_binations(self):
         return len(self.list_of_binations())
@@ -56,17 +71,23 @@ class GeneralStmt:
         result = self.db_query.select_all_where_q_is(qgregorian=1)
         qlist = []
         for _ in result:
-            qlist.append(_)
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
         return qlist
 
     def amount_of_all_gregorian(self):
-        return len(self.db_query.select_all_where_q_is(qgregorian=1))
+        result = self.db_query.select_all_where_q_is(qgregorian=1)
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
+        return len(qlist)
 
     def sum_of_all_gregorian(self):
         result = self.db_query.select_all_where_q_is(qgregorian=1)
         qlist = []
         for _ in result:
-            if isinstance((_[2]), float):
+            if _[5][0:7] == self.qdate and isinstance((_[2]), float):
                 qlist.append(_[2])
         return sum(qlist)
 
@@ -86,7 +107,8 @@ class GeneralStmt:
         result = self.db_query.select_all_where_q_is_not(qcelebrated_by="")
         qlist = []
         for _ in result:
-            qlist.append(_)
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
         return qlist
 
     def amount_of_aplicated(self):
@@ -99,27 +121,30 @@ class GeneralStmt:
         result = self.db_query.select_all_where_q_like(qamount='%.%', qcelebrated_by="")
         qlist = []
         for _ in result:
-            qlist.append(_)
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
         return qlist
 
     def list_not_paid_aplicated(self):
         result = self.db_query.select_all_where_q_like(qamount='', qcelebrated_by="_%", qgregorian='0')
         qlist = []
         for _ in result:
-            qlist.append(_)
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
         return qlist
 
     def list_not_paid_not_aplicated(self):
         result = self.db_query.select_all_where_q_is(qamount="", qcelebrated_by="")
         qlist = []
         for _ in result:
-            qlist.append(_)
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
         return qlist
 
 
 class PriestStmt(GeneralStmt):
-    def __init__(self, table_name, scanner, who_recived):
-        super().__init__(table_name, scanner)
+    def __init__(self, table_name, scanner, qdate, who_recived):
+        super().__init__(table_name, scanner, qdate)
         self.who_recived = who_recived
         self.db_query = scanner
 
@@ -127,7 +152,7 @@ class PriestStmt(GeneralStmt):
         result = self.db_query.select_all_where_q_is(qpriest_reciving=self.who_recived)
         qlist = []
         for _ in result:
-            if isinstance((_[2]), float):
+            if _[5][0:7] == self.qdate and isinstance((_[2]), float):
                 qlist.append(float(_[2]))
         return qlist
 
@@ -140,7 +165,11 @@ class PriestStmt(GeneralStmt):
         :return: int
         """
         result = self.db_query.select_all_where_q_is(qcelebrated_by=self.who_recived)
-        return len(result)
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate:
+                qlist.append(_[2])
+        return len(qlist)
 
     def amount_of_first_masses_applied_by_a_priest(self):
         """
@@ -148,11 +177,19 @@ class PriestStmt(GeneralStmt):
         :return: int
         """
         result = self.db_query.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="1")
-        return len(result)
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate:
+                qlist.append(_[2])
+        return len(qlist)
 
     def amount_of_bination_applied_by_a_priest(self):
         result = self.db_query.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="0")
-        return len(result)
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate:
+                qlist.append(_[2])
+        return len(qlist)
 
     def quota_for_priest(self):
         """
