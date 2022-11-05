@@ -77,3 +77,21 @@ class StipendEntries(DBConnector):
                                                     qcelebration_date=celebration_day_query
                                                     ))
 
+
+class PersonalData(DBConnector):
+    def __init__(self, path, dbname, table_name):
+        super().__init__(path, dbname, table_name)
+
+    def introduce_employee(self, val):
+        sql_stmt = (f"INSERT INTO {self.table_name} "
+                    f"(type,name,surname,shortname,abreviation,function,taxes) "
+                    f"VALUES (?,?,?,?,?,?,?);")
+        values = (val.type,
+                  val.name,
+                  val.surname,
+                  val.shortname,
+                  val.abreviation,
+                  val.function,
+                  val.taxes)
+        self.create_connection(sql_stmt, values)
+

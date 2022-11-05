@@ -12,9 +12,10 @@ class GeneralStmt:
     def record_by_id(self, qid):
         x = self.db_query.select_all_where_q_like(qid=qid)
         if x:
-            print(x[0])
+            return x[0]
         else:
             print("No record with this id")
+            return None
 
     #  all masses
     def list_of_all_recived(self):
