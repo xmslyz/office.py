@@ -27,11 +27,15 @@ class DBSettings:
     def db_path(self):
         return self.__path
     @db_path.setter
-    def db_path(self, *args):
-        new_path = ''
-        for arg in args:
-            sub_path = re.sub(r'[^A-Za-z0-9\\_]+', '', os.path.splitext(str(arg).strip())[0])
-            new_path += sub_path + '\\'
+    # def db_path(self, *args):
+    #     new_path = ''
+    #     for arg in args:
+    #         print(arg)
+    #         sub_path = re.sub(r'[^A-Za-z0-9\\_]+', '', os.path.splitext(str(arg).strip())[0])
+    #         new_path += sub_path + '\\'
+    #     self.path = new_path
+    def db_path(self, value):
+        new_path = re.sub(r'[^A-Za-z0-9\\_]+', '', str(value).strip())
         self.__path = new_path
 
     @property
@@ -52,5 +56,5 @@ class DBSettings:
     def db_full_path(self):
         return self.__full_path
     @db_full_path.setter
-    def db_full_path(self, pathlist):
+    def db_full_path(self, pathlist=None):
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path, self.__dbname)

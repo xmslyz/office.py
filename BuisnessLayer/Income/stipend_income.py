@@ -81,7 +81,7 @@ class StipendRecord(Income):
             if result:
                 self.__celebration_date = value
             else:
-                print("Wrong date format")
+                print("Wrong [date] format")
 
     @property
     def hour_of_celebration(self):
@@ -102,7 +102,7 @@ class StipendRecord(Income):
                 n_val = value
                 self.__celebration_hour = n_val[0:5]
             else:
-                print("Wrong time format")
+                print("Wrong [time] format")
 
     @property
     def type_of_mass(self):
@@ -125,7 +125,7 @@ class StipendRecord(Income):
         if isinstance(value, bool):
             self.__gregorian = value
         else:
-            print("Wrong format")
+            print("[is_gregorian]: Wrong format")
 
     @property
     def is_first(self):

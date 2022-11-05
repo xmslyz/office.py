@@ -3,8 +3,8 @@ import sqlite3
 
 
 class RecordsScanner:
-    def __init__(self, table_name="intentions", path="DatabaseLayer\\SQLDataBase\\default.db"):
-        self.table_name = table_name
+    def __init__(self, path="DatabaseLayer\\SQLDataBase\\sofa.db"):  # NIE ZAPOMNIJ USUNĄĆ AUTOMATYCZNĄ [PATH!]
+        self.table_name = "intentions"
         self.__path = path
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path)
 
