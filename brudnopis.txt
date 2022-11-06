@@ -1,0 +1,5 @@
+1. przy budowaniu tabeli istnieje klauzuara "if not exist", dlatego, jeśli będzie jakaś opcja budowania nowej, należy ją połączyć z wcześniejszą /
+opcją [automatycznego] usuwania tabeli.
+
+
+res = tuple(float(num) for num in input_str.split(','))
