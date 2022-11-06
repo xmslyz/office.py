@@ -58,3 +58,20 @@ class DBSettings:
     @db_full_path.setter
     def db_full_path(self, pathlist=None):
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path, self.__dbname)
+
+
+class TableSettings(DBSettings):
+    def __init__(self):
+        super().__init__()
+        self.__table_name = None
+
+    @property
+    def db_table_name(self):
+        return self.__table_name
+    @db_table_name.getter
+    def db_table_name(self):
+        return self.__table_name
+    @db_table_name.setter
+    def db_table_name(self, value):
+        new_table_name = re.sub(r'[^A-Za-z0-9_]+', '', os.path.splitext(str(value).strip())[0])
+        self.__table_name = new_table_name

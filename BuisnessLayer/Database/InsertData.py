@@ -82,16 +82,55 @@ class PersonalData(DBConnector):
     def __init__(self, path, dbname, table_name):
         super().__init__(path, dbname, table_name)
 
-    def introduce_employee(self, val):
+    def introduce_new_employee(self, val):
         sql_stmt = (f"INSERT INTO {self.table_name} "
-                    f"(type,name,surname,shortname,abreviation,function,taxes) "
-                    f"VALUES (?,?,?,?,?,?,?);")
-        values = (val.type,
+                    f"(uniqueID,type,name,surname,shortname,abreviation,function,taxes) "
+                    f"VALUES (?,?,?,?,?,?,?,?);")
+        values = (val.uniqueID,
+                  val.type,
                   val.name,
                   val.surname,
                   val.shortname,
                   val.abreviation,
                   val.function,
                   val.taxes)
-        self.create_connection(sql_stmt, values)
+        self.create_one_val_connection(sql_stmt, values)
+
+    def introduce_new_empees_cashflow1(self, val):
+        sql_stmt = (f"INSERT INTO {self.table_name}"
+                    f"(uniqueID, type, collation_date,"
+                    f"intention_amount, intention_sum, "
+                    f"bination_amount, bination_sum, "
+                    f"pars, pretax, taxes, receival, net) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);")
+        values = (val.uniqueID,
+                  val.type,
+                  val.collation_date,
+                  val.intention_amount,
+                  val.intention_sum,
+                  val.bination_amount,
+                  val.bination_sum,
+                  val.pars,
+                  val.pretax,
+                  val.taxes,
+                  val.receival,
+                  val.net)
+        print(val.uniqueID, val.type, val.collation_date, val.intention_amount)
+        self.create_one_val_connection(sql_stmt, values)
+
+    def introduce_new_empees_cashflow(self, val):
+        sql_stmt = (f"INSERT INTO {self.table_name}"
+                    f"(uniqueID, type) VALUES (?,?);")
+        values = (val.uniqueID,
+                  val.type)
+        self.create_one_val_connection(sql_stmt, values)
+
+    def insert_value_to_collations(self, *, column, value, qid):
+        sql_stmt = f"UPDATE collation SET {column} = '{value}' WHERE uniqueID IS '{qid}';"
+        self.create_no_val_connection(sql_stmt)
+
+
+
+
+
+
 

@@ -1,6 +1,6 @@
-from BuisnessLayer.Database.ConstantsReader import second_mass_constant
+import PresentationLayer.SettingsTab.database_settings as db_set
 
-BINACJA = second_mass_constant()
+BINACJA = db_set.constants_getter("bin")
 
 
 class GeneralStmt:
@@ -45,7 +45,7 @@ class GeneralStmt:
     def mediana(self):
         no_greg_sum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - self.sum_of_binations()
         total = no_greg_sum + self.gregorian_sum_of_medianas()
-        if (self.amount_of_aplicated() - self.amount_of_binations()) <=0:
+        if (self.amount_of_aplicated() - self.amount_of_binations()) <= 0:
             return 1
         else:
             return round(total / (self.amount_of_aplicated() - self.amount_of_binations()), 2)

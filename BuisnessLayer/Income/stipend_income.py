@@ -1,10 +1,8 @@
 import datetime
 import re
 
-from BuisnessLayer.Income.income import Income
 
-
-class StipendRecord(Income):
+class StipendRecord:
 
     def __init__(self):
         self.__type = "Stypendium mszalne"

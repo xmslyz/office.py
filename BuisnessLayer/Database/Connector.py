@@ -36,7 +36,39 @@ class DBConnector:
         try:
             conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
             cur = conn.cursor()
+            print("1")
+            cur.execute(sql_stmt, (val,))
+            print("2")
+            result = cur.fetchall()
+            conn.commit()
+            cur.close()
+        except Error as e:
+            print(e)
+        return result
+
+    def create_one_val_connection(self, sql_stmt, val):
+        if not self.is_path():
+            self.make_path()
+        result = ()
+        try:
+            conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+            cur = conn.cursor()
             cur.execute(sql_stmt, val)
+            result = cur.fetchall()
+            conn.commit()
+            cur.close()
+        except Error as e:
+            print(e)
+        return result
+
+    def create_no_val_connection(self, sql_stmt):
+        if not self.is_path():
+            self.make_path()
+        result = ()
+        try:
+            conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+            cur = conn.cursor()
+            cur.execute(sql_stmt)
             result = cur.fetchall()
             conn.commit()
             cur.close()
