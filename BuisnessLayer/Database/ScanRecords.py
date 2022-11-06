@@ -1,10 +1,17 @@
 import os
 import sqlite3
 
+import BuisnessLayer.Database.AtributesSetter
+import PresentationLayer.SettingsTab.database_settings
+from BuisnessLayer.Database import Operator as dbb
+
 
 class RecordsScanner:
     def __init__(self, path="DatabaseLayer\\SQLDataBase\\sofa.db"):  # NIE ZAPOMNIJ USUNĄĆ AUTOMATYCZNĄ [PATH!]
-        self.table_name = "intentions"
+        table_name = BuisnessLayer.Database.AtributesSetter.TableSettings().db_table_name = \
+            PresentationLayer.SettingsTab.database_settings.db_tablename_getter(1)
+        self.__table_name = table_name
+
         self.__path = path
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path)
 
@@ -219,3 +226,33 @@ class RecordsScanner:
                 f'{__sql_sub9}' \
                 f'{__sql_sub10};'
         return self.sql_querry(__sql)
+
+    def left_outer_join(self, val):
+        path = "DatabaseLayer\\SQLDataBase\\"
+        dbname = "sofa"
+        table_name = "employees"
+        mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN collation ON employees.uniqueID = collation.uniqueID WHERE employees.uniqueID IS '{val}';"
+        bu = dbb.DBConnector(path, dbname, table_name)
+        return bu.create_no_val_connection(mysql3)
+        # SELECT * FROM A LEFT OUTER JOIN B A.f = B.f WHERE B.z IS (?)
+
+    def scanby_seletion_key_value(self, *, selection, key, value):
+        """
+        Join: Triple Inner Join
+        :param selection: columns to be returned
+        :param key: tablename.columnname
+        :param value: str lub boolean
+        :return: records WHERE key IS value
+        """
+        path = "DatabaseLayer\\SQLDataBase\\"
+        dbname = "sofa"
+        table_name = "intentions"
+
+        ssqqll = f"SELECT {selection} FROM intentions " \
+                 f"INNER JOIN employees " \
+                 f"ON employees.abreviation = intentions.celebrated_by " \
+                 f"INNER JOIN collation " \
+                 f"ON collation.uniqueID = employees.uniqueID WHERE {key} IS ?;"
+
+        bu = dbb.DBConnector(path, dbname, table_name)
+        return bu.create_connection(ssqqll, value)
