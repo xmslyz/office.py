@@ -6,7 +6,7 @@ from BuisnessLayer.Database import Constructor as dbb
 
 
 class RecordsScanner:
-    def __init__(self, *, path_num, dbnm_num, tbl_num):
+    def __init__(self, path_num, dbnm_num, tbl_num):
         """
         :param path_num: [1] SQLDataBase [2] Constants
         :param dbnm_num: [1] sofa [2] constants

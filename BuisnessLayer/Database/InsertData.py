@@ -8,8 +8,6 @@ from BuisnessLayer.Database.Connector import DBConnector
 class StipendEntries(DBConnector):
     def __init__(self, path, dbname, table_name):
         super().__init__(path, dbname, table_name)
-        # self.__repr__()
-        # print(self.__dict__)
 
     def insert_record(self, val, *, amount=1):
         assert amount > 0

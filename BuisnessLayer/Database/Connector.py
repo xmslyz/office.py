@@ -20,14 +20,14 @@ class DBConnector:
         self.table_name = dbs.db_table_name
 
         dbs.db_full_path = ''
-        self.__full_path = dbs.db_full_path
+        self.full_path = dbs.db_full_path
 
     def __repr__(self):
         print(f'DataBase Connector: {self.__class__.__qualname__}\n\t'
               f'path -> {self.__path}\n\t'
               f'dbname -> {self.__db_name}\n\t'
               f'table_name -> {self.table_name}\n\t'
-              f'full_path -> {self.__full_path}\n')
+              f'full_path -> {self.full_path}\n')
 
     def is_path(self) -> str:
         db_dir = os.path.join(os.path.abspath(os.getcwd()), self.__path)
@@ -44,7 +44,7 @@ class DBConnector:
             self.make_path()
         result = ()
         try:
-            conn = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+            conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
             cur = conn.cursor()
             if pin == 0:
                 cur.execute(sql_stmt, val)
@@ -64,7 +64,7 @@ class DBConnector:
             self.make_path()
         result = ()
         try:
-            conn = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+            conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
             cur = conn.cursor()
             cur.execute(sql_stmt)
             result = cur.fetchall()

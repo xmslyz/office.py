@@ -14,20 +14,24 @@ import GUILayer.InsertTab.UpdateRecord
 def main():
     print("Hi World!")
     t1 = datetime.datetime.now()
-    # GUILayer.SettingsTab.database_builder.build_db_intentions()
-    # GUILayer.SettingsTab.database_builder.build_db_employees()
-    # GUILayer.SettingsTab.database_builder.build_db_collations()
-
+    # BUDOWA TABEL BAZ DANYCH
+    GUILayer.SettingsTab.database_builder.build_db_intentions()
+    GUILayer.SettingsTab.database_builder.build_db_employees()
+    GUILayer.SettingsTab.database_builder.build_db_collations()
+    # USUWANIE TABEL BAZ DANYCH
     # GUILayer.SettingsTab.database_droper.drop_db_intentions()
     # GUILayer.SettingsTab.database_droper.drop_db_employees()
     # GUILayer.SettingsTab.database_droper.drop_db_collations()
-
+    # USUWANIE PLIKÓW BAZ DANYCH
     # GUILayer.SettingsTab.database_remover.remove_db_file()
 
+    # WPROWADZANIE DANYCH DO BAZY DANYCH
     # GUILayer.InsertTab.InsertRecord.insert_mass_records()
     # GUILayer.InsertTab.InsertRecord.add_employee()
-
+    # AKTUALIZACJA KOMÓREK BAZ DANYCH
     # GUILayer.InsertTab.UpdateRecord.update_value()
+
+
 
 
 

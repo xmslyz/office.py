@@ -1,10 +1,12 @@
 import GUILayer.SettingsTab.database_settings as db_set
+from BuisnessLayer.Database.Connector import DBConnector
 
 BINACJA = db_set.constants_getter("bin")
 
 
-class GeneralStmt:
-    def __init__(self, table_name, scanner, qdate):
+class GeneralStmt(DBConnector):
+    def __init__(self, table_name, scanner, qdate, path_num, dbnm_num, tbl_num):
+        super().__init__(path_num, dbnm_num, tbl_num)
         self.table_name = table_name
         self.db_query = scanner
         self.qdate = qdate

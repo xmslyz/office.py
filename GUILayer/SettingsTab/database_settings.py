@@ -18,14 +18,22 @@ def db_name_getter(x):
 
 
 def db_tablename_getter(x):
-    if x == 1:
+    if x == 0:
+        return "constants"
+    elif x == 1:
         return "intentions"
     elif x == 2:
         return "employees"
     elif x == 3:
         return "collations"
     elif x == 4:
-        return "constants"
+        return "pars"
+    elif x == 5:
+        return "general_collation"
+    elif x == 6:
+        return "x"
+    elif x == 7:
+        return "y"
     else:
         return x
 
