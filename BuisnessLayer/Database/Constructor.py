@@ -1,7 +1,5 @@
 import sqlite3
 from BuisnessLayer.Database.Connector import DBConnector
-import BuisnessLayer.Database.AtributesSetter
-import GUILayer.SettingsTab.database_settings
 
 
 class DatabaseConstructor(DBConnector):

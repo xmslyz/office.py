@@ -42,7 +42,7 @@ def wydruk_osoba(qdate):
     kto = list(set(mylist))
     for x in kto:
         #  intencje
-        sp = msc.PriestStmt("intentions", scanner=myscan, who_recived=f"{x}", qdate=qdate)
+        sp = msc.EmployeeStmt("intentions", scanner=myscan, who_recived=f"{x}", qdate=qdate)
 
         print(f"{x}")
         print('1. list_of_recieved_by_a_priest -> ', sp.list_of_recieved_by_a_priest())

@@ -3,3 +3,9 @@ opcją [automatycznego] usuwania tabeli.
 
 
 res = tuple(float(num) for num in input_str.split(','))
+bcc31ae3-9f61-4b07-b119-6e8dbf9e9a46
+2cd896c4-d670-4ee7-92c2-8ab9b9a3ee8a
+e2b24908-5efc-49a7-b67a-e0619c765349
+cc80fbca-918b-4886-88b2-04e919d9ed1f
+bf616229-45e7-48d4-8a40-fda9c3a582f0
+b6274346-e965-4eb3-a51c-73394caebf79

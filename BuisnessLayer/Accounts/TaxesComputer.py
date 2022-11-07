@@ -1,25 +1,27 @@
 import re
+from BuisnessLayer.Database.ScanRecords import RecordsScanner
 
-import BuisnessLayer.Database.ScanRecords
 
-
-class GeneralStmt:
-    def __init__(self, table_name, scanner, qdate):
-        self.table_name = table_name
-        self.db_query = scanner
+class GeneralStmt(RecordsScanner):
+    def __init__(self, path_num, dbnm_num, tbl_num, qdate):
+        super().__init__(path_num, dbnm_num, tbl_num)
         self.qdate = qdate
+        print(self.__repr__())
 
     def sum_taxes_for_employee(self, qid):
-        scanner = BuisnessLayer.Database.ScanRecords.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
-        result = scanner.left_outer_join(qid)
+        result = self.left_outer_join(qid)
+        print(result)
         tax_sum = 0
         if result is None:
             return 0
         else:
             taxes = result[0][8]
-            tax_list = re.sub(r'[^0-9.,]+', '', str(taxes)).split(",")
+            print(taxes)
+            tax_list = re.sub(r'[^0-9.,]+', '', str(result)).split(",")
             for tax in tax_list:
+                
                 if tax != "":
                     tax_sum += float(tax)
+        print(tax_sum)
         return tax_sum
 

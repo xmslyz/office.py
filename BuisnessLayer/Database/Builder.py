@@ -68,7 +68,7 @@ class DatabaseOperator:
     def db_employee(self, path_NUM, dbn_NUM, tbl_NUM):
         mysql = f"CREATE TABLE IF NOT EXISTS {self.__table_name} " \
                 f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " \
-                f"uniqueID INTEGER NOT NULL, " \
+                f"uniqueID TEXT NOT NULL, " \
                 f"type TEXT NOT NULL DEFAULT 'Dane osobowe', " \
                 f"name TEXT, " \
                 f"surname TEXT, " \

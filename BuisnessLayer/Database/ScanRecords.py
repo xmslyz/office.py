@@ -15,26 +15,26 @@ class RecordsScanner:
         rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
 
         rs.db_path = GUILayer.SettingsTab.database_settings.db_path_getter(path_num)
-        self.__path = rs.db_path
+        self.path = rs.db_path
 
         rs.db_name = GUILayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
-        self.__db_name = rs.db_name
+        self.db_name = rs.db_name
 
         rs.db_table_name = GUILayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
-        self.__table_name = rs.db_table_name
+        self.table_name = rs.db_table_name
 
         rs.db_full_path = ''
-        self.__full_path = rs.db_full_path
+        self.full_path = rs.db_full_path
 
     def __repr__(self):
         return f'RecordScanner:\n\t' \
-               f'PATH: {self.__path}\n\t' \
-               f'FULL PATH: {self.__full_path}\n\t' \
-               f'DATABASE NAME: {self.__db_name}\n\t' \
-               f'TABLE NAME: {self.__table_name}\n'
+               f'PATH: {self.path}\n\t' \
+               f'FULL PATH: {self.full_path}\n\t' \
+               f'DATABASE NAME: {self.db_name}\n\t' \
+               f'TABLE NAME: {self.table_name}\n'
 
     def __open_connection(self):
-        self.__con = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        self.__con = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         self.__cur = self.__con.cursor()
 
     def __close_conection(self):
@@ -105,7 +105,7 @@ class RecordsScanner:
         if qfirst_mass is not None:
             __sql_sub9 = f' AND first_mass IS "{qfirst_mass}"'
 
-        __sql = f'SELECT * FROM {self.__table_name} ' \
+        __sql = f'SELECT * FROM {self.table_name} ' \
                 f'WHERE {__sql_sub1}' \
                 f'{__sql_sub2}' \
                 f'{__sql_sub3}' \
@@ -165,7 +165,7 @@ class RecordsScanner:
         if qfirst_mass is not None:
             __sql_sub9 = f' AND first_mass IS NOT "{qfirst_mass}"'
 
-        __sql = f'SELECT * FROM {self.__table_name} ' \
+        __sql = f'SELECT * FROM {self.table_name} ' \
                 f'WHERE ' \
                 f'{__sql_sub1}' \
                 f'{__sql_sub2}' \
@@ -231,7 +231,7 @@ class RecordsScanner:
         if qid is not None:
             __sql_sub10 = f' AND id LIKE ("{qid}")'
 
-        __sql = f'SELECT * FROM {self.__table_name} ' \
+        __sql = f'SELECT * FROM {self.table_name} ' \
                 f'WHERE ' \
                 f'{__sql_sub1}' \
                 f'{__sql_sub2}' \
@@ -249,7 +249,8 @@ class RecordsScanner:
         path = "DatabaseLayer\\SQLDataBase\\"
         dbname = "sofa"
         table_name = "employees"
-        mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN collation ON employees.uniqueID = collation.uniqueID WHERE employees.uniqueID IS '{val}';"
+        # mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN collation ON employees.uniqueID = collation.uniqueID WHERE employees.uniqueID IS '{val}';"
+        mysql3 = f"SELECT * FROM employees;"
         bu = dbb.DBConnector(path, dbname, table_name)
         return bu.create_no_val_connection(mysql3)
         # SELECT * FROM A LEFT OUTER JOIN B A.f = B.f WHERE B.z IS (?)
