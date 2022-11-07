@@ -1,7 +1,7 @@
 import sqlite3
 from BuisnessLayer.Database.Connector import DBConnector
 import BuisnessLayer.Database.AtributesSetter
-import PresentationLayer.SettingsTab.database_settings
+import GUILayer.SettingsTab.database_settings
 
 
 class DatabaseConstructor(DBConnector):
@@ -10,13 +10,13 @@ class DatabaseConstructor(DBConnector):
 
         dbs = BuisnessLayer.Database.AtributesSetter.DBSettings()
 
-        dbs.db_path = PresentationLayer.SettingsTab.database_settings.db_path_getter(path_num)
+        dbs.db_path = GUILayer.SettingsTab.database_settings.db_path_getter(path_num)
         self.__path = dbs.db_path
 
-        dbs.db_name = PresentationLayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
+        dbs.db_name = GUILayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
         self.__db_name = dbs.db_name
 
-        dbs.db_table_name = PresentationLayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
+        dbs.db_table_name = GUILayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
         self.__table_name = dbs.db_table_name
 
         dbs.db_full_path = ''
@@ -24,7 +24,7 @@ class DatabaseConstructor(DBConnector):
 
     def db_constructor(self, sql_stmt, value) -> tuple:
         self.__database_dir_builder()
-        self.create_connection(sql_stmt, value)
+        self.create_connection(0, sql_stmt, value)
 
     def __database_dir_builder(self):
         if not self.is_path():  # gdy nie istnieje struktura katalogu

@@ -1,4 +1,4 @@
-import PresentationLayer.SettingsTab.database_settings as db_set
+import GUILayer.SettingsTab.database_settings as db_set
 
 BINACJA = db_set.constants_getter("bin")
 

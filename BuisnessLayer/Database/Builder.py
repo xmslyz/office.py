@@ -2,11 +2,11 @@ import gc
 import os
 
 import BuisnessLayer.Database.AtributesSetter
-import PresentationLayer.SettingsTab.database_settings
+import GUILayer.SettingsTab.database_settings
 from BuisnessLayer.Database import Constructor as dbb, AtributesSetter as dbs
 
 
-class PLUG_database_operator:
+class DatabaseOperator:
     def __init__(self, *, path_num, dbnm_num, tbl_num):
         """
         :param path_num: [1] SQLDataBase [2] Constants
@@ -15,13 +15,13 @@ class PLUG_database_operator:
         """
         rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
 
-        rs.db_path = PresentationLayer.SettingsTab.database_settings.db_path_getter(path_num)
+        rs.db_path = GUILayer.SettingsTab.database_settings.db_path_getter(path_num)
         self.__path = rs.db_path
 
-        rs.db_name = PresentationLayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
+        rs.db_name = GUILayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
         self.__db_name = rs.db_name
 
-        rs.db_table_name = PresentationLayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
+        rs.db_table_name = GUILayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
         self.__table_name = rs.db_table_name
 
         rs.db_full_path = ''
