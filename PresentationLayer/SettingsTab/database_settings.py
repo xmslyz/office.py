@@ -1,12 +1,20 @@
 from BuisnessLayer.Database import ScanRecords as dbs
 
 
-def db_path_getter():
-    return "DatabaseLayer\\SQLDataBase\\"
+def db_path_getter(x):
+    if x == 1:
+        return "DatabaseLayer\\SQLDataBase\\"
+    if x == 2:
+        return "DatabaseLayer\\Constants\\"
 
 
-def db_name_getter():
-    return "sofa.db"
+def db_name_getter(x):
+    if x == 1:
+        return "sofa.db"
+    if x == 2:
+        return "constants.db"
+    else:
+        return f"{x}.db"
 
 
 def db_tablename_getter(x):
@@ -14,12 +22,16 @@ def db_tablename_getter(x):
         return "intentions"
     elif x == 2:
         return "employees"
-    elif x == 2:
+    elif x == 3:
         return "collations"
+    elif x == 4:
+        return "constants"
+    else:
+        return x
 
 
 def constants_getter(const):
-    db_scanner = dbs.RecordsScanner(path="DatabaseLayer\\Constants\\constants.db")
+    db_scanner = dbs.RecordsScanner(tbl_num=1, dbnm_num=2, path_num=2)
     result = 0
     if const == "bin":
         result = db_scanner.sql_querry('SELECT value FROM constants WHERE name IS "binacja";')

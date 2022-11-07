@@ -70,7 +70,7 @@ class StipendEntries(DBConnector):
         return next_day.strftime("%Y-%m-%d")
 
     def is_first_checker(self, val):
-        dbsearcher = dbs.RecordsScanner()
+        dbsearcher = dbs.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
         who_celebrated_query = val.celebrating_priest
         celebration_day_query = val.date_of_celebration
         return len(dbsearcher.select_all_where_q_is(qcelebrated_by=who_celebrated_query,

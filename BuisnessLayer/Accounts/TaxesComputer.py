@@ -10,7 +10,7 @@ class GeneralStmt:
         self.qdate = qdate
 
     def sum_taxes_for_employee(self, qid):
-        scanner = BuisnessLayer.Database.ScanRecords.RecordsScanner()
+        scanner = BuisnessLayer.Database.ScanRecords.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
         result = scanner.left_outer_join(qid)
         tax_sum = 0
         if result is None:

@@ -4,7 +4,7 @@ from BuisnessLayer.Database import ScanRecords as dbs
 
 
 def wydruk_ogolny(qdate):
-    db_query = dbs.RecordsScanner()
+    db_query = dbs.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
     ssc = msc.GeneralStmt(table_name="intentions", scanner=db_query, qdate=qdate)
     print('1.  sum_of_all_recived -> ', ssc.sum_of_all_recived())
     print('2.  list_of_all_recived -> ', ssc.list_of_all_recived())
@@ -28,13 +28,12 @@ def wydruk_ogolny(qdate):
 
 
 def wypis_po_id(qid):
-    db_query = dbs.RecordsScanner()
+    db_query = dbs.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
     return msc.GeneralStmt(table_name="intentions", scanner=db_query, qdate="").record_by_id(qid=qid)
 
 
 def wydruk_osoba(qdate):
-    """ Program ma pobierać listę [kto] z tabeli staff.db sprzężoną z tabelą intentions w sofa.db """
-    myscan = dbs.RecordsScanner()
+    myscan = dbs.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
     qdata = f"{qdate}-__"
     res = myscan.select_all_where_q_like(qcelebrated_by="%_", qcelebration_date=qdata)
     mylist = []

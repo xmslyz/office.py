@@ -5,7 +5,7 @@ import uuid
 
 import BuisnessLayer.Income.stipend_income
 import BuisnessLayer.Database.InsertData
-import BuisnessLayer.Employyes.Employee as Emp
+import BuisnessLayer.Employees.Employee as Emp
 from BuisnessLayer.Database.InsertData import StipendEntries as se
 from BuisnessLayer.Database.InsertData import PersonalData as pd
 

@@ -1,24 +1,30 @@
 import datetime
 import BuisnessLayer.Accounts.TaxesComputer as tc
-
+import BuisnessLayer.Employees.Employee as emp
 import BuisnessLayer.Database.InsertData as idata
+import BuisnessLayer.Database.ScanRecords
 import PresentationLayer.SettingsTab.database_settings
+import PresentationLayer.SettingsTab.database_builder
+import PresentationLayer.SettingsTab.database_droper
+import PresentationLayer.SettingsTab.database_remover
 
 
 def main():
     print("Hi World!")
     t1 = datetime.datetime.now()
+    # PresentationLayer.SettingsTab.database_builder.build_db_intentions()
+    # PresentationLayer.SettingsTab.database_builder.build_db_employees()
+    # PresentationLayer.SettingsTab.database_builder.build_db_collations()
 
-# dane DB
-    path = PresentationLayer.SettingsTab.database_settings.db_path_getter()
-    db_name = PresentationLayer.SettingsTab.database_settings.db_name_getter()
-    table_name = PresentationLayer.SettingsTab.database_settings.db_tablename_getter(1)
+    # PresentationLayer.SettingsTab.database_droper.drop_db_intentions()
+    # PresentationLayer.SettingsTab.database_droper.drop_db_employees()
+    # PresentationLayer.SettingsTab.database_droper.drop_db_collations()
+
+    # PresentationLayer.SettingsTab.database_remover.remove_db_file()
+
 
 # budowa baz danych i tabel
-#     buduj = bdb.PLUG_database_operator()
-#     buduj.budowa_bazy_danych_employee()
-#     buduj.budowa_bazy_danych_collations()
-#     buduj.budowa_bazy_danych_intentions()
+
 
 # wstawianie pojedynczego rekordu
     # PresentationLayer.SettingsTab.add.single_record(amount="100", reciving_priest="OO",
@@ -33,8 +39,8 @@ def main():
 
 # usuwanie tabel
 #     buduj = bdb.PLUG_database_operator()
-#     buduj.usuniecie_tabeli_list()
-#     buduj.usuniecie_tabeli_collations()
+#     buduj.drop_employees()
+#     buduj.drop_collations()
 #     buduj.usuniecie_tabeli_intentions()
 
 #usuwanie katalogów i plików
@@ -52,11 +58,11 @@ def main():
 #     qe = ("Jan", "Kowalski", "Jasiek", "JK", "Wikariusz", ("100", "180"))
 #     PresentationLayer.SettingsTab.add.new_employee(qe)
 
-    taxsum = tc.GeneralStmt(path, db_name, table_name).sum_taxes_for_employee("05879c7f-533f-4305-88ea-83697af554cd")
-    idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="taxes", value=taxsum, qid="05879c7f-533f-4305-88ea-83697af554cd")
-    idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="collation_date", value="2022-05", qid="05879c7f-533f-4305-88ea-83697af554cd")
-    idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="intention_amount", value="12", qid="05879c7f-533f-4305-88ea-83697af554cd")
-    idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="intention_sum", value="345.50", qid="05879c7f-533f-4305-88ea-83697af554cd")
+    # taxsum = tc.GeneralStmt(path, db_name, table_name).sum_taxes_for_employee("05879c7f-533f-4305-88ea-83697af554cd")
+    # idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="taxes", value=taxsum, qid="05879c7f-533f-4305-88ea-83697af554cd")
+    # idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="collation_date", value="2022-05", qid="05879c7f-533f-4305-88ea-83697af554cd")
+    # idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="intention_amount", value="12", qid="05879c7f-533f-4305-88ea-83697af554cd")
+    # idata.PersonalData(path, db_name, table_name).insert_value_to_collations(column="intention_sum", value="345.50", qid="05879c7f-533f-4305-88ea-83697af554cd")
 
     t2 = datetime.datetime.now()
     print(t2 - t1)

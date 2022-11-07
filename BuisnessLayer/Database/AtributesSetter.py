@@ -56,7 +56,7 @@ class DBSettings:
     def db_full_path(self):
         return self.__full_path
     @db_full_path.setter
-    def db_full_path(self, pathlist=None):
+    def db_full_path(self, x):
         self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path, self.__dbname)
 
 

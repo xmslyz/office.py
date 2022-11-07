@@ -1,19 +1,37 @@
 import os
 import sqlite3
-
 import BuisnessLayer.Database.AtributesSetter
 import PresentationLayer.SettingsTab.database_settings
-from BuisnessLayer.Database import Operator as dbb
+from BuisnessLayer.Database import Constructor as dbb
 
 
 class RecordsScanner:
-    def __init__(self, path="DatabaseLayer\\SQLDataBase\\sofa.db"):  # NIE ZAPOMNIJ USUNĄĆ AUTOMATYCZNĄ [PATH!]
-        table_name = BuisnessLayer.Database.AtributesSetter.TableSettings().db_table_name = \
-            PresentationLayer.SettingsTab.database_settings.db_tablename_getter(1)
-        self.__table_name = table_name
+    def __init__(self, *, path_num, dbnm_num, tbl_num):
+        """
+        :param path_num: [1] SQLDataBase [2] Constants
+        :param dbnm_num: [1] sofa [2] constants
+        :param tbl_num:  [1] intentions [2] employees [3] collations [4] constants
+        """
+        rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
 
-        self.__path = path
-        self.__full_path = os.path.join(os.path.abspath(os.getcwd()), self.__path)
+        rs.db_path = PresentationLayer.SettingsTab.database_settings.db_path_getter(path_num)
+        self.__path = rs.db_path
+
+        rs.db_name = PresentationLayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
+        self.__db_name = rs.db_name
+
+        rs.db_table_name = PresentationLayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
+        self.__table_name = rs.db_table_name
+
+        rs.db_full_path = ''
+        self.__full_path = rs.db_full_path
+
+    def __repr__(self):
+        return f'RecordScanner:\n\t' \
+               f'PATH: {self.__path}\n\t' \
+               f'FULL PATH: {self.__full_path}\n\t' \
+               f'DATABASE NAME: {self.__db_name}\n\t' \
+               f'TABLE NAME: {self.__table_name}\n'
 
     def __open_connection(self):
         self.__con = sqlite3.connect(self.__full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
@@ -87,7 +105,7 @@ class RecordsScanner:
         if qfirst_mass is not None:
             __sql_sub9 = f' AND first_mass IS "{qfirst_mass}"'
 
-        __sql = f'SELECT * FROM {self.table_name} ' \
+        __sql = f'SELECT * FROM {self.__table_name} ' \
                 f'WHERE {__sql_sub1}' \
                 f'{__sql_sub2}' \
                 f'{__sql_sub3}' \
@@ -147,7 +165,7 @@ class RecordsScanner:
         if qfirst_mass is not None:
             __sql_sub9 = f' AND first_mass IS NOT "{qfirst_mass}"'
 
-        __sql = f'SELECT * FROM {self.table_name} ' \
+        __sql = f'SELECT * FROM {self.__table_name} ' \
                 f'WHERE ' \
                 f'{__sql_sub1}' \
                 f'{__sql_sub2}' \
@@ -213,7 +231,7 @@ class RecordsScanner:
         if qid is not None:
             __sql_sub10 = f' AND id LIKE ("{qid}")'
 
-        __sql = f'SELECT * FROM {self.table_name} ' \
+        __sql = f'SELECT * FROM {self.__table_name} ' \
                 f'WHERE ' \
                 f'{__sql_sub1}' \
                 f'{__sql_sub2}' \
