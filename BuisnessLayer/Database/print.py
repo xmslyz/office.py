@@ -1,5 +1,5 @@
 import BuisnessLayer.Accounts.MonthlyStatementsComputer as msc
-import BuisnessLayer.Income.stipend_income
+import BuisnessLayer.Income.StipendIncome
 from BuisnessLayer.Database import ScanRecords as dbs
 
 

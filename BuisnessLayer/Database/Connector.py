@@ -3,20 +3,20 @@ import sqlite3
 from sqlite3 import Error
 
 import BuisnessLayer.Database.AtributesSetter
-import GUILayer.SettingsTab.database_settings
+import BuisnessLayer.Database.Atributes
 
 
 class DBConnector:
     def __init__(self, path_num, dbnm_num, tbl_num):
         dbs = BuisnessLayer.Database.AtributesSetter.DBSettings()
 
-        dbs.db_path = GUILayer.SettingsTab.database_settings.db_path_getter(path_num)
+        dbs.db_path = BuisnessLayer.Database.Atributes.db_path_getter(path_num)
         self.__path = dbs.db_path
 
-        dbs.db_name = GUILayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
+        dbs.db_name = BuisnessLayer.Database.Atributes.db_name_getter(dbnm_num)
         self.__db_name = dbs.db_name
 
-        dbs.db_table_name = GUILayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
+        dbs.db_table_name = BuisnessLayer.Database.Atributes.db_tablename_getter(tbl_num)
         self.table_name = dbs.db_table_name
 
         dbs.db_full_path = ''

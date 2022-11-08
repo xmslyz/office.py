@@ -1,7 +1,7 @@
 import os
 import sqlite3
 import BuisnessLayer.Database.AtributesSetter
-import GUILayer.SettingsTab.database_settings
+import BuisnessLayer.Database.Atributes
 import BuisnessLayer.Database.Connector
 from BuisnessLayer.Database import Constructor as dbb
 
@@ -15,13 +15,13 @@ class RecordsScanner:
         """
         rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
 
-        rs.db_path = GUILayer.SettingsTab.database_settings.db_path_getter(path_num)
+        rs.db_path = BuisnessLayer.Database.Atributes.db_path_getter(path_num)
         self.path = rs.db_path
 
-        rs.db_name = GUILayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
+        rs.db_name = BuisnessLayer.Database.Atributes.db_name_getter(dbnm_num)
         self.db_name = rs.db_name
 
-        rs.db_table_name = GUILayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
+        rs.db_table_name = BuisnessLayer.Database.Atributes.db_tablename_getter(tbl_num)
         self.table_name = rs.db_table_name
 
         rs.db_full_path = ''
@@ -36,6 +36,7 @@ class RecordsScanner:
 
     def __open_connection(self):
 
+        print(self.__repr__())
         self.__con = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         self.__cur = self.__con.cursor()
 

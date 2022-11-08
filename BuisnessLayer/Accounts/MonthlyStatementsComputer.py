@@ -1,5 +1,5 @@
 import BuisnessLayer.Database.Geter
-import GUILayer.SettingsTab.database_settings as db_set
+import BuisnessLayer.Database.Atributes as db_set
 from BuisnessLayer.Database.ScanRecords import RecordsScanner
 import BuisnessLayer.Database.Updater
 import BuisnessLayer.Accounts.TaxesComputer

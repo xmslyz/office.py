@@ -137,7 +137,7 @@ class PersonalData(DBConnector):
         coll.uniqueID = uniqueID
         coll.monthly_stmt = None
         sql_stmt = (f"INSERT INTO {colldb.table_name}"
-                    f"(uniqueID, monthly_stmt) VALUES (?,?);")
+                    f"(uniqueID, stmt_date) VALUES (?,?);")
         values = (coll.uniqueID,
                   coll.monthly_stmt)
         self.create_connection(0, sql_stmt, values)

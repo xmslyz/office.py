@@ -1,7 +1,7 @@
 from collections import Counter
 
 import BuisnessLayer.Database.Builder
-import BuisnessLayer.Income.stipend_income
+import BuisnessLayer.Income.StipendIncome
 import BuisnessLayer.Database.InsertData
 import BuisnessLayer.Employees.Employee
 from BuisnessLayer.Database.Geter import UniqueIDGetter

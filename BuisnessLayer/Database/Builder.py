@@ -2,8 +2,8 @@ import gc
 import os
 
 import BuisnessLayer.Database.AtributesSetter
-import GUILayer.SettingsTab.database_settings
-from BuisnessLayer.Database import Constructor as dbb, AtributesSetter as dbs
+import BuisnessLayer.Database.Atributes
+from BuisnessLayer.Database import Constructor as dbb
 
 
 class DatabaseOperator:
@@ -15,13 +15,13 @@ class DatabaseOperator:
         """
         rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
 
-        rs.db_path = GUILayer.SettingsTab.database_settings.db_path_getter(path_num)
+        rs.db_path = BuisnessLayer.Database.Atributes.db_path_getter(path_num)
         self.__path = rs.db_path
 
-        rs.db_name = GUILayer.SettingsTab.database_settings.db_name_getter(dbnm_num)
+        rs.db_name = BuisnessLayer.Database.Atributes.db_name_getter(dbnm_num)
         self.__db_name = rs.db_name
 
-        rs.db_table_name = GUILayer.SettingsTab.database_settings.db_tablename_getter(tbl_num)
+        rs.db_table_name = BuisnessLayer.Database.Atributes.db_tablename_getter(tbl_num)
         self.__table_name = rs.db_table_name
 
         rs.db_full_path = ''
@@ -92,7 +92,9 @@ class DatabaseOperator:
                 f"shortname TEXT, " \
                 f"abreviation TEXT, " \
                 f"function TEXT, " \
-                f"taxes TEXT);"
+                f"taxes TEXT," \
+                f"on_duty INTEGER DEFAULT 0);"
+
         dbb.DatabaseConstructor(path_NUM, dbn_NUM, tbl_NUM).db_constructor(mysql, '')
 
     def drop_table(self, path_NUM, dbn_NUM, tbl_NUM):
@@ -109,5 +111,3 @@ class DatabaseOperator:
                 print("Plik nie może zostać usunięty, ponieważ nie można uzyskać dostępu do pliku.")
         else:
             print("Plik zabezpieczony przed usunięciem")
-
-
