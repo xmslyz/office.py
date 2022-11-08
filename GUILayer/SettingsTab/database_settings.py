@@ -25,11 +25,11 @@ def db_tablename_getter(x):
     elif x == 2:
         return "employees"
     elif x == 3:
-        return "collations"
+        return "monthly_stmt"
     elif x == 4:
-        return "pars"
+        return "general_stmt"
     elif x == 5:
-        return "general_collation"
+        return "pars"
     elif x == 6:
         return "x"
     elif x == 7:

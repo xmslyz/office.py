@@ -1,20 +1,12 @@
+from collections import Counter
+
 import BuisnessLayer.Database.Builder
 import BuisnessLayer.Income.stipend_income
 import BuisnessLayer.Database.InsertData
 import BuisnessLayer.Employees.Employee
-from BuisnessLayer.Database.ScanRecords import RecordsScanner
-import BuisnessLayer.Accounts.MonthlyStatementsComputer
+from BuisnessLayer.Database.Geter import UniqueIDGetter
+import BuisnessLayer.Accounts.MonthlyStatementsComputer  # ->
 import BuisnessLayer.Accounts.TaxesComputer
-
-
-class UniqueIDGetter(RecordsScanner):
-    def __init__(self, path_num=1, dbnm_num=1, tbl_num=2):
-        super().__init__(path_num, dbnm_num, tbl_num)
-
-    def get_uniqueID(self, abrev):
-        query = self.sql_querry(f"SELECT uniqueID FROM employees WHERE abreviation IS '{abrev}';")
-        assert len(query) == 1
-        return query[0][0] if len(query) == 1 else None
 
 
 class Table1Updater:
@@ -52,8 +44,8 @@ class foroneupdater:
         self.emp_stmt.amount_of_all_masses_applied_by_a_priest()
 
     def update_value(self):
-        uni = UniqueIDGetter().get_uniqueID(self.who)
-        self.up_coll_date('collation_date', uni)
+        uni = UniqueIDGetter(1, 1, 2).get_uniqueID(self.who, "1")
+        self.up_coll_date('stmt_date', uni)
         self.up_int_amount('intention_amount', uni)
         self.up_int_sum('intention_sum', uni)
         self.up_bin_amount('bination_amount', uni)
@@ -90,7 +82,7 @@ class foroneupdater:
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_pars(self, col, uid):
-        val = 0.0
+        val = self.emp_stmt.pars_for_priest()
         stip = BuisnessLayer.Database.InsertData.PersonalData(1, 1, 3)
         stip.update_value(column=col, value=val, qid=uid)
 
@@ -100,7 +92,7 @@ class foroneupdater:
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_taxes(self, col, uid):
-        val = BuisnessLayer.Accounts.TaxesComputer.GeneralStmt(1, 1, 3, self.when).sum_taxes_for_employee(uid)
+        val = BuisnessLayer.Accounts.TaxesComputer.GeneralStmt(1, 1, 2, self.when).sum_taxes_for_employee(uid)
         stip = BuisnessLayer.Database.InsertData.PersonalData(1, 1, 3)
         stip.update_value(column=col, value=val, qid=uid)
 
@@ -110,6 +102,6 @@ class foroneupdater:
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_net(self, col, uid):
-        val = 0
+        val = self.emp_stmt.net_for_priest()
         stip = BuisnessLayer.Database.InsertData.PersonalData(1, 1, 3)
         stip.update_value(column=col, value=val, qid=uid)

@@ -2,6 +2,7 @@ import os
 import sqlite3
 import BuisnessLayer.Database.AtributesSetter
 import GUILayer.SettingsTab.database_settings
+import BuisnessLayer.Database.Connector
 from BuisnessLayer.Database import Constructor as dbb
 
 
@@ -10,7 +11,7 @@ class RecordsScanner:
         """
         :param path_num: [1] SQLDataBase [2] Constants
         :param dbnm_num: [1] sofa [2] constants
-        :param tbl_num:  [1] intentions [2] employees [3] collations [4] constants
+        :param tbl_num:  [1] intentions [2] employees [3] monthly_stmt [4] constants
         """
         rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
 
@@ -34,6 +35,7 @@ class RecordsScanner:
                f'TABLE NAME: {self.table_name}\n'
 
     def __open_connection(self):
+
         self.__con = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         self.__cur = self.__con.cursor()
 
@@ -53,7 +55,7 @@ class RecordsScanner:
             return self.__cur.fetchall()
         except sqlite3.OperationalError:
             print("No such table. Program will close up now.")
-            exit()
+            exit() # inaczej rozwiązać !!
         finally:
             self.__close_conection()
 
@@ -246,13 +248,10 @@ class RecordsScanner:
         return self.sql_querry(__sql)
 
     def left_outer_join(self, val):
-        path = "DatabaseLayer\\SQLDataBase\\"
-        dbname = "sofa"
-        table_name = "employees"
-        # mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN collation ON employees.uniqueID = collation.uniqueID WHERE employees.uniqueID IS '{val}';"
-        mysql3 = f"SELECT * FROM employees;"
-        bu = dbb.DBConnector(path, dbname, table_name)
-        return bu.create_no_val_connection(mysql3)
+        mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN monthly_stmt ON employees.uniqueID = monthly_stmt.uniqueID WHERE employees.uniqueID IS '{val}';"
+        rs = BuisnessLayer.Database.Connector.DBConnector(1, 1, 2)
+        return rs.create_connection(3, mysql3, "")
+
         # SELECT * FROM A LEFT OUTER JOIN B A.f = B.f WHERE B.z IS (?)
 
     def scanby_seletion_key_value(self, *, selection, key, value):
@@ -270,8 +269,8 @@ class RecordsScanner:
         ssqqll = f"SELECT {selection} FROM intentions " \
                  f"INNER JOIN employees " \
                  f"ON employees.abreviation = intentions.celebrated_by " \
-                 f"INNER JOIN collation " \
-                 f"ON collation.uniqueID = employees.uniqueID WHERE {key} IS ?;"
+                 f"INNER JOIN monthly_stmt " \
+                 f"ON monthly_stmt.uniqueID = employees.uniqueID WHERE {key} IS ?;"
 
         bu = dbb.DBConnector(path, dbname, table_name)
         return bu.create_connection(ssqqll, value)

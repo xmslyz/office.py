@@ -1,8 +1,60 @@
 import datetime
 import uuid
+import BuisnessLayer.Database.Geter
 import BuisnessLayer.Employees.Employee
 import BuisnessLayer.Database.ScanRecords as dbs
 from BuisnessLayer.Database.Connector import DBConnector
+
+
+class GeneralStmt(DBConnector):
+    def __init__(self, path, dbname, table_name):
+        super().__init__(path, dbname, table_name)
+
+    def insert_monthly_stmt(self, stmt_date, who):
+        mocker = (0, '12345678-abcd-efgh-ijkl-1234567890mn', 'Zestawienie miesięczne', '1900-01', 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        stmt = BuisnessLayer.Database.Geter.MonthlyStmtGeter(1, 1, 3).get_monthly_stmt_by_uniqueID(when=stmt_date, uniID=who)
+        gen_stmt = BuisnessLayer.Database.Geter.MonthlyStmtGeter(1, 1, 4).get_general_stmt_by_uniqueID_and_date(when=stmt_date, uniID=who)
+
+        if len(gen_stmt) == 0:
+            gen_stmt = mocker
+        if len(stmt) == 0:
+            stmt = mocker
+
+        ispresent = gen_stmt[1] == stmt[1] and gen_stmt[3] == stmt[3]
+        if not ispresent:
+            val = BuisnessLayer.Employees.Employee.EmployeeCollations()
+            val.uniqueID = f'{stmt[1]}'
+            val.type = f'{stmt[2]} miesięczne'
+            val.monthly_stmt_date = f'{stmt[3]}'
+            val.intention_amount = f'{stmt[4]}'
+            val.intention_sum = f'{stmt[5]}'
+            val.bination_amount = f'{stmt[6]}'
+            val.bination_sum = f'{stmt[7]}'
+            val.pars = f'{stmt[8]}'
+            val.pretax = f'{stmt[9]}'
+            val.taxes = f'{stmt[10]}'
+            val.receival = f'{stmt[11]}'
+            val.net = f'{stmt[12]}'
+
+            values = (val.uniqueID,
+                      val.type,
+                      val.monthly_stmt_date,
+                      val.intention_amount,
+                      val.intention_sum,
+                      val.bination_amount,
+                      val.bination_sum,
+                      val.pars,
+                      val.pretax,
+                      val.taxes,
+                      val.receival,
+                      val.net)
+
+            sql_stmt = (f"INSERT INTO {self.table_name}"
+                        f"(uniqueID, type, monthly_stmt_date,"
+                        f"intention_amount, intention_sum, "
+                        f"bination_amount, bination_sum, "
+                        f"pars, pretax, taxes, receival, net) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);")
+            self.create_connection(0, sql_stmt, values)
 
 
 class StipendEntries(DBConnector):
@@ -28,15 +80,15 @@ class StipendEntries(DBConnector):
                       )
             self.is_first_checker(val)
             sql_stmt = (f"INSERT INTO {self.table_name} "
-                               f"(type, "
-                               f"amount, "
-                               f"priest_reciving, "
-                               f"celebrated_by, "
-                               f"celebration_date, "
-                               f"celebration_hour, "
-                               f"celebration_type, "
-                               f"gregorian, "
-                               f"first_mass) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                        f"(type, "
+                        f"amount, "
+                        f"priest_reciving, "
+                        f"celebrated_by, "
+                        f"celebration_date, "
+                        f"celebration_hour, "
+                        f"celebration_type, "
+                        f"gregorian, "
+                        f"first_mass) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
             self.create_connection(0, sql_stmt, values)
 
     def day_aumenter(self, x, val):
@@ -79,45 +131,17 @@ class PersonalData(DBConnector):
         self.create_connection(0, sql_stmt, values)
         return val
 
-    # def introduce_new_empees_cashflow1(self, val):
-    #     sql_stmt = (f"INSERT INTO {self.__table_name}"
-    #                 f"(uniqueID, type, collation_date,"
-    #                 f"intention_amount, intention_sum, "
-    #                 f"bination_amount, bination_sum, "
-    #                 f"pars, pretax, taxes, receival, net) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);")
-    #     values = (val.uniqueID,
-    #               val.type,
-    #               val.collation_date,
-    #               val.intention_amount,
-    #               val.intention_sum,
-    #               val.bination_amount,
-    #               val.bination_sum,
-    #               val.pars,
-    #               val.pretax,
-    #               val.taxes,
-    #               val.receival,
-    #               val.net)
-    #     print(val.uniqueID, val.type, val.collation_date, val.intention_amount)
-    #     self.create_one_val_connection(sql_stmt, values)
-
     def __introduce_new_empees_cashflow(self, uniqueID):
         colldb = BuisnessLayer.Database.InsertData.PersonalData(1, 1, 3)
         coll = BuisnessLayer.Employees.Employee.EmployeeCollations()
         coll.uniqueID = uniqueID
-        coll.collation_date = None
+        coll.monthly_stmt = None
         sql_stmt = (f"INSERT INTO {colldb.table_name}"
-                    f"(uniqueID, collation_date) VALUES (?,?);")
+                    f"(uniqueID, monthly_stmt) VALUES (?,?);")
         values = (coll.uniqueID,
-                  coll.collation_date)
+                  coll.monthly_stmt)
         self.create_connection(0, sql_stmt, values)
 
     def update_value(self, *, column, value, qid):
         sql_stmt = f"UPDATE {self.table_name} SET {column} = '{value}' WHERE uniqueID IS '{qid}';"
         self.create_no_val_connection(sql_stmt)
-
-
-
-
-
-
-

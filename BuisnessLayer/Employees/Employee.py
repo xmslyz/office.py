@@ -108,7 +108,7 @@ class EmployeeCollations:
     def __init__(self):
         self.__uniqueID = None
         self.__type = "CashFlow"
-        self.__collation_date = None
+        self.__monthly_stmt_date = None
         self.__intention_amount = None
         self.__intention_sum = None
         self.__bination_amount = None
@@ -123,7 +123,7 @@ class EmployeeCollations:
         print(f'EmployeeCollations:\n'
               f'uniqueID -> {self.__uniqueID}\t\n'
               f'type -> {self.__type}\t\n'
-              f'collation_date -> {self.__collation_date}\t\n'
+              f'collation_date -> {self.__monthly_stmt_date}\t\n'
               f'intention_amount -> {self.__intention_amount}\t\n'
               f'intention_sum -> {self.__intention_sum}\t\n'
               f'bination_amount -> {self.__bination_amount}\t\n'
@@ -137,22 +137,24 @@ class EmployeeCollations:
     @property
     def type(self):
         return self.__type
-
+    @type.setter
+    def type(self, value) -> str:
+        self.__type = re.sub(r'[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+', '', str(value))
     @type.getter
     def type(self):
         return self.__type
 
     @property
-    def collation_date(self):
-        return self.__collation_date
+    def monthly_stmt_date(self):
+        return self.__monthly_stmt_date
 
-    @collation_date.getter
-    def collation_date(self):
-        formated_date = self.__collation_date
+    @monthly_stmt_date.getter
+    def monthly_stmt_date(self):
+        formated_date = self.__monthly_stmt_date
         return formated_date
 
-    @collation_date.setter
-    def collation_date(self, value):
+    @monthly_stmt_date.setter
+    def monthly_stmt_date(self, value):
         """
         "yyyy-mm" format
         """
@@ -165,9 +167,8 @@ class EmployeeCollations:
         except ValueError:
             result = False
         finally:
-            print(result)
             if result:
-                self.__collation_date = value
+                self.__monthly_stmt_date = value
             else:
                 print("Wrong [date] format")
 
@@ -229,7 +230,7 @@ class EmployeeCollations:
 
     @pars.setter
     def pars(self, value) -> str:
-        self.__pars = re.sub(r'[^0-9,.]+', '', str(value))
+        self.__pars = re.sub(r'[^0-9,.-]+', '', str(value))
 
     @property
     def pretax(self):
@@ -277,4 +278,4 @@ class EmployeeCollations:
 
     @net.setter
     def net(self, value) -> str:
-        self.__net = re.sub(r'[^0-9,.]+', '', str(value))
+        self.__net = re.sub(r'[^0-9,.-]+', '', str(value))

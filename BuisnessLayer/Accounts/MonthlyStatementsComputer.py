@@ -1,10 +1,15 @@
+import BuisnessLayer.Database.Geter
 import GUILayer.SettingsTab.database_settings as db_set
 from BuisnessLayer.Database.ScanRecords import RecordsScanner
+import BuisnessLayer.Database.Updater
+import BuisnessLayer.Accounts.TaxesComputer
 
-BINACJA = db_set.constants_getter("bin")
+
+BINATION = db_set.constants_getter("bin")
+GUEST = db_set.constants_getter("inv")
 
 
-class GeneralStmt(RecordsScanner):
+class GeneralStmt(RecordsScanner):  # ->
     def __init__(self, path_num, dbnm_num, tbl_num, qdate):
         super().__init__(path_num, dbnm_num, tbl_num)
         self.qdate = qdate
@@ -43,13 +48,18 @@ class GeneralStmt(RecordsScanner):
         return len(qlist)
 
     def mediana(self):
-        no_greg_sum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - self.sum_of_binations()
+        no_greg_sum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - self.sum_of_binations() - self.total_for_guests()
         total = no_greg_sum + self.gregorian_sum_of_medianas()
         if (self.amount_of_aplicated() - self.amount_of_binations()) <= 0:
             return 1
         else:
-            return round(total / (self.amount_of_aplicated() - self.amount_of_binations()), 2)
+            divider = self.amount_of_aplicated() - self.amount_of_binations() - self.amount_of_guest_masses()
+            if divider > 0:
+                return round((total / divider), 2)
+            else:
+                return round(0, 2)
 
+    # sum_of_masses_netto() / number_of_all_masses_netto() if number_of_all_masses_netto() > 0 else 0
     #
     #  binations
     #
@@ -63,7 +73,7 @@ class GeneralStmt(RecordsScanner):
 
     def amount_of_binations(self): return len(self.list_of_binations())
 
-    def sum_of_binations(self): return self.amount_of_binations() * BINACJA
+    def sum_of_binations(self): return self.amount_of_binations() * BINATION
 
     #
     #  gregorian masses
@@ -100,6 +110,19 @@ class GeneralStmt(RecordsScanner):
 
     def gregorian_sum_of_medianas(self): return self.gregorian_mediana() * self.amount_of_all_gregorian()
 
+    def total_for_guests(self):
+        uid = BuisnessLayer.Database.Geter.GuestsGetter(1, 1, 1).get_guests(self.qdate)
+        total = 0
+        for _ in uid:
+            total += _[1]
+        return total * GUEST
+
+    def amount_of_guest_masses(self):
+        uid = BuisnessLayer.Database.Geter.GuestsGetter(1, 1, 1).get_guests(self.qdate)
+        total = 0
+        for _ in uid:
+            total += _[1]
+        return total
     #
     # aplication
     #
@@ -193,8 +216,11 @@ class EmployeeStmt(GeneralStmt):
         (Quota) Iloraz ilości odprawionych mszy i średniej wartości intencji.
         :return: float
         """
-        total_stipend = self.amount_of_first_masses_applied_by_a_priest() * self.mediana()
-        return round(total_stipend, 2)
+        if self.mediana() > 0:
+            total_stipend = self.amount_of_first_masses_applied_by_a_priest() * self.mediana()
+            return round(total_stipend, 2)
+        else:
+            return round(0, 2)
 
     def bination_quota_for_priest(self):
         """
@@ -202,6 +228,15 @@ class EmployeeStmt(GeneralStmt):
         :return: float
         """
         bination = self.amount_of_all_masses_applied_by_a_priest() - self.amount_of_first_masses_applied_by_a_priest()
-        return round(float(bination * BINACJA), 2)
+        return round(float(bination * BINATION), 2)
 
     def total_wage_for_priest(self): return round(self.quota_for_priest() + self.bination_quota_for_priest(), 2)
+
+    def net_for_priest(self):
+        uid = BuisnessLayer.Database.Geter.UniqueIDGetter(1, 1, 2).get_uniqueID(self.who_recived, "1")
+        tax = BuisnessLayer.Accounts.TaxesComputer.GeneralStmt(1, 1, 2, self.qdate).sum_taxes_for_employee(uid)
+        total = (self.total_wage_for_priest() + self.pars_for_priest() - tax) - self.sum_of_recieved_by_a_priest()
+        return total
+
+    def pars_for_priest(self):
+        return 0.0

@@ -11,7 +11,7 @@ class DatabaseOperator:
         """
         :param path_num: [1] SQLDataBase [2] Constants
         :param dbnm_num: [1] sofa [2] constants
-        :param tbl_num:  [1] intentions [2] employees [3] collations [4] constants
+        :param tbl_num:  [1] intentions [2] employees [3] monthly_stmt [4] constants
         """
         rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
 
@@ -48,12 +48,29 @@ class DatabaseOperator:
                 f"first_mass INTEGER DEFAULT 1);"
         dbb.DatabaseConstructor(path_NUM, dbn_NUM, tbl_NUM).db_constructor(mysql, '')
 
-    def db_collations(self, path_NUM, dbn_NUM, tbl_NUM):
+    def db_general_stmt(self, path_NUM, dbn_NUM, tbl_NUM):
+        mysql = f"CREATE TABLE IF NOT EXISTS {self.__table_name} " \
+                f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " \
+                f"uniqueID INTEGER NOT NULL, " \
+                f"type TEXT NOT NULL DEFAULT 'Całościowe zestawienie', " \
+                f"monthly_stmt_date TEXT, " \
+                f"intention_amount INTEGER, " \
+                f"intention_sum REAL, " \
+                f"bination_amount INTEGER, " \
+                f"bination_sum REAL, " \
+                f"pars REAL, " \
+                f"pretax REAL, " \
+                f"taxes REAL, " \
+                f"receival REAL, " \
+                f"net REAL);"
+        dbb.DatabaseConstructor(path_NUM, dbn_NUM, tbl_NUM).db_constructor(mysql, '')
+
+    def db_monthly_stmt(self, path_NUM, dbn_NUM, tbl_NUM):
         mysql = f"CREATE TABLE IF NOT EXISTS {self.__table_name} " \
                 f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " \
                 f"uniqueID INTEGER NOT NULL, " \
                 f"type TEXT NOT NULL DEFAULT 'Zestawienie', " \
-                f"collation_date TEXT, " \
+                f"stmt_date TEXT, " \
                 f"intention_amount INTEGER, " \
                 f"intention_sum REAL, " \
                 f"bination_amount INTEGER, " \
