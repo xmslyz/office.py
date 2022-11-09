@@ -12,6 +12,9 @@ class Input_Actual_Data:
     def updated_values():
         gui_column = "pars" # -> stała
         gui_value = "200" # input
+        BuisnessLayer.Database.Geter
+
+
         guiqid = "d6b538c1-a7b6-43ac-bd49-43a38d666ea3" # -> ????
 
         # wrzuca dane z obiektu do tabeli
