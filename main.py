@@ -1,9 +1,11 @@
 import datetime
+import GUILayer.InsertTab.UpdateMassRecord as UMR
 
 
 def main():
     print("Hi World!")
     t1 = datetime.datetime.now()
+    UMR.Button_Update_Mass_Record.update_mass_record()
 
 
     # AKTUALIZACJA KOMÓREK BAZ DANYCH
@@ -12,9 +14,9 @@ def main():
     # AKTUALIZACJA DANYCH W monthly_stmt
     # empList = ['PK', 'TO', 'DC', 'WM', 'MS', 'SO']
     # for _ in empList:
-    #     BuisnessLayer.Database.Updater.foroneupdater("2022-10", _).update_value()
+    #     BuisnessLayer.Database.Updater.Update_monthly_stmt_for_one("2022-10", _).update_value()
 
-    # BuisnessLayer.Database.Updater.foroneupdater("2022-10", "SO").update_value()
+    # BuisnessLayer.Database.Updater.Update_monthly_stmt_for_one("2022-10", "SO").update_value()
     #
     # print(BuisnessLayer.Database.Geter.GuestsGetter(1, 1, 1).get_guests("2022-10"))
 

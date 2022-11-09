@@ -2,6 +2,7 @@ import BuisnessLayer.Database.Builder
 import BuisnessLayer.Income.StipendIncome
 import BuisnessLayer.Database.InsertData
 import BuisnessLayer.Database.Geter
+import BuisnessLayer.Database.Updater
 import BuisnessLayer.Employees.Employee
 
 
@@ -15,8 +16,11 @@ class Button_Add_New_Record:
         jobs = Input_Add_New_Record.insert_batch_job()
         stipend = Input_Add_New_Record.insert_mass_records()
 
-        stip = BuisnessLayer.Database.InsertData.StipendEntries(1, 1, 1)
+        stip = BuisnessLayer.Database.InsertData.MassRecord(1, 1, 1)
         stip.insert_record(val=stipend, amount=jobs)
+
+        # automatycznie uaktualnij monthly_stmt
+        BuisnessLayer.Database.Updater.Update_monthly_stmt_for_all().update()
 
 
 class Input_Add_New_Record:

@@ -32,8 +32,15 @@ class Table1Updater:
 #     list_not_paid_not_aplicated -> ', ssc.list_not_paid_not_aplicated())
 
 
-class foroneupdater:
+class Update_monthly_stmt_for_all:
+    def update(self):
+        when = ''
+        who = ''
+        # Update_monthly_stmt_for_one(when, who).update_value()
+        print("aktualizuje")
 
+
+class Update_monthly_stmt_for_one:
     def __init__(self, when, who):
         self.when = when
         self.who = who

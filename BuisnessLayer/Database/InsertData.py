@@ -57,7 +57,7 @@ class GeneralStmt(DBConnector):
             self.create_connection(0, sql_stmt, values)
 
 
-class StipendEntries(DBConnector):
+class MassRecord(DBConnector):
     def __init__(self, path, dbname, table_name):
         super().__init__(path, dbname, table_name)
 
