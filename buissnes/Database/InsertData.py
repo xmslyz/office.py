@@ -1,9 +1,9 @@
 import datetime
 import uuid
-import BuisnessLayer.Database.Geter
-import BuisnessLayer.Employees.Employee
-import BuisnessLayer.Database.ScanRecords as dbs
-from BuisnessLayer.Database.Connector import DBConnector
+import buissnes.Database.Geter
+import buissnes.Employees.Employee
+import buissnes.Database.ScanRecords as dbs
+from buissnes.Database.Connector import DBConnector
 
 
 class GeneralStmt(DBConnector):
@@ -12,8 +12,8 @@ class GeneralStmt(DBConnector):
 
     def insert_monthly_stmt(self, stmt_date, who):
         mocker = (0, '12345678-abcd-efgh-ijkl-1234567890mn', 'Zestawienie miesięczne', '1900-01', 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        stmt = BuisnessLayer.Database.Geter.MonthlyStmtGeter(1, 1, 3).get_monthly_stmt_by_uniqueID(when=stmt_date, uniID=who)
-        gen_stmt = BuisnessLayer.Database.Geter.MonthlyStmtGeter(1, 1, 4).get_general_stmt_by_uniqueID_and_date(when=stmt_date, uniID=who)
+        stmt = buissnes.Database.Geter.MonthlyStmtGeter(1, 1, 3).get_monthly_stmt_by_uniqueID(when=stmt_date, uniID=who)
+        gen_stmt = buissnes.Database.Geter.MonthlyStmtGeter(1, 1, 4).get_general_stmt_by_uniqueID_and_date(when=stmt_date, uniID=who)
 
         if len(gen_stmt) == 0:
             gen_stmt = mocker
@@ -22,7 +22,7 @@ class GeneralStmt(DBConnector):
 
         ispresent = gen_stmt[1] == stmt[1] and gen_stmt[3] == stmt[3]
         if not ispresent:
-            val = BuisnessLayer.Employees.Employee.EmployeeCollations()
+            val = buissnes.Employees.Employee.EmployeeCollations()
             val.uniqueID = f'{stmt[1]}'
             val.type = f'{stmt[2]} miesięczne'
             val.monthly_stmt_date = f'{stmt[3]}'
@@ -98,7 +98,9 @@ class MassRecord(DBConnector):
         return next_day.strftime("%Y-%m-%d")
 
     def is_first_checker(self, val):
-        dbsearcher = dbs.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
+
+        dbsearcher = dbs.Filter()
+        dbsearcher.get_conn_details(1, 1, 1)
         who_celebrated_query = val.celebrating_priest
         celebration_day_query = val.date_of_celebration
         return len(dbsearcher.select_all_where_q_is(qcelebrated_by=who_celebrated_query,
@@ -132,8 +134,8 @@ class PersonalData(DBConnector):
         return val
 
     def __introduce_new_empees_cashflow(self, uniqueID):
-        colldb = BuisnessLayer.Database.InsertData.PersonalData(1, 1, 3)
-        coll = BuisnessLayer.Employees.Employee.EmployeeCollations()
+        colldb = buissnes.Database.InsertData.PersonalData(1, 1, 3)
+        coll = buissnes.Employees.Employee.EmployeeCollations()
         coll.uniqueID = uniqueID
         coll.monthly_stmt = None
         sql_stmt = (f"INSERT INTO {colldb.table_name}"

@@ -1,4 +1,5 @@
-from BuisnessLayer.Database import ScanRecords as dbs
+from buissnes.Database import ScanRecords as dbs
+import buissnes.Database.ScanRecords
 
 
 def db_path_getter(x):
@@ -39,10 +40,11 @@ def db_tablename_getter(x):
 
 
 def constants_getter(const):
-    db_scanner = dbs.RecordsScanner(tbl_num=1, dbnm_num=2, path_num=2)
+    db = buissnes.Database.ScanRecords.Connection()
+    db.get_conn_details(2, 2, 0)
     result = 0
     if const == "bin":
-        result = db_scanner.sql_querry('SELECT value FROM constants WHERE name IS "binacja";')
+        result = db.sql_querry('SELECT value FROM constants WHERE name IS "binacja";')
     elif const == "inv":
-        result = db_scanner.sql_querry('SELECT value FROM constants WHERE name IS "invited";')
+        result = db.sql_querry('SELECT value FROM constants WHERE name IS "invited";')
     return int(result[0][0])

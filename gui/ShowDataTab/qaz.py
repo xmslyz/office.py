@@ -1,5 +1,5 @@
-import BuisnessLayer.Accounts.MonthlyStatementsComputer
-x = BuisnessLayer.Accounts.MonthlyStatementsComputer.GeneralStmt(1, 1, 1, "2022-10")
+import buissnes.Computing.statements_computer
+x = buissnes.Accounts.MonthlyStatementsComputer.ComputeMonthlyStmt(1, 1, 1, "2022-10")
 
 
 def scan_id(): return x.record_by_id("12")

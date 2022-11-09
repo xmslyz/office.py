@@ -1,9 +1,9 @@
-import BuisnessLayer.Database.Builder
-import BuisnessLayer.Income.StipendIncome
-import BuisnessLayer.Database.InsertData
-import BuisnessLayer.Database.Geter
-import BuisnessLayer.Database.Updater
-import BuisnessLayer.Employees.Employee
+import buissnes.Database.Builder
+import buissnes.Income.StipendIncome
+import buissnes.Database.InsertData
+import buissnes.Database.Geter
+import buissnes.Database.Updater
+import buissnes.Employees.Employee
 
 
 class Button_Add_New_Record:
@@ -16,11 +16,11 @@ class Button_Add_New_Record:
         jobs = Input_Add_New_Record.insert_batch_job()
         stipend = Input_Add_New_Record.insert_mass_records()
 
-        stip = BuisnessLayer.Database.InsertData.MassRecord(1, 1, 1)
+        stip = buissnes.Database.InsertData.MassRecord(1, 1, 1)
         stip.insert_record(val=stipend, amount=jobs)
 
         # automatycznie uaktualnij monthly_stmt
-        BuisnessLayer.Database.Updater.Update_monthly_stmt_for_all().update()
+        buissnes.Database.Updater.Update_monthly_stmt_for_all().update()
 
 
 class Input_Add_New_Record:
@@ -31,15 +31,15 @@ class Input_Add_New_Record:
     def insert_mass_records():
         # przykładowe dane
         amount = 60
-        reciving_priest = "MS"
-        celebrating_priest = "MS"
+        reciving_priest = "DD"
+        celebrating_priest = "DD"
         hour_oc = "07:00:00"
         date_oc = "2022-11-07"
         type_of_mass = ""
         is_gregorian = False
 
         # tworzy pusty obiekt rejestru dla księgi intencji
-        batch = BuisnessLayer.Income.StipendIncome.StipendRecord()
+        batch = buissnes.Income.StipendIncome.StipendRecord()
         batch.amount = amount
         batch.reciving_priest = reciving_priest
         batch.celebrating_priest = celebrating_priest

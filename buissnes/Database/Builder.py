@@ -1,31 +1,31 @@
 import gc
 import os
 
-import BuisnessLayer.Database.AtributesSetter
-import BuisnessLayer.Database.Atributes
-from BuisnessLayer.Database import Constructor as dbb
+import buissnes.Database.AtributesSetter
+import buissnes.Database.Atributes
+from buissnes.Database import Constructor as dbb
 
 
 class DatabaseOperator:
     def __init__(self, *, path_num, dbnm_num, tbl_num):
-        """
-        :param path_num: [1] SQLDataBase [2] Constants
-        :param dbnm_num: [1] sofa [2] constants
-        :param tbl_num:  [1] intentions [2] employees [3] monthly_stmt [4] constants
-        """
-        rs = BuisnessLayer.Database.AtributesSetter.TableSettings()
-
-        rs.db_path = BuisnessLayer.Database.Atributes.db_path_getter(path_num)
-        self.__path = rs.db_path
-
-        rs.db_name = BuisnessLayer.Database.Atributes.db_name_getter(dbnm_num)
-        self.__db_name = rs.db_name
-
-        rs.db_table_name = BuisnessLayer.Database.Atributes.db_tablename_getter(tbl_num)
-        self.__table_name = rs.db_table_name
-
-        rs.db_full_path = ''
-        self.__full_path = rs.db_full_path
+        # """
+        # :param path_num: [1] SQLDataBase [2] Constants
+        # :param dbnm_num: [1] sofa [2] constants
+        # :param tbl_num:  [1] intentions [2] employees [3] monthly_stmt [4] constants
+        # """
+        # rs = buissnes.Database.AtributesSetter.TableSettings()
+        #
+        # rs.db_path = buissnes.Database.Atributes.db_path_getter(path_num)
+        # self.__path = rs.db_path
+        #
+        # rs.db_name = buissnes.Database.Atributes.db_name_getter(dbnm_num)
+        # self.__db_name = rs.db_name
+        #
+        # rs.db_table_name = buissnes.Database.Atributes.db_tablename_getter(tbl_num)
+        # self.__table_name = rs.db_table_name
+        #
+        # rs.db_full_path = ''
+        # self.__full_path = rs.db_full_path
 
     def __repr__(self):
         return f'PLUG_database_operator:\n\t' \

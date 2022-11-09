@@ -1,14 +1,14 @@
 import re
-from BuisnessLayer.Database.ScanRecords import RecordsScanner
+from buissnes.Database.ScanRecords import Filter
 
 
-class GeneralStmt(RecordsScanner):
-    def __init__(self, path_num, dbnm_num, tbl_num, qdate):
-        super().__init__(path_num, dbnm_num, tbl_num)
+class GeneralStmt(Filter):
+    def __init__(self, qdate):
+        super().__init__()
         self.qdate = qdate
 
     def sum_taxes_for_employee(self, qid):
-        result = self.left_outer_join(qid)
+        result = Filter().search_employees_by_uniqueID(qid)
         tax_sum = 0
         try:
             if result is None:

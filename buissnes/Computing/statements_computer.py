@@ -1,30 +1,31 @@
-import BuisnessLayer.Database.Geter
-import BuisnessLayer.Database.Atributes as db_set
-from BuisnessLayer.Database.ScanRecords import RecordsScanner
-import BuisnessLayer.Database.Updater
-import BuisnessLayer.Accounts.TaxesComputer
+import buissnes.Database.Geter
+import buissnes.Database.Atributes as db_set
+from buissnes.Database.ScanRecords import Filter
+import buissnes.Database.Updater
+import buissnes.Computing.tax_computer
 
 
 BINATION = db_set.constants_getter("bin")
 GUEST = db_set.constants_getter("inv")
 
 
-class GeneralStmt(RecordsScanner):  # ->
-    def __init__(self, path_num, dbnm_num, tbl_num, qdate):
-        super().__init__(path_num, dbnm_num, tbl_num)
+class ComputeMonthlyStmt(Filter):
+    def __init__(self, qdate):
+        super().__init__()
         self.qdate = qdate
+        self.qry = Filter()
+        self.qry.get_conn_details(1, 1, 1)
 
     def record_by_id(self, qid):
-        x = self.select_all_where_q_like(qid=qid)
+        x = self.qry.select_all_where_q_like(qid=qid)
         if x:
             return x[0]
         else:
             print("No record with this id")
             return None
 
-    #  all masses
     def list_of_all_recived(self):
-        result = self.select_all_where_q_is()
+        result = self.qry.select_all_where_q_is()
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -32,7 +33,7 @@ class GeneralStmt(RecordsScanner):  # ->
         return qlist
 
     def sum_of_all_recived(self):
-        result = self.select_all_where_q_is()
+        result = self.qry.select_all_where_q_is()
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate and isinstance((_[2]), float):
@@ -40,7 +41,7 @@ class GeneralStmt(RecordsScanner):  # ->
         return sum(qlist)
 
     def amount_of_all_paid(self):
-        result = self.select_all_where_q_is_not(qamount="")
+        result = self.qry.select_all_where_q_is_not(qamount="")
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -59,12 +60,11 @@ class GeneralStmt(RecordsScanner):  # ->
             else:
                 return round(0, 2)
 
-    # sum_of_masses_netto() / number_of_all_masses_netto() if number_of_all_masses_netto() > 0 else 0
     #
     #  binations
     #
     def list_of_binations(self):
-        result = self.select_all_where_q_is(qfirst_mass="0")
+        result = self.qry.select_all_where_q_is(qfirst_mass="0")
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -79,7 +79,7 @@ class GeneralStmt(RecordsScanner):  # ->
     #  gregorian masses
     #
     def list_of_all_gregorian(self):
-        result = self.select_all_where_q_is(qgregorian=1)
+        result = self.qry.select_all_where_q_is(qgregorian=1)
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -87,7 +87,7 @@ class GeneralStmt(RecordsScanner):  # ->
         return qlist
 
     def amount_of_all_gregorian(self):
-        result = self.select_all_where_q_is(qgregorian=1)
+        result = self.qry.select_all_where_q_is(qgregorian=1)
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -95,7 +95,7 @@ class GeneralStmt(RecordsScanner):  # ->
         return len(qlist)
 
     def sum_of_all_gregorian(self):
-        result = self.select_all_where_q_is(qgregorian=1)
+        result = self.qry.select_all_where_q_is(qgregorian=1)
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate and isinstance((_[2]), float):
@@ -111,14 +111,14 @@ class GeneralStmt(RecordsScanner):  # ->
     def gregorian_sum_of_medianas(self): return self.gregorian_mediana() * self.amount_of_all_gregorian()
 
     def total_for_guests(self):
-        uid = BuisnessLayer.Database.Geter.GuestsGetter(1, 1, 1).get_guests(self.qdate)
+        uid = buissnes.Database.Geter.GuestsGetter().get_guests(self.qdate)
         total = 0
         for _ in uid:
             total += _[1]
         return total * GUEST
 
     def amount_of_guest_masses(self):
-        uid = BuisnessLayer.Database.Geter.GuestsGetter(1, 1, 1).get_guests(self.qdate)
+        uid = buissnes.Database.Geter.GuestsGetter().get_guests(self.qdate)
         total = 0
         for _ in uid:
             total += _[1]
@@ -127,7 +127,7 @@ class GeneralStmt(RecordsScanner):  # ->
     # aplication
     #
     def list_of_aplicated_stipends(self):
-        result = self.select_all_where_q_is_not(qcelebrated_by="")
+        result = self.qry.select_all_where_q_is_not(qcelebrated_by="")
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -140,7 +140,7 @@ class GeneralStmt(RecordsScanner):  # ->
     #  evaluation
     #
     def list_paid_not_applicated(self):
-        result = self.select_all_where_q_like(qamount='%.%', qcelebrated_by="")
+        result = self.qry.select_all_where_q_like(qamount='%.%', qcelebrated_by="")
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -148,7 +148,7 @@ class GeneralStmt(RecordsScanner):  # ->
         return qlist
 
     def list_not_paid_aplicated(self):
-        result = self.select_all_where_q_like(qamount='', qcelebrated_by="_%", qgregorian='0')
+        result = self.qry.select_all_where_q_like(qamount='', qcelebrated_by="_%", qgregorian='0')
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -156,7 +156,7 @@ class GeneralStmt(RecordsScanner):  # ->
         return qlist
 
     def list_not_paid_not_aplicated(self):
-        result = self.select_all_where_q_is(qamount="", qcelebrated_by="")
+        result = self.qry.select_all_where_q_is(qamount="", qcelebrated_by="")
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -164,13 +164,13 @@ class GeneralStmt(RecordsScanner):  # ->
         return qlist
 
 
-class EmployeeStmt(GeneralStmt):
-    def __init__(self, path_num, dbnm_num, tbl_num, qdate, who_recived):
-        super().__init__(path_num, dbnm_num, tbl_num, qdate)
+class ComputeEmployeeStmt(ComputeMonthlyStmt):
+    def __init__(self, qdate, who_recived):
+        super().__init__(qdate)
         self.who_recived = who_recived
 
     def list_of_recieved_by_a_priest(self):
-        result = self.select_all_where_q_is(qpriest_reciving=self.who_recived)
+        result = self.qry.select_all_where_q_is(qpriest_reciving=self.who_recived)
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate and isinstance((_[2]), float):
@@ -184,7 +184,7 @@ class EmployeeStmt(GeneralStmt):
         Ilość wszystkich mszy odprawionych przez ks.
         :return: int
         """
-        result = self.select_all_where_q_is(qcelebrated_by=self.who_recived)
+        result = self.qry.select_all_where_q_is(qcelebrated_by=self.who_recived)
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -196,7 +196,7 @@ class EmployeeStmt(GeneralStmt):
         Ilość 'pierwszych mszy' odprawionych przez ks.
         :return: int
         """
-        result = self.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="1")
+        result = self.qry.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="1")
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -204,7 +204,7 @@ class EmployeeStmt(GeneralStmt):
         return len(qlist)
 
     def amount_of_bination_applied_by_a_priest(self):
-        result = self.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="0")
+        result = self.qry.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="0")
         qlist = []
         for _ in result:
             if _[5][0:7] == self.qdate:
@@ -233,8 +233,8 @@ class EmployeeStmt(GeneralStmt):
     def total_wage_for_priest(self): return round(self.quota_for_priest() + self.bination_quota_for_priest(), 2)
 
     def net_for_priest(self):
-        uid = BuisnessLayer.Database.Geter.UniqueIDGetter(1, 1, 2).get_uniqueID(self.who_recived, "1")
-        tax = BuisnessLayer.Accounts.TaxesComputer.GeneralStmt(1, 1, 2, self.qdate).sum_taxes_for_employee(uid)
+        uid = buissnes.Database.Geter.UniqueIDGetter().get_uniqueID(self.who_recived, "1")
+        tax = buissnes.Computing.tax_computer.GeneralStmt(self.qdate).sum_taxes_for_employee(uid)
         total = (self.total_wage_for_priest() + self.pars_for_priest() - tax) - self.sum_of_recieved_by_a_priest()
         return total
 

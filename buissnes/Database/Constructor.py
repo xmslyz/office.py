@@ -1,5 +1,5 @@
 import sqlite3
-from BuisnessLayer.Database.Connector import DBConnector
+from buissnes.Database.Connector import DBConnector
 
 
 class DatabaseConstructor(DBConnector):

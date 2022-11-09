@@ -1,6 +1,6 @@
 import os
 from unittest import TestCase
-from BuisnessLayer.Database import AtributesSetter as DBS
+from buissnes.Database import AtributesSetter as DBS
 
 
 class TestDBSettings(TestCase):

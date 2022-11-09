@@ -1,5 +1,5 @@
-import BuisnessLayer.Accounts.MonthlyStatementsComputer
-x = BuisnessLayer.Accounts.MonthlyStatementsComputer.EmployeeStmt(1, 1, 1, "2022-10", "PK")
+import buissnes.Computing.statements_computer
+x = buissnes.Accounts.MonthlyStatementsComputer.ComputeEmployeeStmt(1, 1, 1, "2022-10", "PK")
 
 
 def list_of_recieved_by_a_priest(): return x.list_of_recieved_by_a_priest()
