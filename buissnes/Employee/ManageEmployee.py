@@ -1,11 +1,12 @@
 import uuid
 import buissnes.Employee.Identity
 from buissnes.Database.Builder import DBConnector
+from buissnes.Database.ScanRecords import Connection
 
 
 class NewEmployee(DBConnector):
-    def __init__(self, path, dbname, table_name):
-        super().__init__(path, dbname, table_name)
+    def __init__(self):
+        super().__init__()
 
     def new_employee(self, employee):
         uniqueID = str(uuid.uuid4())
@@ -29,7 +30,8 @@ class NewEmployee(DBConnector):
         return val
 
     def __insert_new_monthly_stmt(self, uniqueID):
-        colldb = NewEmployee(1, 1, 3)
+        colldb = NewEmployee()
+        colldb.get_conn_details(1, 1, 3)
         coll = buissnes.Employee.Identity.EmployeeCollations()
         coll.uniqueID = uniqueID
         coll.monthly_stmt = None
@@ -40,23 +42,23 @@ class NewEmployee(DBConnector):
         self.create_connection(0, sql_stmt, values)
 
 
-class UpdateEmployeeData(DBConnector):
-    def __init__(self, path, dbname, table_name):
-        super().__init__(path, dbname, table_name)
+class UpdateEmployeeData(Connection):
+    def __init__(self):
+        super().__init__()
 
     def update_value(self, *, column, value, qid):
         sql_stmt = f"UPDATE {self.table_name} SET {column} = '{value}' WHERE uniqueID IS '{qid}';"
-        self.create_no_val_connection(sql_stmt)
+        self.sql_querry(sql_stmt)
 
 
-class DeleteEmployeeData(DBConnector):
+class DeleteEmployeeData(Connection):
     """
     usuwanie z rejestru
     """
     pass
 
 
-class RetireEmployee(DBConnector):
+class RetireEmployee(Connection):
     """
     wyłączanie employee z rozliczenia
     """

@@ -63,6 +63,9 @@ class IntentionsColsGetter(Filter):
         """ Returns list of abreviations """
         return self.query.sql_querry(f"SELECT * FROM intentions;")
 
+    def get_one(self, col):
+        """ Returns list of abreviations """
+        return self.query.sql_querry(f"SELECT {col} FROM intentions;")
 
 
 class UniqueIDGetter(Filter):

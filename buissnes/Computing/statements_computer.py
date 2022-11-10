@@ -224,7 +224,7 @@ class ComputeEmployee(EmployeeCollation):
 
     def net_for_priest(self):
         uid = buissnes.Database.Geter.UniqueIDGetter().get_uniqueID(self.who_recived, "1")
-        tax = buissnes.Computing.tax_computer.GeneralStmt(self.qdate).sum_taxes_for_employee(uid)
+        tax = buissnes.Computing.tax_computer.GeneralStmt(self.qdate).sum_taxes(uid)
         total = (self.total_wage_for_priest() + self.pars_for_priest() - tax) - self.sum_of_recieved_by_a_priest()
         return total
 

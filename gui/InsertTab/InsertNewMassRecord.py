@@ -16,7 +16,8 @@ class Button_Add_New_Record:
         """
         jobs = Input_Add_New_Record.insert_batch_job()
         stipend = Input_Add_New_Record.insert_mass_records()
-        stip = buissnes.Income.ManageStipend.CreateNewStipend(1, 1, 1)
+        stip = buissnes.Income.ManageStipend.CreateNewStipend()
+        stip.get_conn_details(1, 1, 1)
         stip.insert_record(val=stipend, amount=jobs)
 
 
@@ -28,11 +29,11 @@ class Input_Add_New_Record:
 
     def insert_mass_records():
         # przykładowe dane z GUI
-        amount = 70
-        reciving_priest = "SO"
-        celebrating_priest = "PK"
-        hour_oc = "18:00:00"
-        date_oc = "2022-10-02"
+        amount = 55
+        reciving_priest = "WM"
+        celebrating_priest = "SO"
+        hour_oc = "12:00:00"
+        date_oc = "2022-11-12"
         type_of_mass = "test"
         is_gregorian = False
 

@@ -1,7 +1,3 @@
-import buissnes.Database.Geter
-import buissnes.Employee.ManageEmployee
-import buissnes.Statements.ManageMonthlyStmt
-import buissnes.Database.ScanRecords
 import buissnes.Income.ManageStipend
 import buissnes.Income.Stipend
 
@@ -11,17 +7,19 @@ class Button_Update_Mass_Record:
         """
         Aktualizuje wiersz w tabeli intencje dla id = ?
         """
-        input_from_gui = '4'
+        input_from_gui = '249'
         valinput = Input_Actual_Data.recive_updated_data()
-        buissnes.Income.ManageStipend.UpdateMassStipend(1, 1, 1).update(valinput, input_from_gui)
+        up = buissnes.Income.ManageStipend.UpdateMassStipend()
+        up.get_conn_details(1, 1, 1)
+        up.update(valinput, input_from_gui)
 
 
 class Input_Actual_Data:
     def recive_updated_data():
         # przykładowe dane
-        amount = "30"
-        reciving_priest = "MS"
-        celebrating_priest = "WM"
+        amount = "100"
+        reciving_priest = "ZZ"
+        celebrating_priest = "PP"
         hour_oc = "07:00:00"
         date_oc = "2022-10-01"
         type_of_mass = ""

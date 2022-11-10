@@ -7,18 +7,14 @@ from buissnes.Database.Builder import DBConnector
 class TestConnection(unittest.TestCase):
 
     def test(self):
+        pass
 
 
 
 class TestUserVocabDatabase(unittest.TestCase):
-    '''
-    Test the user vocab collection database
-    '''
+    # Test the user vocab collection database
 
     def setUp(self):
-        '''
-        Setup a temporary database
-        '''
         # create database
         self.db = DBConnector ('test_vocab.db')
 

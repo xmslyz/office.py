@@ -3,11 +3,33 @@ import buissnes.Employee.Identity
 from buissnes.Database.Builder import DBConnector
 
 
-class NewGenStmt(DBConnector):
-    def __init__(self, path, dbname, table_name):
-        super().__init__(path, dbname, table_name)
+# class Update_general_stmt_for_all:
+#     def __init__(self):
+#         conn = buissnes.Database.Geter.IntentionsColsGetter()
+#         conn.get_conn_details(1, 1, 2)
+#         self.on_duty = conn.get_abreviations()
+#
+#     def update(self, when):
+#         for _ in self.on_duty:
+#             Update_monthly_stmt_for_one(when, _).update_value(_)
 
-    def insert_monthly_stmt(self, stmt_date, who):
+
+class NewGenStmt(DBConnector):
+    def __init__(self):
+        super().__init__()
+
+    def insert_all(self, stmt_date):
+        conn = buissnes.Database.Geter.UniqueIDGetter().get_list_uniqueID()
+        for _ in conn:
+            self.fill_general_stmt(stmt_date, _)
+
+    def fill_general_stmt(self, stmt_date, who):
+        # w tej chwili gen jest uzależniony od monthly.
+        # zmienić tak, aby nieazleżnie od tego czy jest miesięczny, wypełniał gen.
+        # inna sprawa, to czy w ogóle jest potrzeba takiej bazy danych, jeśli wszystko można w sek pozyskać za pomocą kwerendy
+        # może przemyśleć to i zamiast zapisywać zestawienia,
+        # opracować lepszy system pozyskiwania danych i ich porównywania lub filtrowania
+
         mocker = (0, '12345678-abcd-efgh-ijkl-1234567890mn', 'Zestawienie miesięczne', '1900-01', 0, 0, 0, 0, 0, 0, 0, 0, 0)
         stmt = buissnes.Database.Geter.MonthlyStmtGeter().get_monthly_stmt_by_uniqueID(when=stmt_date, uniID=who)
         gen_stmt = buissnes.Database.Geter.MonthlyStmtGeter().get_general_stmt_by_uniqueID_and_date(when=stmt_date, uniID=who)

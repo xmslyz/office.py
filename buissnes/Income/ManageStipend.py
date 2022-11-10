@@ -1,11 +1,13 @@
 import datetime
+
+import buissnes.Database.Geter
 from buissnes.Database import ScanRecords as dbs
 from buissnes.Database.Builder import DBConnector
 
 
 class CreateNewStipend(DBConnector):
-    def __init__(self, path, dbname, table_name):
-        super().__init__(path, dbname, table_name)
+    def __init__(self):
+        super().__init__()
 
     def insert_record(self, val, *, amount=1):
         """ Wstawia tyle wierszy ile amount, data celebracji += 1 dzień """
@@ -57,8 +59,8 @@ class CreateNewStipend(DBConnector):
 
 
 class UpdateMassStipend(DBConnector):
-    def __init__(self, path_num, dbnm_num, tbl_num):
-        super().__init__(path_num, dbnm_num, tbl_num)
+    def __init__(self):
+        super().__init__()
 
     def will_be_first(self, val):
         """
@@ -108,8 +110,14 @@ class UpdateMassStipend(DBConnector):
 
 
 class DeleteMassStipend(DBConnector):
-    def __init__(self, path_num, dbnm_num, tbl_num):
-        super().__init__(path_num, dbnm_num, tbl_num)
+    def __init__(self):
+        super().__init__()
 
-    def delete(self):
-        pass
+    def delete(self, sqlid):
+        sql_stmt = f"DELETE FROM intentions WHERE id = '{sqlid}';"
+        self.sql_querry(sql_stmt)
+
+    def delete_last_record(self):
+        eachid = buissnes.Database.Geter.IntentionsColsGetter().get_one("id")
+        sql_stmt = f"DELETE FROM intentions WHERE id = '{max(eachid)[0]}';"
+        self.sql_querry(sql_stmt)

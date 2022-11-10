@@ -23,3 +23,17 @@ class GeneralStmt(Filter):
         except:
             return 0
 
+    def sum_taxes(self, qid):
+        result = Filter().search_employees_by_uniqueID(qid)
+        tax_sum = 0
+        try:
+            if result is None:
+                return 0
+            else:
+                sumik = 0
+                for _ in result[0].values():
+                    if _ or _ != "":
+                        sumik += float(_)
+            return tax_sum
+        except:
+            return 0
