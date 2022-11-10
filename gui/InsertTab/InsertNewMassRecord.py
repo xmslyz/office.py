@@ -1,13 +1,14 @@
 import buissnes.Database.Builder
-import buissnes.Income.StipendIncome
-import buissnes.Database.InsertData
+import buissnes.Income.ManageStipend
+import buissnes.Income.Stipend
 import buissnes.Database.Geter
-import buissnes.Database.Updater
-import buissnes.Employees.Employee
+import buissnes.Employee.Identity
+import buissnes.Statements.ManageMonthlyStmt
 
 
 class Button_Add_New_Record:
-    def add_new_mass_record():
+
+    def add_new_mass_record(self):
         """
         Wrzuca dane z obiektu do tabeli.
         : jobs: dla ilu kolejnych dni (od daty początkowej) default = 1
@@ -15,31 +16,28 @@ class Button_Add_New_Record:
         """
         jobs = Input_Add_New_Record.insert_batch_job()
         stipend = Input_Add_New_Record.insert_mass_records()
-
-        stip = buissnes.Database.InsertData.MassRecord(1, 1, 1)
+        stip = buissnes.Income.ManageStipend.CreateNewStipend(1, 1, 1)
         stip.insert_record(val=stipend, amount=jobs)
-
-        # automatycznie uaktualnij monthly_stmt
-        buissnes.Database.Updater.Update_monthly_stmt_for_all().update()
 
 
 class Input_Add_New_Record:
+    """ ilość powtórzeń """
     def insert_batch_job():
         reps = 1
         return reps
 
     def insert_mass_records():
-        # przykładowe dane
-        amount = 60
-        reciving_priest = "DD"
-        celebrating_priest = "DD"
-        hour_oc = "07:00:00"
-        date_oc = "2022-11-07"
-        type_of_mass = ""
+        # przykładowe dane z GUI
+        amount = 70
+        reciving_priest = "SO"
+        celebrating_priest = "PK"
+        hour_oc = "18:00:00"
+        date_oc = "2022-10-02"
+        type_of_mass = "test"
         is_gregorian = False
 
         # tworzy pusty obiekt rejestru dla księgi intencji
-        batch = buissnes.Income.StipendIncome.StipendRecord()
+        batch = buissnes.Income.Stipend.StipendRecord()
         batch.amount = amount
         batch.reciving_priest = reciving_priest
         batch.celebrating_priest = celebrating_priest

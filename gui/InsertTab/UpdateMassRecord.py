@@ -1,46 +1,39 @@
 import buissnes.Database.Geter
-import buissnes.Database.InsertData
-import buissnes.Database.Updater
+import buissnes.Employee.ManageEmployee
+import buissnes.Statements.ManageMonthlyStmt
+import buissnes.Database.ScanRecords
+import buissnes.Income.ManageStipend
+import buissnes.Income.Stipend
 
 
 class Button_Update_Mass_Record:
-
-    def update_mass_record():
-        Input_Actual_Data.updated_values()
-
-        buissnes.Database.Updater.Update_monthly_stmt_for_all().update()
+    def update_intention_row(self):
+        """
+        Aktualizuje wiersz w tabeli intencje dla id = ?
+        """
+        input_from_gui = '4'
+        valinput = Input_Actual_Data.recive_updated_data()
+        buissnes.Income.ManageStipend.UpdateMassStipend(1, 1, 1).update(valinput, input_from_gui)
 
 
 class Input_Actual_Data:
-    def updated_values():
-        gui_column = "pars" # -> stała
-        gui_abreviation = "PK"
-        gui_value = "3200" # input
-        gui_uniqueID = buissnes.Database.Geter.UniqueIDGetter().get_uniqueID(gui_abreviation, 1)
-
-        # wrzuca dane z obiektu do tabeli
-        stip = buissnes.Database.InsertData.PersonalData(1, 1, 3)
-        stip.__repr__()
-        stip.update_value(column=gui_column, value=gui_value, qid=gui_uniqueID)
-
     def recive_updated_data():
         # przykładowe dane
-        amount = 60
+        amount = "30"
         reciving_priest = "MS"
-        celebrating_priest = "MS"
+        celebrating_priest = "WM"
         hour_oc = "07:00:00"
-        date_oc = "2022-11-07"
+        date_oc = "2022-10-01"
         type_of_mass = ""
         is_gregorian = False
 
         # tworzy pusty obiekt rejestru dla księgi intencji
-        batch = buissnes.Income.StipendIncome.StipendRecord()
-        batch.amount = amount
-        batch.reciving_priest = reciving_priest
-        batch.celebrating_priest = celebrating_priest
-        batch.hour_of_celebration = hour_oc
-        batch.date_of_celebration = date_oc
-        batch.type_of_mass = type_of_mass
-        batch.is_gregorian = is_gregorian
-
-        return batch
+        stipend = buissnes.Income.Stipend.StipendRecord()
+        stipend.amount = amount
+        stipend.reciving_priest = reciving_priest
+        stipend.celebrating_priest = celebrating_priest
+        stipend.hour_of_celebration = hour_oc
+        stipend.date_of_celebration = date_oc
+        stipend.type_of_mass = type_of_mass
+        stipend.is_gregorian = is_gregorian
+        return stipend

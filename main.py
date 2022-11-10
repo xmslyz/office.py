@@ -1,13 +1,10 @@
-import buissnes.Computing.statements_computer
-from buissnes import *
-from gui import *
+import datetime
 
 
 def main():
+    t1 = datetime.datetime.now()
 
-    # comp = buissnes.Computing.statements_computer.ComputeMonthlyStmt("2022-10")
-    emp = buissnes.Computing.statements_computer.ComputeEmployeeStmt("2022-10", "PK")
-    print(emp.net_for_priest())
+    print(datetime.datetime.now() - t1)
 
 
 if __name__ == '__main__':

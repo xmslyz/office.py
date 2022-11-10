@@ -1,9 +1,7 @@
 import os
 import sqlite3
 import buissnes.Database.AtributesSetter
-import buissnes.Database.Atributes
-import buissnes.Database.Connector
-from buissnes.Database import Constructor as dbb
+import buissnes.Database.Geter
 
 
 class Connection:
@@ -23,10 +21,10 @@ class Connection:
     def get_conn_details(self, path_num, dbnm_num, tbl_num):
 
         rs = buissnes.Database.AtributesSetter.TableSettings()
-        rs.db_path = buissnes.Database.Atributes.db_path_getter(path_num)
-        rs.db_name = buissnes.Database.Atributes.db_name_getter(dbnm_num)
+        rs.db_path = buissnes.Database.Geter.AtributesGeter.db_path_getter(path_num)
+        rs.db_name = buissnes.Database.Geter.AtributesGeter.db_name_getter(dbnm_num)
         rs.db_full_path = ''
-        rs.db_table_name = buissnes.Database.Atributes.db_tablename_getter(tbl_num)
+        rs.db_table_name = buissnes.Database.Geter.AtributesGeter.db_tablename_getter(tbl_num)
 
         self.path = rs.db_path
         self.db_name = rs.db_name
@@ -184,7 +182,8 @@ class Filter(Connection):
         return self.sql_querry(__sql)
 
     def search_employees_by_uniqueID(self, val):
-        mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN monthly_stmt ON employees.uniqueID = monthly_stmt.uniqueID WHERE employees.uniqueID IS '{val}';"
+        mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN monthly_stmt " \
+                 f"ON employees.uniqueID = monthly_stmt.uniqueID WHERE employees.uniqueID IS '{val}';"
         internal_con = Connection()
         internal_con.get_conn_details(1, 1, 2)
         return internal_con.sql_querry(mysql3)

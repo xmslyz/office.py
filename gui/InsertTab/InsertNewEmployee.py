@@ -1,11 +1,11 @@
-import buissnes.Database.InsertData
-import buissnes.Employees.Employee
+import buissnes.Employee.Identity
+import buissnes.Employee.ManageEmployee
 
 
 class Button_Add_New_Employee:
     def add_new_employee(self):
         employee_obj = Input_Add_New_Employee.get_new_employee_data()
-        buissnes.Database.InsertData.PersonalData(1, 1, 2).new_employee(employee_obj)
+        buissnes.Employee.ManageEmployee.NewEmployee(1, 1, 2).new_employee(employee_obj)
 
 
 class Input_Add_New_Employee:
@@ -19,7 +19,7 @@ class Input_Add_New_Employee:
         taxes = '(230,100.50,50)'
 
         # tworzy pusty obiekt rejestru dla księgi intencji
-        employee_obj = buissnes.Employees.Employee.EmployeeIdentity()
+        employee_obj = buissnes.Employee.Identity.EmployeeIdentity()
         employee_obj.name = name
         employee_obj.surname = surname
         employee_obj.shortname = shortname

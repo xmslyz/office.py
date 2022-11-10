@@ -1,15 +1,13 @@
 import buissnes.Database.Geter
-import buissnes.Database.Atributes as db_set
 from buissnes.Database.ScanRecords import Filter
-import buissnes.Database.Updater
 import buissnes.Computing.tax_computer
 
 
-BINATION = db_set.constants_getter("bin")
-GUEST = db_set.constants_getter("inv")
+BINATION = buissnes.Database.Geter.AtributesGeter.constants_getter("bin")
+GUEST = buissnes.Database.Geter.AtributesGeter.constants_getter("inv")
 
 
-class ComputeMonthlyStmt(Filter):
+class Collation(Filter):
     def __init__(self, qdate):
         super().__init__()
         self.qdate = qdate
@@ -32,37 +30,6 @@ class ComputeMonthlyStmt(Filter):
                 qlist.append(_)
         return qlist
 
-    def sum_of_all_recived(self):
-        result = self.qry.select_all_where_q_is()
-        qlist = []
-        for _ in result:
-            if _[5][0:7] == self.qdate and isinstance((_[2]), float):
-                qlist.append(float(_[2]))
-        return sum(qlist)
-
-    def amount_of_all_paid(self):
-        result = self.qry.select_all_where_q_is_not(qamount="")
-        qlist = []
-        for _ in result:
-            if _[5][0:7] == self.qdate:
-                qlist.append(_[2])
-        return len(qlist)
-
-    def mediana(self):
-        no_greg_sum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - self.sum_of_binations() - self.total_for_guests()
-        total = no_greg_sum + self.gregorian_sum_of_medianas()
-        if (self.amount_of_aplicated() - self.amount_of_binations()) <= 0:
-            return 1
-        else:
-            divider = self.amount_of_aplicated() - self.amount_of_binations() - self.amount_of_guest_masses()
-            if divider > 0:
-                return round((total / divider), 2)
-            else:
-                return round(0, 2)
-
-    #
-    #  binations
-    #
     def list_of_binations(self):
         result = self.qry.select_all_where_q_is(qfirst_mass="0")
         qlist = []
@@ -71,13 +38,6 @@ class ComputeMonthlyStmt(Filter):
                 qlist.append(_)
         return qlist
 
-    def amount_of_binations(self): return len(self.list_of_binations())
-
-    def sum_of_binations(self): return self.amount_of_binations() * BINATION
-
-    #
-    #  gregorian masses
-    #
     def list_of_all_gregorian(self):
         result = self.qry.select_all_where_q_is(qgregorian=1)
         qlist = []
@@ -86,46 +46,6 @@ class ComputeMonthlyStmt(Filter):
                 qlist.append(_)
         return qlist
 
-    def amount_of_all_gregorian(self):
-        result = self.qry.select_all_where_q_is(qgregorian=1)
-        qlist = []
-        for _ in result:
-            if _[5][0:7] == self.qdate:
-                qlist.append(_)
-        return len(qlist)
-
-    def sum_of_all_gregorian(self):
-        result = self.qry.select_all_where_q_is(qgregorian=1)
-        qlist = []
-        for _ in result:
-            if _[5][0:7] == self.qdate and isinstance((_[2]), float):
-                qlist.append(_[2])
-        return sum(qlist)
-
-    def gregorian_mediana(self):
-        if self.amount_of_all_gregorian() == 0:
-            return 0
-        else:
-            return self.sum_of_all_gregorian() / self.amount_of_all_gregorian()
-
-    def gregorian_sum_of_medianas(self): return self.gregorian_mediana() * self.amount_of_all_gregorian()
-
-    def total_for_guests(self):
-        uid = buissnes.Database.Geter.GuestsGetter().get_guests(self.qdate)
-        total = 0
-        for _ in uid:
-            total += _[1]
-        return total * GUEST
-
-    def amount_of_guest_masses(self):
-        uid = buissnes.Database.Geter.GuestsGetter().get_guests(self.qdate)
-        total = 0
-        for _ in uid:
-            total += _[1]
-        return total
-    #
-    # aplication
-    #
     def list_of_aplicated_stipends(self):
         result = self.qry.select_all_where_q_is_not(qcelebrated_by="")
         qlist = []
@@ -134,11 +54,6 @@ class ComputeMonthlyStmt(Filter):
                 qlist.append(_)
         return qlist
 
-    def amount_of_aplicated(self): return len(self.list_of_aplicated_stipends())
-
-    #
-    #  evaluation
-    #
     def list_paid_not_applicated(self):
         result = self.qry.select_all_where_q_like(qamount='%.%', qcelebrated_by="")
         qlist = []
@@ -163,8 +78,85 @@ class ComputeMonthlyStmt(Filter):
                 qlist.append(_)
         return qlist
 
+    def amount_of_all_paid(self):
+        result = self.qry.select_all_where_q_is_not(qamount="")
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate:
+                qlist.append(_[2])
+        return len(qlist)
 
-class ComputeEmployeeStmt(ComputeMonthlyStmt):
+    def amount_of_binations(self): return len(self.list_of_binations())
+
+    def amount_of_all_gregorian(self):
+        result = self.qry.select_all_where_q_is(qgregorian=1)
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate:
+                qlist.append(_)
+        return len(qlist)
+
+    def amount_of_guest_masses(self):
+        uid = buissnes.Database.Geter.GuestsGetter().get_guests(self.qdate)
+        total = 0
+        for _ in uid:
+            total += _[1]
+        return total
+
+    def amount_of_aplicated(self): return len(self.list_of_aplicated_stipends())
+
+    def sum_of_all_recived(self):
+        result = self.qry.select_all_where_q_is()
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate and isinstance((_[2]), float):
+                qlist.append(float(_[2]))
+        return sum(qlist)
+
+    def sum_of_all_gregorian(self):
+        result = self.qry.select_all_where_q_is(qgregorian=1)
+        qlist = []
+        for _ in result:
+            if _[5][0:7] == self.qdate and isinstance((_[2]), float):
+                qlist.append(_[2])
+        return sum(qlist)
+
+
+class Compute(Collation):
+
+    def mediana(self):
+        no_greg_sum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - self.sum_of_binations() - self.sum_for_guests()
+        total = no_greg_sum + self.gregorian_sum_of_medianas()
+        if (self.amount_of_aplicated() - self.amount_of_binations()) <= 0:
+            return 1
+        else:
+            divider = self.amount_of_aplicated() - self.amount_of_binations() - self.amount_of_guest_masses()
+            if divider > 0:
+                return round((total / divider), 2)
+            else:
+                return round(0, 2)
+
+    def sum_of_binations(self):
+        return self.amount_of_binations() * BINATION
+
+    def gregorian_mediana(self):
+        if self.amount_of_all_gregorian() == 0:
+            return 0
+        else:
+            return self.sum_of_all_gregorian() / self.amount_of_all_gregorian()
+
+    def gregorian_sum_of_medianas(self):
+        return self.gregorian_mediana() * self.amount_of_all_gregorian()
+
+    def sum_for_guests(self):
+        uid = buissnes.Database.Geter.GuestsGetter().get_guests(self.qdate)
+        total = 0
+        for _ in uid:
+            total += _[1]
+        return total * GUEST
+
+
+class EmployeeCollation(Collation):
     def __init__(self, qdate, who_recived):
         super().__init__(qdate)
         self.who_recived = who_recived
@@ -180,10 +172,6 @@ class ComputeEmployeeStmt(ComputeMonthlyStmt):
     def sum_of_recieved_by_a_priest(self): return sum(self.list_of_recieved_by_a_priest())
 
     def amount_of_all_masses_applied_by_a_priest(self):
-        """
-        Ilość wszystkich mszy odprawionych przez ks.
-        :return: int
-        """
         result = self.qry.select_all_where_q_is(qcelebrated_by=self.who_recived)
         qlist = []
         for _ in result:
@@ -192,10 +180,6 @@ class ComputeEmployeeStmt(ComputeMonthlyStmt):
         return len(qlist)
 
     def amount_of_first_masses_applied_by_a_priest(self):
-        """
-        Ilość 'pierwszych mszy' odprawionych przez ks.
-        :return: int
-        """
         result = self.qry.select_all_where_q_is(qcelebrated_by=self.who_recived, qfirst_mass="1")
         qlist = []
         for _ in result:
@@ -211,13 +195,19 @@ class ComputeEmployeeStmt(ComputeMonthlyStmt):
                 qlist.append(_[2])
         return len(qlist)
 
+
+class ComputeEmployee(EmployeeCollation):
+    def __init__(self, qdate, who_recived):
+        super().__init__(qdate, who_recived)
+
     def quota_for_priest(self):
         """
         (Quota) Iloraz ilości odprawionych mszy i średniej wartości intencji.
         :return: float
         """
-        if self.mediana() > 0:
-            total_stipend = self.amount_of_first_masses_applied_by_a_priest() * self.mediana()
+        mediana = Compute(self.qdate).mediana()
+        if mediana > 0:
+            total_stipend = self.amount_of_first_masses_applied_by_a_priest() * mediana
             return round(total_stipend, 2)
         else:
             return round(0, 2)

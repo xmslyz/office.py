@@ -9,3 +9,13 @@ e2b24908-5efc-49a7-b67a-e0619c765349
 cc80fbca-918b-4886-88b2-04e919d9ed1f
 bf616229-45e7-48d4-8a40-fda9c3a582f0
 b6274346-e965-4eb3-a51c-73394caebf79
+
+ok
+[(4, 'Stypendium mszalne', 3000.0, 'PK', 'WM', '2022-10-01', '07:00', 'gregorianka', 1, 1)]
+
+false
+[(4, 'Stypendium mszalne', 1800.0, 'MS', 'MS', '2022-10-01', '19:00', '', 1, 1)]
+
+0,1,2,3,4,5,6,7,8,9
+
+

@@ -1,9 +1,4 @@
-import buissnes.Computing.statements_computer as msc
-import buissnes.Income.StipendIncome
-from buissnes.Database import ScanRecords as dbs
-
-
-def wydruk_ogolny(qdate):
+def wydruk_ogolny():
     pass
     # print('1.  sum_of_all_recived -> ', ssc.sum_of_all_recived())
     # print('2.  list_of_all_recived -> ', ssc.list_of_all_recived())
@@ -26,13 +21,13 @@ def wydruk_ogolny(qdate):
     # print("\n")
 
 
-def wypis_po_id(qid):
+def wypis_po_id():
     # db_query = dbs.RecordsScanner(path_num=1, dbnm_num=1, tbl_num=1)
-    # return msc.ComputeMonthlyStmt(table_name="intentions", scanner=db_query, qdate="").record_by_id(qid=qid)
+    # return msc.Collation(table_name="intentions", scanner=db_query, qdate="").record_by_id(qid=qid)
     pass
 
 
-def wydruk_osoba(qdate):
+def wydruk_osoba():
     pass
     # mysca = dbs.Filter()
     # mysca.get_conn_details(1, 1, 1)
@@ -46,7 +41,7 @@ def wydruk_osoba(qdate):
     # kto = list(set(mylist))
     # for x in kto:
     #     #  intencje
-    #     sp = msc.ComputeEmployeeStmt("intentions", scanner=myscan, who_recived=f"{x}", qdate=qdate)
+    #     sp = msc.ComputeEmployee("intentions", scanner=myscan, who_recived=f"{x}", qdate=qdate)
     #
     #     print(f"{x}")
     #     print('1. list_of_recieved_by_a_priest -> ', sp.list_of_recieved_by_a_priest())
