@@ -147,17 +147,17 @@ class DBConnector:
             self.make_path()
         result = ()
         try:
-            conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-            cur = conn.cursor()
-            if pin == 0:
-                cur.execute(sql_stmt, val)
-            elif pin == 1:
-                cur.execute(sql_stmt, (val,))
-            else:
-                cur.execute(sql_stmt)
-            result = cur.fetchall()
-            conn.commit()
-            cur.close()
+            with sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as conn:
+                with conn.cursor() as cur:
+                    if pin == 0:
+                        cur.execute(sql_stmt, val)
+                    elif pin == 1:
+                        cur.execute(sql_stmt, (val,))
+                    else:
+                        cur.execute(sql_stmt)
+                    result = cur.fetchall()
+                    conn.commit()
+                    cur.close()
         except Error as e:
             print(e)
         return result
@@ -167,12 +167,12 @@ class DBConnector:
             self.make_path()
         result = ()
         try:
-            conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-            cur = conn.cursor()
-            cur.execute(sql_stmt)
-            result = cur.fetchall()
-            conn.commit()
-            cur.close()
+            with sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as conn:
+                with conn.cursor() as cur:
+                    cur.execute(sql_stmt)
+                    result = cur.fetchall()
+                    conn.commit()
+                    cur.close()
         except Error as e:
             print(e)
         return result
