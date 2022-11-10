@@ -5,15 +5,22 @@ from buissnes.Database import AtributesSetter as DBS
 
 class TestDBName(TestCase):
 
-    def test_dbname_nonalfanumeric(self):
+    def test_dbname__nonalfanumeric(self):
         test_db = DBS.DBSettings()
         test_db.db_name = "da*ta+ba/se_na(me_test"
         assert test_db.db_name == "database_name_test.db"
 
-    def test_dbname(self):
+    def test_dbname__empty(self):
         test_db = DBS.DBSettings()
-        test_db.db_name = ""
-        assert test_db.db_name == Exception
+        with self.assertRaises(Exception) as context:
+            test_db.db_name = ''
+        self.assertTrue('Nazwa bazy danych nie może być pusta.' in str(context.exception))
+
+    def test_dbname__name_with_ext(self):
+        test_db = DBS.DBSettings()
+        test_db.db_name = "database.com.pl"
+        print(test_db.db_name)
+        assert test_db.db_name == "database.db"
 
 
 

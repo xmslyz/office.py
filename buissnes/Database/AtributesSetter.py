@@ -17,8 +17,11 @@ class DBSettings:
         return self.__dbname
     @db_name.setter
     def db_name(self, value):
+        if value == "":
+            raise Exception("Nazwa bazy danych nie może być pusta.")
         new_dbname = re.sub(r'[^A-Za-z0-9_]+', '', os.path.splitext(str(value).strip())[0])
         self.__dbname = f'{new_dbname}.db'
+
 
     @property
     def db_path(self):
