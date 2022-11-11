@@ -66,7 +66,7 @@ class StipendRecord:
         if len(value) > 3:
             raise Exception("Przekroczono dopuszczalną ilość znaków (3).")
         result = re.sub(r'[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+', '', str(value).strip())
-        self.__celebrated_by = result.upper()[:3]
+        self.__priest_reciving = result.upper()[:3]
 
     @property
     def celebrating_priest(self):
@@ -99,7 +99,6 @@ class StipendRecord:
         Dopuszczalny format daty: "yyyy-mm-dd" lub "dd-mm-yyyy"
 
         """
-
         value = str(re.sub(r'[^0-9-]+', '', str(value).strip()))
         ymd = re.compile(r'^(\d){4}-(\d){2}-(\d){2}')
         dmy = re.compile(r'^(\d){2}-(\d){2}-(\d){4}')

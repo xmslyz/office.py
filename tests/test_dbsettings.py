@@ -4,8 +4,17 @@ from unittest import TestCase
 from buissnes.Database import AtributesSetter as DBS
 
 
-
 class TestDBName(TestCase):
+
+    def test_dbname__correct_form(self):
+        test_db = DBS.DBSettings()
+        test_db.db_name = "constans"
+        assert test_db.db_name == "constans.db"
+
+    def test_dbname__good_practice(self):
+        test_db = DBS.DBSettings()
+        test_db.db_name = "sofa4.0"
+        assert test_db.db_name == "sofa4.db"
 
     def test_dbname__nonalfanumeric(self):
         test_db = DBS.DBSettings()
@@ -73,3 +82,36 @@ class TestDBTablename(TestCase):
         print(test_db.db_table_name)
         assert test_db.db_table_name == "database"
 
+
+class TestDBFullPath(TestCase):
+    def test_fullpath(self):
+        test_db = DBS.DBSettings()
+        test_db.db_name = "test.db"
+        test_db.db_path = "TEST\\test"
+        test_db.db_full_path = ''
+        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
+
+    def test_fullpath__nonalfanumeric(self):
+        test_db = DBS.DBSettings()
+        test_db.db_name = "test.db"
+        test_db.db_path = "T@EST\\tes^t"
+        test_db.db_full_path = ''
+        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
+
+    def test_fullpath__emptypath(self):
+        test_db = DBS.DBSettings()
+        with self.assertRaises(Exception) as context:
+            test_db.db_full_path = None
+        self.assertTrue('Ścieżka katalogu nie może być NoneType.' in str(context.exception))
+
+    def test_fullpath__Nonepath(self):
+        test_db = DBS.DBSettings()
+        with self.assertRaises(Exception) as context:
+            test_db.db_path = None
+        self.assertTrue('Ścieżka katalogu nie może być pusta' in str(context.exception))
+
+    def test_fullpath__NoSetter(self):
+        test_db = DBS.DBSettings()
+        test_db.db_name = "test.db"
+        test_db.db_path = "TEST\\test"
+        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db").joinpath())

@@ -5,10 +5,10 @@ import re
 
 class DBSettings:
     def __init__(self):
-        self.__full_path = None
         self.__dbname = None
-        self.__path = None
         self.__table_name = None
+        self.__path = None
+        self.__full_path = str(pathlib.PurePath(os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db").joinpath())
 
     @property
     def db_name(self):
@@ -36,6 +36,7 @@ class DBSettings:
         dirname = re.sub(r'[^A-Za-z0-9/\\_]+', '', str(value).strip())
         purepath = str(pathlib.PurePath(os.getcwd(), dirname).joinpath())
         self.__path = purepath
+
     @property
     def db_table_name(self):
         return self.__table_name
@@ -58,24 +59,7 @@ class DBSettings:
     def db_full_path(self):
         return self.__full_path
     @db_full_path.setter
-    def db_full_path(self, x=1):
-        self.__full_path = os.path.join(os.path.abspath(os.getcwd()), f'{self.__path}\\', self.__dbname)
-
-
-# class TableSettings(DBSettings):
-#     def __init__(self):
-#         super().__init__()
-#         self.__table_name = None
-#
-#     @property
-#     def db_table_name(self):
-#         return self.__table_name
-#     @db_table_name.getter
-#     def db_table_name(self):
-#         return self.__table_name
-#     @db_table_name.setter
-#     def db_table_name(self, value):
-#         if value == "" or value is None:
-#             raise Exception("Nazwa bazy danych nie może być pusta.")
-#         new_tblname = re.sub(r'[^A-Z_a-z0-9]+', '', os.path.splitext(str(value).strip().lower())[0])
-#         self.__table_name = str(pathlib.PurePath(new_tblname))
+    def db_full_path(self, value):
+        if value is None:
+            raise Exception("Ścieżka katalogu nie może być NoneType.")
+        self.__full_path = str(pathlib.PurePath(os.getcwd(), self.__path, self.__dbname).joinpath())

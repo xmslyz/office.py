@@ -57,7 +57,6 @@ class TestAmount(TestCase):
 
 
 class TestCelebratingAbrev(TestCase):
-    # reviving_priest is the same case.
 
     def test_celebrating_pr__morethan3(self):
         stip = Stipend.StipendRecord()
@@ -79,6 +78,29 @@ class TestCelebratingAbrev(TestCase):
         stip = Stipend.StipendRecord()
         stip.celebrating_priest = '123'
         assert stip.celebrating_priest == ""
+
+
+class TestRecivingAbrev(TestCase):
+    def test_reciving_pr__morethan3(self):
+        stip = Stipend.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.reciving_priest = 'ABCD'
+        self.assertTrue('Przekroczono dopuszczalną ilość znaków (3).' in str(context.exception))
+
+    def test_reciving_pr__nonalfabetchar(self):
+        stip = Stipend.StipendRecord()
+        stip.reciving_priest = 'P4L'
+        assert stip.reciving_priest == "PL"
+
+    def test_reciving_pr__empty(self):
+        stip = Stipend.StipendRecord()
+        stip.reciving_priest = ''
+        assert stip.reciving_priest == ""
+
+    def test_reciving_pr__nums(self):
+        stip = Stipend.StipendRecord()
+        stip.reciving_priest = '123'
+        assert stip.reciving_priest == ""
 
 
 class TestDateOfCelebration(TestCase):
