@@ -1,4 +1,4 @@
-https://github.com/xmslyz/office.pl/workflows/python-app.yml/badge.svg
+https://github.com/xmslyz/office.pl/workflows/python-app/badge.svg
 
 # office.py
 office management
