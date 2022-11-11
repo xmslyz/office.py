@@ -1,4 +1,4 @@
-![Build Status](https://github.com/xmslyz/office/workflows/Pythonapp/badge.svg)
+![Build Status](https://github.com/xmslyz/office/workflows/python-app/badge.svg)
 
 # office.py
 office management
