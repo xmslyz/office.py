@@ -1,4 +1,4 @@
-![Build Status](https://github.com/xmslyz/office/workflows/python-app.yml/badge.svg)
+[![Python application](https://github.com/xmslyz/office.py/actions/workflows/python-app.yml/badge.svg)](https://github.com/xmslyz/office.py/actions/workflows/python-app.yml)
 
 
 # office.py
