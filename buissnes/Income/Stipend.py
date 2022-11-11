@@ -1,6 +1,6 @@
 import datetime
 import re
-import pandas as pd
+import pandas
 
 
 class StipendRecord:
@@ -106,14 +106,14 @@ class StipendRecord:
         if ymd.match(value) is not None or dmy.match(value) is not None:
             try:
                 if value[4] == "-" and value[7]:
-                    isNaT = pd.to_datetime(value, format="%Y-%m-%d", errors='coerce')
-                    if isNaT is pd.NaT:
+                    isNaT = pandas.to_datetime(value, format="%Y-%m-%d", errors='coerce')
+                    if isNaT is pandas.NaT:
                         raise Exception("Nie ma takiej daty")
                 elif value[2] == "-" and value[5]:
                     ddmmyyyy = value
                     value = ddmmyyyy[6:] + "-" + ddmmyyyy[3:5] + "-" + ddmmyyyy[:2]
-                    isNaT = pd.to_datetime(value, format="%Y-%m-%d", errors='coerce')
-                    if isNaT is pd.NaT:
+                    isNaT = pandas.to_datetime(value, format="%Y-%m-%d", errors='coerce')
+                    if isNaT is pandas.NaT:
                         raise Exception("Nie ma takiej daty")
             finally:
                 self.__celebration_date = value
