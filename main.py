@@ -27,6 +27,11 @@ def main():
     ####gui.SettingsTab.Button_BuildNewDatabase.Build_DB_Button().build_database()
     ####gui.SettingsTab.Button_BuildNewDatabase.Drop_DB_Button().drop_database()
     ####gui.SettingsTab.Button_BuildNewDatabase.Remove_DB_Files.remove_db_file()
+    value = "QQQQ\\aaa"
+    dirname = re.sub(r'[^A-Za-z0-9\\_]', '', str(value).strip())
+    purepath = str(pathlib.PurePath(os.getcwd(), dirname).joinpath())
+    print(purepath)
+
 
     print(datetime.datetime.now() - t1)
 

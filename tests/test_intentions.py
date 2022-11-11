@@ -73,7 +73,7 @@ class TestCelebratingAbrev(TestCase):
     def test_celebrating_pr__empty(self):
         stip = Stipend.StipendRecord()
         stip.celebrating_priest = ''
-        assert stip.celebrating_priest == " "
+        assert stip.celebrating_priest == ""
 
     def test_celebrating_pr__nums(self):
         stip = Stipend.StipendRecord()

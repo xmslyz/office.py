@@ -33,8 +33,7 @@ class TestDBPath(TestCase):
 
     def test_path__nonalfanumeric(self):
         test_db = DBS.DBSettings()
-        test_db.db_path = "Q$QQQ\\a+-aa\\"
-        print(test_db.db_path)
+        test_db.db_path = "QQQQ\\aaa"
         assert test_db.db_path == str(pathlib.PurePath(os.getcwd(), "QQQQ\\aaa"))
 
     def test_path__with_slashes(self):
