@@ -38,12 +38,18 @@ class StipendRecord:
     def amount(self):
         return self.__amount
     @amount.setter
-    def amount(self, value):
-        if value[0] == "-":
-            raise Exception("Kwota nie może być mniejsza od zera")
-        amount = str(re.sub(r'[^0-9.]+', '', str(value).strip()))
-        amount = 0.0 if amount == "" else float(amount)
-        self.__amount = amount
+    def amount(self, value) -> str:
+        if isinstance(value, bool):
+            raise Exception("Podano wartość logiczną.")
+        if value == '':
+            value = "0.0"
+        if str(re.sub(r'[^-0-9.]+', '', str(value).strip())) == "":
+            raise Exception("Wprowadzana wartość nie jest liczbą")
+        else:
+            amount = str(re.sub(r'[^-0-9.]+', '', str(value).strip()))
+            if float(amount) < 0:
+                raise Exception("Kwota nie może być mniejsza od zera")
+            self.__amount = float(amount)
     @property
     def reciving_priest(self):
         return self.__priest_reciving
@@ -52,7 +58,15 @@ class StipendRecord:
         return self.__priest_reciving
     @reciving_priest.setter
     def reciving_priest(self, value) -> str:
-        self.__priest_reciving = re.sub(r'[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+', '', str(value).strip())
+        """
+                First letter of name and surname. Max. 3 chars (in case of similar abrev.)
+                :param value:
+                :return:
+                """
+        if len(value) > 3:
+            raise Exception("Przekroczono dopuszczalną ilość znaków (3).")
+        result = re.sub(r'[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+', '', str(value).strip())
+        self.__celebrated_by = result.upper()[:3]
 
     @property
     def celebrating_priest(self):
@@ -80,7 +94,7 @@ class StipendRecord:
         formated_date = self.__celebration_date
         return formated_date
     @date_of_celebration.setter
-    def date_of_celebration(self, value):
+    def date_of_celebration(self, value) -> str:
         """
         Dopuszczalny format daty: "yyyy-mm-dd" lub "dd-mm-yyyy"
 
@@ -106,7 +120,6 @@ class StipendRecord:
         else:
             raise Exception("Podaj właściwy format daty")
 
-
     @property
     def hour_of_celebration(self):
         return self.__celebration_hour
@@ -114,19 +127,35 @@ class StipendRecord:
     def hour_of_celebration(self):
         return self.__celebration_hour
     @hour_of_celebration.setter
-    def hour_of_celebration(self, value):
-        format = "%H:%M:%S"
+    def hour_of_celebration(self, value) -> str:
+        """
+        Dopuszczalny format czasu: "HH:MM:SS" lub "HH:MM"
+
+        """
+        value = str(re.sub(r'[^0-9:]+', '', str(value).strip()))
         result = True
-        try:
-            result = bool(datetime.datetime.strptime(value, format))
-        except ValueError:
-            result = False
-        finally:
-            if result:
-                n_val = value
-                self.__celebration_hour = n_val[0:5]
-            else:
-                print("Wrong [time] format")
+        dformat = 'hhmmss'
+        HHmm = re.compile('^\d{2}:\d{2}')
+        HHmmss = re.compile('^\d{2}:\d{2}:\d{2}')
+        if HHmm.match(value) is not None or HHmmss.match(value) is not None:
+            try:
+                if len(value) == 8:
+                    result = bool(datetime.datetime.strptime(value, "%H:%M:%S"))
+                elif len(value) == 5:
+                    dformat = "hhmm"
+                    result = bool(datetime.datetime.strptime(value, "%H:%M"))
+            except ValueError:
+                result = False
+            finally:
+                if result:
+                    if dformat == "hhmm":
+                        self.__celebration_hour = value
+                    else:
+                        self.__celebration_hour = value[0:6]
+                else:
+                    raise Exception("Podaj właściwy format godziny")
+        else:
+            raise Exception("Podaj właściwy format godziny")
 
     @property
     def type_of_mass(self):
@@ -136,6 +165,10 @@ class StipendRecord:
         return self.__celebration_type
     @type_of_mass.setter
     def type_of_mass(self, value) -> str:
+        if isinstance(value, bool):
+            raise Exception("Podano wartość logiczną.")
+        if value is None:
+            value = ""
         self.__celebration_type = re.sub(r'[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+', '', str(value).strip())
 
     @property
@@ -149,7 +182,7 @@ class StipendRecord:
         if isinstance(value, bool):
             self.__gregorian = value
         else:
-            print("[is_gregorian]: Wrong format")
+            raise Exception("Nie boolowski typ danych")
 
     @property
     def is_first(self):
@@ -162,4 +195,4 @@ class StipendRecord:
         if isinstance(value, bool):
             self.__first_mass = value
         else:
-            print("Wrong format")
+            raise Exception("Nie boolowski typ danych")

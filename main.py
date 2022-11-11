@@ -1,8 +1,7 @@
 import datetime
 import re
-
-import pandas
 import pandas as pd
+
 import gui.InsertTab.UpdateMassRecord
 import gui.InsertTab.DeleteMassRecord
 import gui.InsertTab.InsertNewMassRecord
@@ -10,6 +9,7 @@ import gui.SettingsTab.Button_BuildNewDatabase
 import buissnes.Statements.ManageMonthlyStmt
 import buissnes.Statements.ManageGeneralStmt
 import gui.InsertTab.UpdateStmts
+
 
 def main():
     t1 = datetime.datetime.now()
@@ -25,8 +25,7 @@ def main():
     ####gui.SettingsTab.Button_BuildNewDatabase.Drop_DB_Button().drop_database()
     ####gui.SettingsTab.Button_BuildNewDatabase.Remove_DB_Files.remove_db_file()
 
-
-    print(datetime.datetime.now() - t1)
+    # print(datetime.datetime.now() - t1)
 
 
 if __name__ == '__main__':

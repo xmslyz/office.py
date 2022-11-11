@@ -4,23 +4,24 @@ from buissnes.Income import Stipend as St
 
 class TestAmount(TestCase):
 
-    def test_amount__lessthanzero(self):
+    def test_amount__below0(self):
         stip = St.StipendRecord()
         with self.assertRaises(Exception) as context:
             stip.amount = '-23.12'
         self.assertTrue('Kwota nie może być mniejsza od zera' in str(context.exception))
 
-    def test_amount__nonalfanumeric(self):
+    def test_amount__nonnumeric(self):
         stip = St.StipendRecord()
         stip.amount = '$12.98'
         assert stip.amount == 12.98
 
-    def test_amount__nonalfanumeric2(self):
+    def test_amount__nonnumericbelow0(self):
         stip = St.StipendRecord()
-        stip.amount = '$-12.98'
-        assert stip.amount == 12.98
+        with self.assertRaises(Exception) as context:
+            stip.amount = '$-23.12'
+        self.assertTrue('Kwota nie może być mniejsza od zera' in str(context.exception))
 
-    def test_amount__nonalfanumeric3belowzero(self):
+    def test_amount__nonnumericbelow0_2(self):
         stip = St.StipendRecord()
         with self.assertRaises(Exception) as context:
             stip.amount = '-23.12$'
@@ -28,8 +29,9 @@ class TestAmount(TestCase):
 
     def test_amount__string(self):
         stip = St.StipendRecord()
-        stip.amount = 'qaz'
-        assert stip.amount == 0.0
+        with self.assertRaises(Exception) as context:
+            stip.amount = "qaz"
+        self.assertTrue("Wprowadzana wartość nie jest liczbą" in str(context.exception))
 
     def test_amount__empty(self):
         stip = St.StipendRecord()
@@ -38,16 +40,24 @@ class TestAmount(TestCase):
 
     def test_amount__boll(self):
         stip = St.StipendRecord()
-        stip.amount = False
-        assert stip.amount == 0.0
+        with self.assertRaises(Exception) as context:
+            stip.amount = False
+        self.assertTrue("Podano wartość logiczną." in str(context.exception))
 
     def test_amount__int(self):
         stip = St.StipendRecord()
         stip.amount = "12"
         assert stip.amount == 12.0
 
+    def test_amount__None(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.amount = None
+        self.assertTrue("Wprowadzana wartość nie jest liczbą" in str(context.exception))
+
 
 class TestCelebratingAbrev(TestCase):
+    # reviving_priest is the same case.
 
     def test_celebrating_pr__morethan3(self):
         stip = St.StipendRecord()
@@ -95,8 +105,118 @@ class TestDateOfCelebration(TestCase):
             stip.date_of_celebration = '2022-13-01'
         self.assertTrue('Nie ma takiej daty' in str(context.exception))
 
-    def test_123(self):
+    def test_spaces(self):
         stip = St.StipendRecord()
         with self.assertRaises(Exception) as context:
             stip.date_of_celebration = '2022 12 12'
         self.assertTrue("Podaj właściwy format daty" in str(context.exception))
+
+
+class TestCelebrationHour(TestCase):
+    def test_not_an_hour(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.hour_of_celebration = "25:12:00"
+        self.assertTrue("Podaj właściwy format godziny" in str(context.exception))
+
+    def test_None_hour(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.hour_of_celebration = None
+        self.assertTrue("Podaj właściwy format godziny" in str(context.exception))
+
+    def test_not_numeric(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.hour_of_celebration = "HH:mm:ss"
+        self.assertTrue("Podaj właściwy format godziny" in str(context.exception))
+
+    def test_no_sec(self):
+        stip = St.StipendRecord()
+        stip.hour_of_celebration = "12:00"
+        assert stip.hour_of_celebration == "12:00"
+
+    def test_no_sec_no_hour(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.hour_of_celebration = "34:00"
+        self.assertTrue("Podaj właściwy format godziny" in str(context.exception))
+
+
+class TestType(TestCase):
+
+    def test_type__logic(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.type_of_mass = False
+        self.assertTrue("Podano wartość logiczną." in str(context.exception))
+
+    def test_OK(self):
+        stip = St.StipendRecord()
+        stip.type_of_mass = 'Typ'
+        assert stip.type_of_mass == "Typ"
+
+    def test_empty(self):
+        stip = St.StipendRecord()
+        stip.type_of_mass = ''
+        assert stip.type_of_mass == ""
+
+    def test_alfanum(self):
+        stip = St.StipendRecord()
+        stip.type_of_mass = '123'
+        assert stip.type_of_mass == ""
+
+    def test_None(self):
+        stip = St.StipendRecord()
+        stip.type_of_mass = None
+        assert stip.type_of_mass == ""
+
+
+class TestIsGregorian(TestCase):
+    def test_boolean(self):
+        stip = St.StipendRecord()
+        stip.is_gregorian = True
+        assert stip.is_gregorian == True
+
+    def test_not_boolean(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.is_gregorian = "False"
+        self.assertTrue("Nie boolowski typ danych" in str(context.exception))
+
+    def test_int_type(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.is_gregorian = 1
+        self.assertTrue("Nie boolowski typ danych" in str(context.exception))
+
+    def test_None_type(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.is_gregorian = None
+        self.assertTrue("Nie boolowski typ danych" in str(context.exception))
+
+
+class TestIsFirst(TestCase):
+    def test_boolean(self):
+        stip = St.StipendRecord()
+        stip.is_first = True
+        assert stip.is_first == True
+
+    def test_not_boolean(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.is_first = "False"
+        self.assertTrue("Nie boolowski typ danych" in str(context.exception))
+
+    def test_int_type(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.is_first = "False"
+        self.assertTrue("Nie boolowski typ danych" in str(context.exception))
+
+    def test_None_type(self):
+        stip = St.StipendRecord()
+        with self.assertRaises(Exception) as context:
+            stip.is_first = "False"
+        self.assertTrue("Nie boolowski typ danych" in str(context.exception))
