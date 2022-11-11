@@ -1,5 +1,6 @@
 import datetime
 import re
+import pandas as pd
 
 
 class StipendRecord:
@@ -37,9 +38,12 @@ class StipendRecord:
     def amount(self):
         return self.__amount
     @amount.setter
-    def amount(self, value) -> float:
-        self.__amount = float(re.sub(r'[^0-9.]+', '', str(value).strip()))
-
+    def amount(self, value):
+        if value[0] == "-":
+            raise Exception("Kwota nie może być mniejsza od zera")
+        amount = str(re.sub(r'[^0-9.]+', '', str(value).strip()))
+        amount = 0.0 if amount == "" else float(amount)
+        self.__amount = amount
     @property
     def reciving_priest(self):
         return self.__priest_reciving
@@ -58,7 +62,15 @@ class StipendRecord:
         return self.__celebrated_by
     @celebrating_priest.setter
     def celebrating_priest(self, value) -> str:
-        self.__celebrated_by = re.sub(r'[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+', '', str(value).strip())
+        """
+        First letter of name and surname. Max. 3 chars (in case of similar abrev.)
+        :param value:
+        :return:
+        """
+        if len(value) > 3:
+            raise Exception("Przekroczono dopuszczalną ilość znaków (3).")
+        result = re.sub(r'[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+', '', str(value).strip())
+        self.__celebrated_by = result.upper()[:3]
 
     @property
     def date_of_celebration(self):
@@ -69,17 +81,31 @@ class StipendRecord:
         return formated_date
     @date_of_celebration.setter
     def date_of_celebration(self, value):
-        format = "%Y-%m-%d"
-        result = True
-        try:
-            result = bool(datetime.datetime.strptime(value, format))
-        except ValueError:
-            result = False
-        finally:
-            if result:
+        """
+        Dopuszczalny format daty: "yyyy-mm-dd" lub "dd-mm-yyyy"
+
+        """
+
+        value = str(re.sub(r'[^0-9-]+', '', str(value).strip()))
+        ymd = re.compile('^\d{4}-\d{2}-\d{2}')
+        dmy = re.compile('^\d{2}-\d{2}-\d{4}')
+        if ymd.match(value) is not None or dmy.match(value) is not None:
+            try:
+                if value[4] == "-" and value[7]:
+                    isNaT = pd.to_datetime(value, format="%Y-%m-%d", errors='coerce')
+                    if isNaT is pd.NaT:
+                        raise Exception("Nie ma takiej daty")
+                elif value[2] == "-" and value[5]:
+                    ddmmyyyy = value
+                    value = ddmmyyyy[6:] + "-" + ddmmyyyy[3:5] + "-" + ddmmyyyy[:2]
+                    isNaT = pd.to_datetime(value, format="%Y-%m-%d", errors='coerce')
+                    if isNaT is pd.NaT:
+                        raise Exception("Nie ma takiej daty")
+            finally:
                 self.__celebration_date = value
-            else:
-                print("Wrong [date] format")
+        else:
+            raise Exception("Podaj właściwy format daty")
+
 
     @property
     def hour_of_celebration(self):

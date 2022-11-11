@@ -44,6 +44,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="MessBox.QMessageBox" />
+          <option value="property.getter" />
         </list>
       </option>
     </inspection_tool>

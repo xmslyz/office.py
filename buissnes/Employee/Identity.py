@@ -26,7 +26,6 @@ class EmployeeIdentity:
     @property
     def type(self):
         return self.__type
-
     @type.getter
     def type(self):
         return self.__type
