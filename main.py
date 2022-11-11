@@ -25,7 +25,7 @@ def main():
     ####gui.SettingsTab.Button_BuildNewDatabase.Drop_DB_Button().drop_database()
     ####gui.SettingsTab.Button_BuildNewDatabase.Remove_DB_Files.remove_db_file()
 
-    # print(datetime.datetime.now() - t1)
+    print(datetime.datetime.now() - t1)
 
 
 if __name__ == '__main__':
