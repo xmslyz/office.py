@@ -35,13 +35,13 @@ class TestDBPath(TestCase):
         test_db = DBS.DBSettings()
         test_db.db_path = "Q$QQQ\\a+-aa\\"
         print(test_db.db_path)
-        assert test_db.db_path == str(pathlib.PurePath(os.getcwd(), "QQQQ/aaa"))
+        assert test_db.db_path == str(pathlib.PurePath(os.getcwd(), "QQQQ\\aaa"))
 
     def test_path__with_slashes(self):
         test_db = DBS.DBSettings()
         test_db.db_path = "Q$QQQ\\a+-aa\\\\"
         print(test_db.db_path)
-        assert test_db.db_path == str(pathlib.PurePath(os.getcwd(), "QQQQ/aaa"))
+        assert test_db.db_path == str(pathlib.PurePath(os.getcwd(), "QQQQ\\aaa"))
 
     def test_path__emptypath(self):
         test_db = DBS.DBSettings()
@@ -85,7 +85,7 @@ class TestDBFullPath(TestCase):
     def test_fullpath(self):
         test_db = DBS.DBSettings()
         test_db.db_name = "test.db"
-        test_db.db_path = "TEST/test/"
+        test_db.db_path = "TEST\\test\\"
         test_db.db_full_path = ''
-        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "TEST/test", "test.db"))
+        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
 
