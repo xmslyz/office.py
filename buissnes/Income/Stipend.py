@@ -101,8 +101,8 @@ class StipendRecord:
         """
 
         value = str(re.sub(r'[^0-9-]+', '', str(value).strip()))
-        ymd = re.compile('^\d{4}-\d{2}-\d{2}')
-        dmy = re.compile('^\d{2}-\d{2}-\d{4}')
+        ymd = re.compile(r'^(\d){4}-(\d){2}-(\d){2}')
+        dmy = re.compile('^(\d){2}-(\d){2}-(\d){4}')
         if ymd.match(value) is not None or dmy.match(value) is not None:
             try:
                 if value[4] == "-" and value[7]:
@@ -135,8 +135,8 @@ class StipendRecord:
         value = str(re.sub(r'[^0-9:]+', '', str(value).strip()))
         result = True
         dformat = 'hhmmss'
-        HHmm = re.compile('^\d{2}:\d{2}')
-        HHmmss = re.compile('^\d{2}:\d{2}:\d{2}')
+        HHmm = re.compile('^(\d){2}:(\d){2}')
+        HHmmss = re.compile('^(\d){2}:(\d){2}:(\d){2}')
         if HHmm.match(value) is not None or HHmmss.match(value) is not None:
             try:
                 if len(value) == 8:
