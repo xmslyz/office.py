@@ -20,7 +20,8 @@ class Connection:
 
     def get_conn_details(self, path_num, dbnm_num, tbl_num):
 
-        rs = buissnes.Database.AtributesSetter.TableSettings()
+        # rs = buissnes.Database.AtributesSetter.TableSettings()
+        rs = buissnes.Database.AtributesSetter.DBSettings()
         rs.db_path = buissnes.Database.Geter.AtributesGeter.db_path_getter(path_num)
         rs.db_name = buissnes.Database.Geter.AtributesGeter.db_name_getter(dbnm_num)
         rs.db_full_path = ''

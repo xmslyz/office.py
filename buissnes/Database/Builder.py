@@ -1,5 +1,6 @@
 import gc
 import os
+import pathlib
 import sqlite3
 from sqlite3 import Error
 from buissnes.Database.ScanRecords import Connection
@@ -21,8 +22,14 @@ class DBConnector(Connection):
         db_dir = os.path.join(os.path.abspath(os.getcwd()), self.path)
         return True if os.path.exists(db_dir) else False
 
+    # fpath = 'D:/workspace/python/samplefile.txt'
+    # isFile = os.path.isfile(fpath)
+    # isDirectory = os.path.isdir(fpath)
+    # E:\PycharmProjects\test311\DatabaseLayer\SQLDataBase\pp.py
+
     def make_path(self):
-        db_dir = os.path.join(os.path.abspath(os.getcwd()), self.path)
+        db_dir = db_dir = pathlib.PurePath(os.getcwd(), self.path).joinpath()
+        # db_dir2 = os.path.join(os.path.abspath(os.getcwd()), self.path)
         os.makedirs(db_dir, mode=0o700, exist_ok=True)
         db_dir = os.path.join(db_dir, self.db_name)
         return db_dir

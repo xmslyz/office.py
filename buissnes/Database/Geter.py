@@ -98,17 +98,17 @@ class UniqueIDGetter(Filter):
 class AtributesGeter:
     def db_path_getter(x):
         if x == 1:
-            return "DatabaseLayer\\SQLDataBase\\"
+            return "DatabaseLayer\\SQLDataBase"
         if x == 2:
-            return "DatabaseLayer\\Constants\\"
+            return "DatabaseLayer\\Constants"
 
     def db_name_getter(x):
         if x == 1:
-            return "sofa.db"
+            return "sofa"
         if x == 2:
-            return "constants.db"
+            return "constants"
         else:
-            return f"{x}.db"
+            return f"{x}"
 
     def db_tablename_getter(x):
         if x == 0:
