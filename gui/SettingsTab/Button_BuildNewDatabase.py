@@ -12,22 +12,22 @@ class Build_DB_Button:
     def __build_db_intentions(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
         mydb.__repr__()
-        mydb.get_conn_details(1, 1, 1)
+        mydb.get_conn_details("intentions")
         mydb.db_intentions()
 
     def __build_db_employees(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 2)
+        mydb.get_conn_details("employees")
         mydb.db_employee()
 
     def __build_db_monthly_stmt(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 3)
+        mydb.get_conn_details("monthly_stmt")
         mydb.db_monthly_stmt()
 
     def __build_db_general_stmt(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 4)
+        mydb.get_conn_details("general_stmt")
         mydb.db_general_stmt()
 
 
@@ -41,22 +41,22 @@ class Drop_DB_Button:
 
     def __drop_db_intentions(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 1)
+        mydb.get_conn_details("intentions")
         mydb.drop_table()
 
     def __drop_db_employees(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 2)
+        mydb.get_conn_details("employees")
         mydb.drop_table()
 
     def __drop_db_monthly_stmt(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 3)
+        mydb.get_conn_details("monthly_stmt")
         mydb.drop_table()
 
     def __drop_db_general_stmt(self):
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 4)
+        mydb.get_conn_details("general_stmt")
         mydb.drop_table()
 
 
@@ -64,7 +64,7 @@ class Remove_DB_Files:
 
     def remove_db_file():
         mydb = buissnes.Database.Builder.DBCreationStmts()
-        mydb.get_conn_details(1, 1, 1)
+        mydb.get_conn_details("intentions")
         # zabezpieczenie przed usunięciem, w programie może to być monitorowane komunikatem okienka pop-up proszącym o potiwerdzenie operacji
         mydb.file_destroyer(confirmed=True)
 

@@ -8,7 +8,7 @@ class DBSettings:
         self.__dbname = None
         self.__table_name = None
         self.__path = None
-        self.__full_path = str(pathlib.PurePath(os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db").joinpath())
+        self.__file_path = str(pathlib.PurePath(os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db").joinpath())
 
     @property
     def db_name(self):
@@ -53,13 +53,13 @@ class DBSettings:
         self.__table_name = str(pathlib.PurePath(new_tblname))
 
     @property
-    def db_full_path(self):
-        return self.__full_path
-    @db_full_path.getter
-    def db_full_path(self):
-        return self.__full_path
-    @db_full_path.setter
-    def db_full_path(self, value):
+    def db_file_path(self):
+        return self.__file_path
+    @db_file_path.getter
+    def db_file_path(self):
+        return self.__file_path
+    @db_file_path.setter
+    def db_file_path(self, value):
         if value is None:
             raise Exception("Ścieżka katalogu nie może być NoneType.")
-        self.__full_path = str(pathlib.PurePath(os.getcwd(), self.__path, self.__dbname).joinpath())
+        self.__file_path = str(pathlib.PurePath(os.getcwd(), self.__path, self.__dbname).joinpath())

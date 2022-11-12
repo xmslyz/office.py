@@ -3,7 +3,7 @@ import os
 import pathlib
 import sqlite3
 from sqlite3 import Error
-from buissnes.Database.ScanRecords import Connection
+from buissnes.Database.SQLConnector import Connection
 
 
 class DBConnector(Connection):
@@ -16,7 +16,7 @@ class DBConnector(Connection):
               f'path -> {self.path}\n\t'
               f'dbname -> {self.db_name}\n\t'
               f'table_name -> {self.table_name}\n\t'
-              f'full_path -> {self.full_path}\n')
+              f'full_path -> {self.file_path}\n')
 
     def is_path(self) -> str:
         db_dir = os.path.join(os.path.abspath(os.getcwd()), self.path)
@@ -39,7 +39,7 @@ class DBConnector(Connection):
             self.make_path()
         result = ()
         try:
-            conn = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+            conn = sqlite3.connect(self.file_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
             cur = conn.cursor()
             if pin == 0:
                 cur.execute(sql_stmt, val)
@@ -129,7 +129,7 @@ class DBCreationStmts(DBConnector):
     def file_destroyer(self, *, confirmed):
         if confirmed is True:
             try:
-                os.remove(os.path.join(self.full_path)) if os.path.exists(self.full_path) else None
+                os.remove(os.path.join(self.file_path)) if os.path.exists(self.file_path) else None
                 print("Plik usunięty")
             except PermissionError:
                 print("Plik nie może zostać usunięty, ponieważ nie można uzyskać dostępu do pliku.")
@@ -149,4 +149,4 @@ class DatabaseConstructor(DBConnector):
         if not self.is_path():  # gdy nie istnieje struktura katalogu
             sqlite3.connect(self.make_path(), detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
         else:
-            sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+            sqlite3.connect(self.file_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)

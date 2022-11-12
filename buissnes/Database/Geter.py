@@ -1,14 +1,12 @@
 from collections import Counter
-
-import buissnes.Database
-from buissnes.Database.ScanRecords import Filter
+from buissnes.Database.Filter import Filter
 
 
 class MonthlyStmtGeter(Filter):
     def __init__(self):
         super().__init__()
         self.query = Filter()
-        self.query.get_conn_details(1, 1, 3)
+        self.query.get_conn_details("monthly_stmt")
 
     def get_monthly_stmt_by_uniqueID(self, when, uniID):
         query = self.query.sql_querry(f"SELECT * FROM monthly_stmt WHERE stmt_date LIKE ('{when}') AND uniqueID IS ('{uniID}');")
@@ -29,7 +27,7 @@ class GuestsGetter(Filter):
     def __init__(self):
         super().__init__()
         self.query = Filter()
-        self.query.get_conn_details(1, 1, 1)
+        self.query.get_conn_details("intentions")
 
     def get_guests(self, when):
         guest_list = []
@@ -46,7 +44,7 @@ class IntentionsColsGetter(Filter):
     def __init__(self):
         super().__init__()
         self.query = Filter()
-        self.query.get_conn_details(1, 1, 2)
+        self.query.get_conn_details("employees")
 
     def get_abreviations(self):
         """ Returns list of abreviations """
@@ -72,7 +70,7 @@ class UniqueIDGetter(Filter):
     def __init__(self):
         super().__init__()
         self.query = Filter()
-        self.query.get_conn_details(1, 1, 2)
+        self.query.get_conn_details("employees")
 
     def get_uniqueID(self, abrev, onduty):
         try:
@@ -95,47 +93,3 @@ class UniqueIDGetter(Filter):
             return []
 
 
-class AtributesGeter:
-    def db_path_getter(x):
-        if x == 1:
-            return "DatabaseLayer\\SQLDataBase"
-        if x == 2:
-            return "DatabaseLayer\\Constants"
-
-    def db_name_getter(x):
-        if x == 1:
-            return "sofa"
-        if x == 2:
-            return "constants"
-        else:
-            return f"{x}"
-
-    def db_tablename_getter(x):
-        if x == 0:
-            return "constants"
-        elif x == 1:
-            return "intentions"
-        elif x == 2:
-            return "employees"
-        elif x == 3:
-            return "monthly_stmt"
-        elif x == 4:
-            return "general_stmt"
-        elif x == 5:
-            return "pars"
-        elif x == 6:
-            return "x"
-        elif x == 7:
-            return "y"
-        else:
-            return x
-
-    def constants_getter(const):
-        db = buissnes.Database.ScanRecords.Connection()
-        db.get_conn_details(2, 2, 0)
-        result = 0
-        if const == "bin":
-            result = db.sql_querry('SELECT value FROM constants WHERE name IS "binacja";')
-        elif const == "inv":
-            result = db.sql_querry('SELECT value FROM constants WHERE name IS "invited";')
-        return int(result[0][0])

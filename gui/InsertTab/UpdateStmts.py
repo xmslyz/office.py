@@ -22,5 +22,5 @@ class ButtonUpdateGeneralStmt:
         :return: none
         """
         upd = buissnes.Statements.ManageGeneralStmt.NewGenStmt()
-        upd.get_conn_details(1, 1, 4)
+        upd.get_conn_details("general_stmt")
         upd.insert_all(when)

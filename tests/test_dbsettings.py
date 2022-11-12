@@ -88,20 +88,20 @@ class TestDBFullPath(TestCase):
         test_db = DBS.DBSettings()
         test_db.db_name = "test.db"
         test_db.db_path = "TEST\\test"
-        test_db.db_full_path = ''
-        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
+        test_db.db_file_path = ''
+        assert test_db.db_file_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
 
     def test_fullpath__nonalfanumeric(self):
         test_db = DBS.DBSettings()
         test_db.db_name = "test.db"
         test_db.db_path = "T@EST\\tes^t"
-        test_db.db_full_path = ''
-        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
+        test_db.db_file_path = ''
+        assert test_db.db_file_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
 
     def test_fullpath__emptypath(self):
         test_db = DBS.DBSettings()
         with self.assertRaises(Exception) as context:
-            test_db.db_full_path = None
+            test_db.db_file_path = None
         self.assertTrue('Ścieżka katalogu nie może być NoneType.' in str(context.exception))
 
     def test_fullpath__Nonepath(self):
@@ -114,4 +114,4 @@ class TestDBFullPath(TestCase):
         test_db = DBS.DBSettings()
         test_db.db_name = "test.db"
         test_db.db_path = "TEST\\test"
-        assert test_db.db_full_path == str(pathlib.PurePath(os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db").joinpath())
+        assert test_db.db_file_path == str(pathlib.PurePath(os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db").joinpath())

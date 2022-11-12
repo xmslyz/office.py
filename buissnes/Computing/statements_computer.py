@@ -1,18 +1,18 @@
 import buissnes.Database.Geter
-from buissnes.Database.ScanRecords import Filter
+import buissnes.Database.SQLConnector
+from buissnes.Database.Filter import Filter
 import buissnes.Computing.tax_computer
 
 
-BINATION = buissnes.Database.Geter.AtributesGeter.constants_getter("bin")
-GUEST = buissnes.Database.Geter.AtributesGeter.constants_getter("inv")
-
-
 class Collation(Filter):
+    BINATION = buissnes.Database.SQLConnector.KeyGeter.constants_getter("bin")
+    GUEST = buissnes.Database.SQLConnector.KeyGeter.constants_getter("inv")
+
     def __init__(self, qdate):
         super().__init__()
         self.qdate = qdate
         self.qry = Filter()
-        self.qry.get_conn_details(1, 1, 1)
+        self.qry.get_conn_details("intentions")
 
     def record_by_id(self, qid):
         x = self.qry.select_all_where_q_like(qid=qid)
@@ -137,7 +137,7 @@ class Compute(Collation):
                 return round(0, 2)
 
     def sum_of_binations(self):
-        return self.amount_of_binations() * BINATION
+        return self.amount_of_binations() * self.BINATION
 
     def gregorian_mediana(self):
         if self.amount_of_all_gregorian() == 0:
@@ -153,7 +153,7 @@ class Compute(Collation):
         total = 0
         for _ in uid:
             total += _[1]
-        return total * GUEST
+        return total * self.GUEST
 
 
 class EmployeeCollation(Collation):
@@ -218,7 +218,7 @@ class ComputeEmployee(EmployeeCollation):
         :return: float
         """
         bination = self.amount_of_all_masses_applied_by_a_priest() - self.amount_of_first_masses_applied_by_a_priest()
-        return round(float(bination * BINATION), 2)
+        return round(float(bination * self.BINATION), 2)
 
     def total_wage_for_priest(self): return round(self.quota_for_priest() + self.bination_quota_for_priest(), 2)
 

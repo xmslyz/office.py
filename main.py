@@ -11,6 +11,7 @@ import gui.InsertTab.InsertNewMassRecord
 import gui.SettingsTab.Button_BuildNewDatabase
 import buissnes.Statements.ManageMonthlyStmt
 import buissnes.Statements.ManageGeneralStmt
+from buissnes.Database import Builder
 import gui.InsertTab.UpdateStmts
 
 
@@ -27,6 +28,10 @@ def main():
     ####gui.SettingsTab.Button_BuildNewDatabase.Build_DB_Button().build_database()
     ####gui.SettingsTab.Button_BuildNewDatabase.Drop_DB_Button().drop_database()
     ####gui.SettingsTab.Button_BuildNewDatabase.Remove_DB_Files.remove_db_file()
+    x = Builder.Connection()
+    x.get_conn_details("pars")
+    print(x.file_path)
+    print(x.__repr__())
 
 
 if __name__ == '__main__':

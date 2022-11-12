@@ -17,7 +17,7 @@ class Button_Add_New_Record:
         jobs = Input_Add_New_Record.insert_batch_job()
         stipend = Input_Add_New_Record.insert_mass_records()
         stip = buissnes.Income.ManageStipend.CreateNewStipend()
-        stip.get_conn_details(1, 1, 1)
+        stip.get_conn_details("intentions")
         stip.insert_record(val=stipend, amount=jobs)
 
 

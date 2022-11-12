@@ -6,7 +6,7 @@ class Button_Add_New_Employee:
     def add_new_employee(self):
         employee_obj = Input_Add_New_Employee.get_new_employee_data()
         new_emp = buissnes.Employee.ManageEmployee.NewEmployee()
-        new_emp.get_conn_details(1, 1, 2)
+        new_emp.get_conn_details("employees")
         new_emp.new_employee(employee_obj)
 
 
@@ -18,7 +18,11 @@ class Input_Add_New_Employee:
         shortname = 'Arturito'
         abreviation = 'AM'
         function = 'Residente'
-        taxes = '(230,100.50,50)'
+        taxes = {
+            'dziesięcina': '230.00',
+            'dke': '100',
+            'szkoła': '120'
+        }
 
         # tworzy pusty obiekt rejestru dla księgi intencji
         employee_obj = buissnes.Employee.Identity.EmployeeIdentity()

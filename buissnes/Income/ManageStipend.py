@@ -1,7 +1,8 @@
 import datetime
 
+import buissnes.Database.Filter
 import buissnes.Database.Geter
-from buissnes.Database import ScanRecords as dbs
+from buissnes.Database import SQLConnector as dbs
 from buissnes.Database.Builder import DBConnector
 
 
@@ -49,8 +50,8 @@ class CreateNewStipend(DBConnector):
 
     def is_first_checker(self, val):
         """ Sprawdzam czy to pierwsza msza w tym dniu danego księdza """
-        dbsearcher = dbs.Filter()
-        dbsearcher.get_conn_details(1, 1, 1)
+        dbsearcher = buissnes.Database.Filter.Filter()
+        dbsearcher.get_conn_details("intentions")
         who_celebrated_query = val.celebrating_priest
         celebration_day_query = val.date_of_celebration
         return len(dbsearcher.select_all_where_q_is(qcelebrated_by=who_celebrated_query,
@@ -69,7 +70,7 @@ class UpdateMassStipend(DBConnector):
         sql_stmt = f"SELECT celebrated_by, celebration_hour, celebration_date, first_mass FROM intentions " \
                    f"WHERE celebration_date IS ('{val.date_of_celebration}');"
         con = dbs.Connection()
-        con.get_conn_details(1, 1, 1)
+        con.get_conn_details("intentions")
         query = con.sql_querry(sql_stmt)
 
         i = 0

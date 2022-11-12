@@ -1,60 +1,4 @@
-import os
-import sqlite3
-import buissnes.Database.AtributesSetter
-import buissnes.Database.Geter
-
-
-class Connection:
-    def __init__(self):
-        self.path = None
-        self.db_name = None
-        self.full_path = None
-        self.table_name = None
-
-    def __repr__(self):
-        return f'Connection:\n\t' \
-               f'PATH: {self.path}\n\t' \
-               f'FULL PATH: {self.full_path}\n\t' \
-               f'DATABASE NAME: {self.db_name}\n\t' \
-               f'TABLE NAME: {self.table_name}\n'
-
-    def get_conn_details(self, path_num, dbnm_num, tbl_num):
-
-        # rs = buissnes.Database.AtributesSetter.TableSettings()
-        rs = buissnes.Database.AtributesSetter.DBSettings()
-        rs.db_path = buissnes.Database.Geter.AtributesGeter.db_path_getter(path_num)
-        rs.db_name = buissnes.Database.Geter.AtributesGeter.db_name_getter(dbnm_num)
-        rs.db_full_path = ''
-        rs.db_table_name = buissnes.Database.Geter.AtributesGeter.db_tablename_getter(tbl_num)
-
-        self.path = rs.db_path
-        self.db_name = rs.db_name
-        self.table_name = rs.db_table_name
-        self.full_path = rs.db_full_path
-
-    def __open_connection(self):
-        self.__con = sqlite3.connect(self.full_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-        self.__cur = self.__con.cursor()
-
-    def sql_querry(self, sql_stmt) -> str:
-        """
-        Enter valid sql statement.
-        :param sql_stmt: sql SELECT_STMT
-        :return: cursor.fetchall()
-        """
-        self.__open_connection()
-        try:
-            self.__cur.execute(sql_stmt)
-            return self.__cur.fetchall()
-        except sqlite3.OperationalError:
-            print("No such table. Program will close up now.")
-            exit()  # inaczej rozwiązać !!
-        finally:
-            self.__close_conection()
-
-    def __close_conection(self):
-        self.__con.commit()
-        self.__cur.close()
+from buissnes.Database.SQLConnector import Connection
 
 
 class Filter(Connection):
@@ -186,5 +130,5 @@ class Filter(Connection):
         mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN monthly_stmt " \
                  f"ON employees.uniqueID = monthly_stmt.uniqueID WHERE employees.uniqueID IS '{val}';"
         internal_con = Connection()
-        internal_con.get_conn_details(1, 1, 2)
+        internal_con.get_conn_details("employees")
         return internal_con.sql_querry(mysql3)

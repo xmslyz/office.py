@@ -10,7 +10,7 @@ class Button_Update_Mass_Record:
         input_from_gui = '249'
         valinput = Input_Actual_Data.recive_updated_data()
         up = buissnes.Income.ManageStipend.UpdateMassStipend()
-        up.get_conn_details(1, 1, 1)
+        up.get_conn_details("intentions")
         up.update(valinput, input_from_gui)
 
 
