@@ -90,6 +90,36 @@ class KeyGeter:
             "table_name": "pars",
             "file": ""
         },
+        "testintentions": {
+            "path": 'DatabaseLayer\\TestDataBase',
+            "db_name": "sofa.db",
+            "table_name": "intentions",
+            "file": ""
+        },
+        "testemployees": {
+            "path": 'DatabaseLayer\\TestDataBase',
+            "db_name": "sofa.db",
+            "table_name": "employees",
+            "file": ""
+        },
+        "testmonthly_stmt": {
+            "path": 'DatabaseLayer\\TestDataBase',
+            "db_name": "sofa.db",
+            "table_name": "monthly_stmt",
+            "file": ""
+        },
+        "testgeneral_stmt": {
+            "path": 'DatabaseLayer\\TestDataBase',
+            "db_name": "sofa.db",
+            "table_name": "general_stmt",
+            "file": ""
+        },
+        "testpars": {
+            "path": 'DatabaseLayer\\TestDataBase',
+            "db_name": "sofa.db",
+            "table_name": "pars",
+            "file": ""
+        }
     }
 
     def uncode(self, keyname):

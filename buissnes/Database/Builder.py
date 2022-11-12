@@ -45,6 +45,8 @@ class DBConnector(Connection):
                 cur.execute(sql_stmt, val)
             elif pin == 1:
                 cur.execute(sql_stmt, (val,))
+            elif pin == 2:
+                cur.executemany(sql_stmt, val)
             else:
                 cur.execute(sql_stmt)
             result = cur.fetchall()
