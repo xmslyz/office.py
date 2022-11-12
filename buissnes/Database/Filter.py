@@ -129,6 +129,9 @@ class Filter(Connection):
     def search_employees_by_uniqueID(self, val):
         mysql3 = f"SELECT * FROM employees LEFT OUTER JOIN monthly_stmt " \
                  f"ON employees.uniqueID = monthly_stmt.uniqueID WHERE employees.uniqueID IS '{val}';"
-        internal_con = Connection()
-        internal_con.get_conn_details("employees")
-        return internal_con.sql_querry(mysql3)
+        self.sql_querry(mysql3)
+
+        # DEPR
+        # internal_con = Connection()
+        # internal_con.get_conn_details("employees")
+        # return internal_con.sql_querry(mysql3)

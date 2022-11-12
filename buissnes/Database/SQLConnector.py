@@ -41,9 +41,8 @@ class Connection:
         try:
             self.__cur.execute(sql_stmt)
             return self.__cur.fetchall()
-        except sqlite3.OperationalError:
-            print("No such table. Program will close up now.")
-            exit()  # inaczej rozwiązać !!
+        except:
+            raise Exception("No such table. Program will close up now.")
         finally:
             self.__close_conection()
 

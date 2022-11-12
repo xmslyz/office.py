@@ -19,7 +19,7 @@ class NewGenStmt(DBConnector):
         super().__init__()
 
     def insert_all(self, stmt_date):
-        conn = buissnes.Database.Geter.UniqueIDGetter().get_list_uniqueID()
+        conn = buissnes.Database.Geter.UniqueIDGetter().get_list_uniqueID_when_on_duty()
         for _ in conn:
             self.fill_general_stmt(stmt_date, _)
 
