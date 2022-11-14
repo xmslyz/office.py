@@ -1,10 +1,3 @@
-import datetime
-import os
-import pathlib
-import re
-import pandas as pd
-
-import DatabaseLayer
 import gui.InsertTab.UpdateMassRecord
 import gui.InsertTab.DeleteMassRecord
 import gui.InsertTab.InsertNewMassRecord
@@ -13,11 +6,6 @@ import buissnes.Statements.ManageMonthlyStmt
 import buissnes.Statements.ManageGeneralStmt
 from buissnes.Database import Builder
 import gui.InsertTab.UpdateStmts
-
-import unittest
-import sqlite3
-from unittest import TestCase, mock
-from unittest.mock import patch, MagicMock
 
 def main():
         pass
@@ -36,4 +24,4 @@ def main():
 
 
 if __name__ == '__main__':
-    unittest.main()
+    main()
