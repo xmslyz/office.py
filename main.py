@@ -19,8 +19,7 @@ import sqlite3
 from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock
 
-
-    def main():
+def main():
         pass
         # gui.SettingsTab.Button_BuildNewDatabase.Build_DB_Button().build_database()
         # gui.InsertTab.InsertNewMassRecord.Button_Add_New_Record().add_new_mass_record()
