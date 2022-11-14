@@ -20,24 +20,6 @@ from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock
 
 
-class Foo:
-    def checkActive(self):
-        conn = sqlite3.connect('lll.db')
-        cur = conn.execute("SELECT * FROM SQLITE_MASTER")
-        value = cur.fetchone()
-        return value
-
-
-class test_Foo(TestCase):
-
-    @patch('sqlite3.connect')
-    def test_shortTest(self, mock_sql):
-        mock_sql.return_value.execute.return_value.fetchone.return_value = ('Test',)
-        test_class = Foo()
-        return_mock = test_class.checkActive()
-        print(return_mock)
-
-
     def main():
         pass
         # gui.SettingsTab.Button_BuildNewDatabase.Build_DB_Button().build_database()
