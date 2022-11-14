@@ -5,7 +5,7 @@ from buissnes.Database.Geter import MonthlyStmtGeter
 from buissnes.Database.Geter import GuestsGetter
 from buissnes.Database.Geter import IntentionsColsGetter
 from buissnes.Database.Geter import UniqueIDGetter
-class TestUserVocabDatabase(unittest.TestCase):
+class TestDatabaseMain(unittest.TestCase):
     '''
     Test the user vocab collection database
     '''
