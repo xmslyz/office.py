@@ -32,11 +32,14 @@ class Collation(Filter):
 
     def list_of_binations(self):
         result = self.qry.select_all_where_q_is(qfirst_mass="0")
-        qlist = []
-        for _ in result:
-            if _[5][0:7] == self.qdate:
-                qlist.append(_)
-        return qlist
+        return [x for x in result if x[5].startswith(self.qdate)]
+
+        # ale ja głupi😑. Przecież można list comprehention 🫣
+        # qlist = []
+        # for _ in result:
+        #     if _[5][0:7] == self.qdate:
+        #         qlist.append(_)
+        # return qlist
 
     def list_of_all_gregorian(self):
         result = self.qry.select_all_where_q_is(qgregorian=1)
