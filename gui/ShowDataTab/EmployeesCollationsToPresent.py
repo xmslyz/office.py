@@ -1,8 +1,8 @@
-import buissnes.Computing.statements_computer
+import buisness.Computing.statements_computer
 
 
-coll = buissnes.Computing.statements_computer.ComputeEmployee("2022-10", "PK")
-comp = buissnes.Computing.statements_computer.EmployeeCollation("2022-10", "PK")
+coll = buisness.Computing.statements_computer.ComputeEmployee("2022-10", "PK")
+comp = buisness.Computing.statements_computer.EmployeeCollation("2022-10", "PK")
 
 
 def list_of_recieved_by_a_priest(): return coll.list_of_recieved_by_a_priest()

@@ -1,9 +1,9 @@
-import buissnes.Database.Builder
-import buissnes.Income.ManageStipend
-import buissnes.Income.Stipend
-import buissnes.Database.Geter
-import buissnes.Employee.Identity
-import buissnes.Statements.ManageMonthlyStmt
+import buisness.Database.Builder
+import buisness.Income.ManageStipend
+import buisness.Income.Stipend
+import buisness.Database.Geter
+import buisness.Employee.Identity
+import buisness.Statements.ManageMonthlyStmt
 
 
 class Button_Add_New_Record:
@@ -16,7 +16,7 @@ class Button_Add_New_Record:
         """
         jobs = Input_Add_New_Record.insert_batch_job()
         stipend = Input_Add_New_Record.insert_mass_records()
-        stip = buissnes.Income.ManageStipend.CreateNewStipend()
+        stip = buisness.Income.ManageStipend.CreateNewStipend()
         stip.get_conn_details("intentions")
         stip.insert_record(val=stipend, amount=jobs)
 
@@ -38,7 +38,7 @@ class Input_Add_New_Record:
         is_gregorian = False
 
         # tworzy pusty obiekt rejestru dla księgi intencji
-        batch = buissnes.Income.Stipend.StipendRecord()
+        batch = buisness.Income.Stipend.StipendRecord()
         batch.amount = amount
         batch.reciving_priest = reciving_priest
         batch.celebrating_priest = celebrating_priest

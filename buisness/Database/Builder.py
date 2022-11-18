@@ -3,7 +3,7 @@ import os
 import pathlib
 import sqlite3
 from sqlite3 import Error
-from buissnes.Database.SQLConnector import Connection
+from buisness.Database.SQLConnector import Connection
 
 
 class DBConnector(Connection):

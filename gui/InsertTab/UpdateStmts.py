@@ -1,5 +1,5 @@
-import buissnes.Statements.ManageMonthlyStmt
-import buissnes.Statements.ManageGeneralStmt
+import buisness.Statements.ManageMonthlyStmt
+import buisness.Statements.ManageGeneralStmt
 
 
 class ButtonUpdateMonthlyStmt:
@@ -10,7 +10,7 @@ class ButtonUpdateMonthlyStmt:
         :param when: 'yyyy-mm' format
         :return: none
         """
-        buissnes.Statements.ManageMonthlyStmt.Update_monthly_stmt_for_all().update(when)
+        buisness.Statements.ManageMonthlyStmt.Update_monthly_stmt_for_all().update(when)
 
 
 class ButtonUpdateGeneralStmt:
@@ -21,6 +21,6 @@ class ButtonUpdateGeneralStmt:
         :param when: 'yyyy-mm' format
         :return: none
         """
-        upd = buissnes.Statements.ManageGeneralStmt.NewGenStmt()
+        upd = buisness.Statements.ManageGeneralStmt.NewGenStmt()
         upd.get_conn_details("general_stmt")
         upd.insert_all(when)

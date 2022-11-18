@@ -1,5 +1,5 @@
-import buissnes.Income.ManageStipend
-import buissnes.Income.Stipend
+import buisness.Income.ManageStipend
+import buisness.Income.Stipend
 
 
 class Button_Update_Mass_Record:
@@ -9,7 +9,7 @@ class Button_Update_Mass_Record:
         """
         input_from_gui = '249'
         valinput = Input_Actual_Data.recive_updated_data()
-        up = buissnes.Income.ManageStipend.UpdateMassStipend()
+        up = buisness.Income.ManageStipend.UpdateMassStipend()
         up.get_conn_details("intentions")
         up.update(valinput, input_from_gui)
 
@@ -26,7 +26,7 @@ class Input_Actual_Data:
         is_gregorian = False
 
         # tworzy pusty obiekt rejestru dla księgi intencji
-        stipend = buissnes.Income.Stipend.StipendRecord()
+        stipend = buisness.Income.Stipend.StipendRecord()
         stipend.amount = amount
         stipend.reciving_priest = reciving_priest
         stipend.celebrating_priest = celebrating_priest

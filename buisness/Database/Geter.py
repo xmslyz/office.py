@@ -1,5 +1,5 @@
 from collections import Counter
-from buissnes.Database.Filter import Filter
+from buisness.Database.Filter import Filter
 
 
 class MonthlyStmtGeter(Filter):

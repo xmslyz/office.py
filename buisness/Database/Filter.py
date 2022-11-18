@@ -1,4 +1,4 @@
-from buissnes.Database.SQLConnector import Connection
+from buisness.Database.SQLConnector import Connection
 
 
 class Filter(Connection):

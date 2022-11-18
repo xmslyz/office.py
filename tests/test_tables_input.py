@@ -1,5 +1,6 @@
+import unittest
 from unittest import TestCase
-from buissnes.Income import Stipend
+from buisness.Income import Stipend
 
 
 class TestAmount(TestCase):
@@ -242,3 +243,7 @@ class TestIsFirst(TestCase):
         with self.assertRaises(Exception) as context:
             stip.is_first = "False"
         self.assertTrue("Nie boolowski typ danych" in str(context.exception))
+
+
+if __name__ == '__main__':
+    unittest.main()

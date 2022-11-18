@@ -1,4 +1,4 @@
-import buissnes.Database.SQLConnector
+import buisness.Database.SQLConnector
 
 
 class Button_Show_Mass_Record:
@@ -7,7 +7,7 @@ class Button_Show_Mass_Record:
         input_from_gui = '4'
         sql_stmt = f"SELECT amount, priest_reciving, celebrated_by, celebration_date, celebration_hour, celebration_type, gregorian FROM intentions " \
                    f"WHERE id IS ('{input_from_gui}');"
-        con = buissnes.Database.ScanRecords.Connection()
+        con = buisness.Database.ScanRecords.Connection()
         con.get_conn_details("intentions")
         query = con.sql_querry(sql_stmt)
         if query:

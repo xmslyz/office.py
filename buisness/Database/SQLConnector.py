@@ -1,7 +1,7 @@
 import os
 import pathlib
 import sqlite3
-from buissnes.Database import AtributesSetter
+from buisness.Database import AtributesSetter
 
 
 class Connection:
@@ -128,7 +128,7 @@ class KeyGeter:
             raise Exception("Nie ma takiego klucza")
 
     def constants_getter(const):
-        # db = buissnes.Database.ScanRecords.Connection()
+        # db = buisness.Database.ScanRecords.Connection()
         # db.get_conn_details(2, 2, 0)
         # result = 0
         if const == "bin":

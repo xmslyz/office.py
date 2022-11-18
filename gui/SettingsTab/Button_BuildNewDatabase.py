@@ -1,5 +1,5 @@
-import buissnes.Database
-import buissnes.Database.Builder
+import buisness.Database
+import buisness.Database.Builder
 
 
 class Build_DB_Button:
@@ -10,23 +10,23 @@ class Build_DB_Button:
         self.__build_db_general_stmt()
 
     def __build_db_intentions(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.__repr__()
         mydb.get_conn_details("intentions")
         mydb.db_intentions()
 
     def __build_db_employees(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("employees")
         mydb.db_employee()
 
     def __build_db_monthly_stmt(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("monthly_stmt")
         mydb.db_monthly_stmt()
 
     def __build_db_general_stmt(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("general_stmt")
         mydb.db_general_stmt()
 
@@ -40,22 +40,22 @@ class Drop_DB_Button:
         self.__drop_db_general_stmt()
 
     def __drop_db_intentions(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("intentions")
         mydb.drop_table()
 
     def __drop_db_employees(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("employees")
         mydb.drop_table()
 
     def __drop_db_monthly_stmt(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("monthly_stmt")
         mydb.drop_table()
 
     def __drop_db_general_stmt(self):
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("general_stmt")
         mydb.drop_table()
 
@@ -63,7 +63,7 @@ class Drop_DB_Button:
 class Remove_DB_Files:
 
     def remove_db_file():
-        mydb = buissnes.Database.Builder.DBCreationStmts()
+        mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("intentions")
         # zabezpieczenie przed usunięciem, w programie może to być monitorowane komunikatem okienka pop-up proszącym o potiwerdzenie operacji
         mydb.file_destroyer(confirmed=True)

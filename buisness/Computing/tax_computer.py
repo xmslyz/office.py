@@ -1,5 +1,5 @@
 import re
-from buissnes.Database.Filter import Filter
+from buisness.Database.Filter import Filter
 
 
 class GeneralStmt(Filter):

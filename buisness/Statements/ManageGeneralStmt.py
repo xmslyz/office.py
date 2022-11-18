@@ -1,11 +1,11 @@
-import buissnes.Database.Geter
-import buissnes.Employee.Identity
-from buissnes.Database.Builder import DBConnector
+import buisness.Database.Geter
+import buisness.Employee.Identity
+from buisness.Database.Builder import DBConnector
 
 
 # class Update_general_stmt_for_all:
 #     def __init__(self):
-#         conn = buissnes.Database.Geter.IntentionsColsGetter()
+#         conn = buisness.Database.Geter.IntentionsColsGetter()
 #         conn.get_conn_details(1, 1, 2)
 #         self.on_duty = conn.get_abreviations()
 #
@@ -19,7 +19,7 @@ class NewGenStmt(DBConnector):
         super().__init__()
 
     def insert_all(self, stmt_date):
-        conn = buissnes.Database.Geter.UniqueIDGetter().get_list_uniqueID_when_on_duty()
+        conn = buisness.Database.Geter.UniqueIDGetter().get_list_uniqueID_when_on_duty()
         for _ in conn:
             self.fill_general_stmt(stmt_date, _)
 
@@ -31,8 +31,8 @@ class NewGenStmt(DBConnector):
         # opracować lepszy system pozyskiwania danych i ich porównywania lub filtrowania
 
         mocker = (0, '12345678-abcd-efgh-ijkl-1234567890mn', 'Zestawienie miesięczne', '1900-01', 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        stmt = buissnes.Database.Geter.MonthlyStmtGeter().get_monthly_stmt_by_uniqueID(when=stmt_date, uniID=who)
-        gen_stmt = buissnes.Database.Geter.MonthlyStmtGeter().get_general_stmt_by_uniqueID_and_date(when=stmt_date, uniID=who)
+        stmt = buisness.Database.Geter.MonthlyStmtGeter().get_monthly_stmt_by_uniqueID(when=stmt_date, uniID=who)
+        gen_stmt = buisness.Database.Geter.MonthlyStmtGeter().get_general_stmt_by_uniqueID_and_date(when=stmt_date, uniID=who)
 
         if len(gen_stmt) == 0:
             gen_stmt = mocker
@@ -41,7 +41,7 @@ class NewGenStmt(DBConnector):
 
         ispresent = gen_stmt[1] == stmt[1] and gen_stmt[3] == stmt[3]
         if not ispresent:
-            val = buissnes.Employee.Identity.EmployeeCollations()
+            val = buisness.Employee.Identity.EmployeeCollations()
             val.uniqueID = f'{stmt[1]}'
             val.type = f'{stmt[2]} miesięczne'
             val.monthly_stmt_date = f'{stmt[3]}'

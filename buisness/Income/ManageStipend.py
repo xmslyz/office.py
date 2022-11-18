@@ -1,9 +1,9 @@
 import datetime
 
-import buissnes.Database.Filter
-import buissnes.Database.Geter
-from buissnes.Database import SQLConnector as dbs
-from buissnes.Database.Builder import DBConnector
+import buisness.Database.Filter
+import buisness.Database.Geter
+from buisness.Database import SQLConnector as dbs
+from buisness.Database.Builder import DBConnector
 
 
 class CreateNewStipend(DBConnector):
@@ -50,7 +50,7 @@ class CreateNewStipend(DBConnector):
 
     def is_first_checker(self, val):
         """ Sprawdzam czy to pierwsza msza w tym dniu danego księdza """
-        dbsearcher = buissnes.Database.Filter.Filter()
+        dbsearcher = buisness.Database.Filter.Filter()
         dbsearcher.get_conn_details("intentions")
         who_celebrated_query = val.celebrating_priest
         celebration_day_query = val.date_of_celebration
@@ -119,6 +119,6 @@ class DeleteMassStipend(DBConnector):
         self.sql_querry(sql_stmt)
 
     def delete_last_record(self):
-        eachid = buissnes.Database.Geter.IntentionsColsGetter().get_one("id")
+        eachid = buisness.Database.Geter.IntentionsColsGetter().get_one("id")
         sql_stmt = f"DELETE FROM intentions WHERE id = '{max(eachid)[0]}';"
         self.sql_querry(sql_stmt)

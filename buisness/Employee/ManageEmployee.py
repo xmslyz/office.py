@@ -1,7 +1,7 @@
 import uuid
-import buissnes.Employee.Identity
-from buissnes.Database.Builder import DBConnector
-from buissnes.Database.SQLConnector import Connection
+import buisness.Employee.Identity
+from buisness.Database.Builder import DBConnector
+from buisness.Database.SQLConnector import Connection
 
 
 class NewEmployee(DBConnector):
@@ -32,7 +32,7 @@ class NewEmployee(DBConnector):
     def __insert_new_monthly_stmt(self, uniqueID):
         colldb = NewEmployee()
         colldb.get_conn_details("monthly_stmt")
-        coll = buissnes.Employee.Identity.EmployeeCollations()
+        coll = buisness.Employee.Identity.EmployeeCollations()
         coll.uniqueID = uniqueID
         coll.monthly_stmt = None
         sql_stmt = (f"INSERT INTO {colldb.table_name}"

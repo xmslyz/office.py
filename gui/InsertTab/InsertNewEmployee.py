@@ -1,11 +1,11 @@
-import buissnes.Employee.Identity
-import buissnes.Employee.ManageEmployee
+import buisness.Employee.Identity
+import buisness.Employee.ManageEmployee
 
 
 class Button_Add_New_Employee:
     def add_new_employee(self):
         employee_obj = Input_Add_New_Employee.get_new_employee_data()
-        new_emp = buissnes.Employee.ManageEmployee.NewEmployee()
+        new_emp = buisness.Employee.ManageEmployee.NewEmployee()
         new_emp.get_conn_details("employees")
         new_emp.new_employee(employee_obj)
 
@@ -25,7 +25,7 @@ class Input_Add_New_Employee:
         }
 
         # tworzy pusty obiekt rejestru dla księgi intencji
-        employee_obj = buissnes.Employee.Identity.EmployeeIdentity()
+        employee_obj = buisness.Employee.Identity.EmployeeIdentity()
         employee_obj.name = name
         employee_obj.surname = surname
         employee_obj.shortname = shortname

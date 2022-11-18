@@ -1,14 +1,14 @@
-import buissnes.Employee.ManageEmployee
-import buissnes.Database.Geter
-import buissnes.Computing.statements_computer
-import buissnes.Computing.tax_computer
+import buisness.Employee.ManageEmployee
+import buisness.Database.Geter
+import buisness.Computing.statements_computer
+import buisness.Computing.tax_computer
 
 
 class Update_monthly_stmt_for_one:
     def __init__(self, when, who):
         self.when = when
         self.who = who
-        self.emp_stmt = buissnes.Computing.statements_computer.ComputeEmployee(when, who)
+        self.emp_stmt = buisness.Computing.statements_computer.ComputeEmployee(when, who)
         self.emp_stmt.get_conn_details("employees")
 
     def __repr__(self):
@@ -16,9 +16,9 @@ class Update_monthly_stmt_for_one:
 
     def update_value(self, abrev=None):
         if not abrev:
-            uni = buissnes.Database.Geter.UniqueIDGetter().get_uniqueID(self.who, "1")
+            uni = buisness.Database.Geter.UniqueIDGetter().get_uniqueID(self.who, "1")
         else:
-            uni = buissnes.Database.Geter.UniqueIDGetter().get_uniqueID(abrev, "1")
+            uni = buisness.Database.Geter.UniqueIDGetter().get_uniqueID(abrev, "1")
         self.up_coll_date('stmt_date', uni)
         self.up_int_amount('intention_amount', uni)
         self.up_int_sum('intention_sum', uni)
@@ -32,68 +32,68 @@ class Update_monthly_stmt_for_one:
 
     def up_coll_date(self, col, uid):
         val = self.when
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_int_amount(self, col, uid):
         val = self.emp_stmt.amount_of_first_masses_applied_by_a_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_int_sum(self, col, uid):
         val = self.emp_stmt.quota_for_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_bin_amount(self, col, uid):
         val = self.emp_stmt.amount_of_bination_applied_by_a_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_bin_sum(self, col, uid):
         val = self.emp_stmt.bination_quota_for_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_pars(self, col, uid):
         val = self.emp_stmt.pars_for_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_pretax(self, col, uid):
         val = self.emp_stmt.total_wage_for_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_taxes(self, col, uid):
-        val = buissnes.Computing.tax_computer.GeneralStmt(self.when).sum_taxes(uid)
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        val = buisness.Computing.tax_computer.GeneralStmt(self.when).sum_taxes(uid)
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_receival(self, col, uid):
         val = self.emp_stmt.sum_of_recieved_by_a_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
     def up_net(self, col, uid):
         val = self.emp_stmt.net_for_priest()
-        stip = buissnes.Employee.ManageEmployee.UpdateEmployeeData()
+        stip = buisness.Employee.ManageEmployee.UpdateEmployeeData()
         stip.get_conn_details("monthly_stmt")
         stip.update_value(column=col, value=val, qid=uid)
 
 
 class Update_monthly_stmt_for_all:
     def __init__(self):
-        conn = buissnes.Database.Geter.IntentionsColsGetter()
+        conn = buisness.Database.Geter.IntentionsColsGetter()
         conn.get_conn_details("employees")
         self.on_duty = conn.get_abreviations()
 
