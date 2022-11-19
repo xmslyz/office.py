@@ -1,3 +1,4 @@
+import gui.InsertTab.DeleteMassRecord
 
 
 def main():

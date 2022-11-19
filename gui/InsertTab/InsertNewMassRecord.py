@@ -29,10 +29,10 @@ class Input_Add_New_Record:
     def insert_mass_records():
         # przykładowe dane z GUI
         amount = 55
-        reciving_priest = "WM"
+        reciving_priest = "MS"
         celebrating_priest = "SO"
         hour_oc = "12:00:00"
-        date_oc = "2022-11-12"
+        date_oc = "2022-12-31"
         type_of_mass = "test"
         is_gregorian = False
 

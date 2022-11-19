@@ -150,7 +150,7 @@ class StipendRecord:
                     if dformat == "hhmm":
                         self.__celebration_hour = value
                     else:
-                        self.__celebration_hour = value[0:6]
+                        self.__celebration_hour = value[0:5]
                 else:
                     raise Exception("Podaj właściwy format godziny")
         else:

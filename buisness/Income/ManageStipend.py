@@ -119,6 +119,8 @@ class DeleteMassStipend(DBConnector):
         self.sql_querry(sql_stmt)
 
     def delete_last_record(self):
-        eachid = buisness.Database.Geter.IntentionsColsGetter().get_one("id")
-        sql_stmt = f"DELETE FROM intentions WHERE id = '{max(eachid)[0]}';"
+        eachid = buisness.Database.Geter.IntentionsColsGetter()
+        eachid.get_conn_details("employees")
+        this = eachid.get_one("id")
+        sql_stmt = f"DELETE FROM intentions WHERE id = '{max(this)[0]}';"
         self.sql_querry(sql_stmt)

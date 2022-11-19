@@ -54,8 +54,6 @@ class IntentionsColsGetter(Filter):
         "employees"
         """
         super().__init__()
-        # self.query = Filter()
-        # self.query.get_conn_details("employees")
 
     def get_abreviations(self):
         """ Returns list of abreviations """

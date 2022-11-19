@@ -7,7 +7,7 @@ class Button_Update_Mass_Record:
         """
         Aktualizuje wiersz w tabeli intencje dla id = ?
         """
-        input_from_gui = '249'
+        input_from_gui = '245'
         valinput = Input_Actual_Data.recive_updated_data()
         up = buisness.Income.ManageStipend.UpdateMassStipend()
         up.get_conn_details("intentions")
