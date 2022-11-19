@@ -20,18 +20,6 @@ class test_get_conn_details(TestCase):
         assert conn.table_name == "employees"
         assert conn.db_name == "sofa.db"
 
-    def test_get_conn_by_key_3(self):
-        conn = connector.Connection()
-        conn.get_conn_details("monthly_stmt")
-        assert conn.table_name == "monthly_stmt"
-        assert conn.db_name == "sofa.db"
-
-    def test_get_conn_by_key_4(self):
-        conn = connector.Connection()
-        conn.get_conn_details("general_stmt")
-        assert conn.table_name == "general_stmt"
-        assert conn.db_name == "sofa.db"
-
     def test_get_conn_by_key_5(self):
         conn = connector.Connection()
         conn.get_conn_details("pars")

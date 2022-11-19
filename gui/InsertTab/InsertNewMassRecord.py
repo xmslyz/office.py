@@ -3,7 +3,6 @@ import buisness.Income.ManageStipend
 import buisness.Income.Stipend
 import buisness.Database.Geter
 import buisness.Employee.Identity
-import buisness.Statements.ManageMonthlyStmt
 
 
 class Button_Add_New_Record:
