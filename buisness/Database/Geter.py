@@ -1,15 +1,13 @@
 from collections import Counter
-from buisness.Database.Filter import Filter
+from buisness.Database.SQLConnector import Connection
 
 
-class GuestsGetter(Filter):
+class GuestsGetter(Connection):
     def __init__(self):
         """
         "intentions"
         """
         super().__init__()
-        # self.query = Filter()
-        # self.query.get_conn_details("intentions")
 
     def get_guests(self, when):
         query = self.sql_querry(f"SELECT * FROM intentions "
@@ -22,7 +20,7 @@ class GuestsGetter(Filter):
         return list(Counter([x[4] for x in query if x[4] != '']).items())
 
 
-class IntentionsColsGetter(Filter):
+class IntentionsColsGetter(Connection):
     def __init__(self):
         """
         "employees"
@@ -50,7 +48,7 @@ class IntentionsColsGetter(Filter):
         return self.sql_querry(f"SELECT {col} FROM intentions;")
 
 
-class UniqueIDGetter(Filter):
+class UniqueIDGetter(Connection):
     def __init__(self):
         """
         "employees"
