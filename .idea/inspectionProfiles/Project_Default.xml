@@ -45,6 +45,7 @@
         <list>
           <option value="MessBox.QMessageBox" />
           <option value="property.getter" />
+          <option value="id" />
         </list>
       </option>
     </inspection_tool>
