@@ -1,6 +1,4 @@
 import datetime
-
-import buisness.Database.Filter
 import buisness.Database.Geter
 from buisness.Database import SQLConnector as dbs
 from buisness.Database.Builder import DBConnector
@@ -44,7 +42,8 @@ class CreateNewStipend(DBConnector):
 
     def day_aumenter(self, x, val):
         """ Dodaje +1 dzień do daty celebracji """
-        first_day = datetime.datetime.strptime(val.date_of_celebration, "%Y-%m-%d")
+        first_day = datetime.datetime.strptime(val.date_of_celebration,
+                                               "%Y-%m-%d")
         next_day = first_day + datetime.timedelta(days=x)
         next_day.strftime("%Y-%m-%d")
         return next_day.strftime("%Y-%m-%d")
@@ -68,9 +67,12 @@ class UpdateMassStipend(DBConnector):
 
     def will_be_first(self, val):
         """
-        Sprawdzam czy już w danym dniu figuruje celebrated_by. Jeśli tak to first_mass = False
+        Sprawdzam czy już w danym dniu figuruje celebrated_by.
+
+        Jeśli tak to first_mass = False
         """
-        sql_stmt = f"SELECT celebrated_by, celebration_hour, celebration_date, first_mass FROM intentions " \
+        sql_stmt = f"SELECT celebrated_by, celebration_hour, " \
+                   f"celebration_date, first_mass FROM intentions " \
                    f"WHERE celebration_date IS ('{val.date_of_celebration}');"
         con = dbs.Connection()
         con.get_conn_details("intentions")

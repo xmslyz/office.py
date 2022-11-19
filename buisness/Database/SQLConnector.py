@@ -1,6 +1,5 @@
-import os
-import pathlib
 import sqlite3
+
 from buisness.Database import AtributesSetter
 
 
