@@ -2,32 +2,6 @@ from collections import Counter
 from buisness.Database.Filter import Filter
 
 
-class MonthlyStmtGeter(Filter):
-    def __init__(self):
-        """
-        "monthly_stmt"
-        """
-        super().__init__()
-        # self.query = Filter()
-        # self.query.get_conn_details("monthly_stmt")
-
-    def get_monthly_stmt_by_uniqueID(self, when, uniID):
-        query = self.sql_querry(
-            f"SELECT * FROM monthly_stmt WHERE stmt_date LIKE ('{when}') AND uniqueID IS ('{uniID}');")
-        if len(query) > 0:
-            return query
-        else:
-            return (),
-
-    def get_general_stmt_by_uniqueID_and_date(self, when, uniID):
-        query = self.sql_querry(
-            f"SELECT * FROM general_stmt WHERE monthly_stmt_date LIKE ('{when}') AND uniqueID IS ('{uniID}');")
-        if len(query) > 0 and query is not None:
-            return query
-        else:
-            return (),
-
-
 class GuestsGetter(Filter):
     def __init__(self):
         """

@@ -1,7 +1,5 @@
 import unittest
 from buisness.Database.Builder import DBConnector
-from buisness.Database.Filter import Filter
-from buisness.Database.Geter import MonthlyStmtGeter
 from buisness.Database.Geter import GuestsGetter
 from buisness.Database.Geter import IntentionsColsGetter
 from buisness.Database.Geter import UniqueIDGetter
@@ -213,60 +211,12 @@ class TestDatabaseBasicUsage(unittest.TestCase):
         msg = f"SELECT name FROM sqlite_master WHERE type='table' AND name='{self.emp.table_name}';"
         assert self.emp.sql_querry(msg)[0][0] == 'employees'
 
-    def test_if_mstmt_exist(self):
-        msg = f"SELECT name FROM sqlite_master WHERE type='table' AND name='{self.mstmt.table_name}';"
-        assert self.mstmt.sql_querry(msg)[0][0] == 'monthly_stmt'
-
-    def test_if_gstmt_exist(self):
-        msg = f"SELECT name FROM sqlite_master WHERE type='table' AND name='{self.gstmt.table_name}';"
-        assert self.gstmt.sql_querry(msg)[0][0] == 'general_stmt'
-
-    #  FILTER TESTS
-    def test_filter_all_where_q_is(self):
-        ft = Filter()
-        ft.get_conn_details("testintentions")
-        r = ft.select_all_where_q_is(qamount=60)
-        assert len(r) == 10
-
-    def test_filter_all_where_q_is_not(self):
-        ft = Filter()
-        ft.get_conn_details("testintentions")
-        r = ft.select_all_where_q_is_not(qamount=60)
-        assert len(r) == 44
-
-    def test_filter_all_where_q_like(self):
-        ft = Filter()
-        ft.get_conn_details("testintentions")
-        r = ft.select_all_where_q_like(qamount="6%")
-        assert len(r) == 10
-
-    def test_emp_by_unique(self):
-        ft = Filter()
-        ft.get_conn_details("testemployees")
-        assert ft.search_employees_by_uniqueID("aa6") is None
-
     # TEST IF IT IS FILLED
     def test_emp_id(self):
         assert self.emp.sql_querry("SELECT id FROM employees") == [(1,), (2,), (3,), (4,), (5,), (6,)]
 
     def test_emp_abreviation(self):
         assert self.emp.sql_querry("SELECT abreviation FROM employees WHERE abreviation IS ('AA') ")[0][0] == 'AA'
-
-    def test_mth_stmtl(self):
-        assert len(self.mstmt.sql_querry("SELECT * FROM monthly_stmt")) == 6
-
-    #  GETERS
-    def test_monthly_stmt_geter(self):
-        msg = MonthlyStmtGeter()
-        msg.get_conn_details("testmonthly_stmt")
-        x = msg.get_monthly_stmt_by_uniqueID("2022-10", "bb2")
-        assert x[0][0] == 2
-
-    def test_general_stmt_geter(self):
-        msg = MonthlyStmtGeter()
-        msg.get_conn_details("testgeneral_stmt")
-        x = msg.get_general_stmt_by_uniqueID_and_date("2022-__", "bb2")
-        assert x[0][3] == "2022-10" and x[1][3] == "2022-11" and x[2][3] == "2022-12"
 
     def test_guest_geter(self):
         gget = GuestsGetter()
