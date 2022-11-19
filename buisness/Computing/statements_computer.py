@@ -47,7 +47,7 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = f'SELECT * FROM intentions;'
+        stmt = 'SELECT * FROM intentions;'
 
         return [x for x in self.sql_querry(stmt)
                 if x[5].startswith(self.qdate)]
@@ -59,7 +59,7 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = f'SELECT * FROM intentions WHERE first_mass IS ("0");'
+        stmt = 'SELECT * FROM intentions WHERE first_mass IS ("0");'
 
         return [x for x in self.sql_querry(stmt)
                 if x[5].startswith(self.qdate)]
@@ -72,7 +72,7 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = f'SELECT * FROM intentions WHERE gregorian IS ("1");'
+        stmt = 'SELECT * FROM intentions WHERE gregorian IS ("1");'
 
         return [x for x in self.sql_querry(stmt)
                 if x[5].startswith(self.qdate)]
@@ -85,7 +85,7 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = f'SELECT * FROM intentions WHERE celebrated_by IS NOT ("");'
+        stmt = 'SELECT * FROM intentions WHERE celebrated_by IS NOT ("");'
 
         return [x for x in self.sql_querry(stmt)
                 if x[5].startswith(self.qdate)]
@@ -98,9 +98,9 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = f'SELECT * FROM intentions WHERE ' \
-               f'celebrated_by LIKE ("") ' \
-               f'AND amount LIKE ("%.%");'
+        stmt = 'SELECT * FROM intentions WHERE ' \
+               'celebrated_by LIKE ("") ' \
+               'AND amount LIKE ("%.%");'
 
         return [x for x in self.sql_querry(stmt)
                 if x[5].startswith(self.qdate)]
@@ -113,10 +113,10 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = f'SELECT * FROM intentions WHERE ' \
-               f'celebrated_by LIKE ("_%") ' \
-               f'AND amount IS ("")' \
-               f'AND gregorian IS ("0");'
+        stmt = 'SELECT * FROM intentions WHERE ' \
+               'celebrated_by LIKE ("_%") ' \
+               'AND amount IS ("")' \
+               'AND gregorian IS ("0");'
 
         return [x for x in self.sql_querry(stmt)
                 if x[5].startswith(self.qdate)]
@@ -129,10 +129,10 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = f'SELECT * FROM intentions WHERE ' \
-               f'celebrated_by IS ("") ' \
-               f'AND amount IS ("")' \
-               f'AND gregorian IS ("0");'
+        stmt = 'SELECT * FROM intentions WHERE ' \
+               'celebrated_by IS ("") ' \
+               'AND amount IS ("")' \
+               'AND gregorian IS ("0");'
 
         return [x for x in self.sql_querry(stmt)
                 if x[5].startswith(self.qdate)]
@@ -144,8 +144,8 @@ class Collation(Connection):
         :return: int
         """
 
-        stmt = f'SELECT * FROM intentions WHERE ' \
-               f'amount IS NOT ("");'
+        stmt = 'SELECT * FROM intentions WHERE ' \
+               'amount IS NOT ("");'
 
         return len([x for x in self.sql_querry(stmt)
                     if x[5].startswith(self.qdate)])
@@ -166,8 +166,8 @@ class Collation(Connection):
         :return: int
         """
 
-        stmt = f'SELECT * FROM intentions WHERE ' \
-               f'gregorian IS ("1");'
+        stmt = 'SELECT * FROM intentions WHERE ' \
+               'gregorian IS ("1");'
 
         return len([x for x in self.sql_querry(stmt)
                     if x[5].startswith(self.qdate)])
@@ -201,7 +201,7 @@ class Collation(Connection):
 
         :return: float
         """
-        stmt = f'SELECT * FROM intentions;'
+        stmt = 'SELECT * FROM intentions;'
 
         result = [x[2] for x in self.sql_querry(stmt)
                   if x[5].startswith(self.qdate) and isinstance(x[2],
@@ -214,8 +214,8 @@ class Collation(Connection):
 
         :return: float
         """
-        stmt = f'SELECT * FROM intentions ' \
-               f'WHERE gregorian IS "1";'
+        stmt = 'SELECT * FROM intentions ' \
+               'WHERE gregorian IS "1";'
 
         result = [x[2] for x in self.sql_querry(stmt)
                   if x[5].startswith(self.qdate) and isinstance(x[2],
@@ -234,10 +234,8 @@ class Compute(Collation):
         """
 
         # net sum
-        netsum = self.sum_of_all_recived() \
-                 - self.sum_of_all_gregorian() \
-                 - self.sum_of_binations() \
-                 - self.sum_for_guests()
+        netsum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - \
+            self.sum_of_binations() - self.sum_for_guests()
 
         # adding gregorian sum
         total = netsum + self.gregorian_sum_of_medianas()
@@ -426,7 +424,7 @@ class ComputeEmployee(EmployeeCollation):
         """
 
         bination = self.amount_of_all_masses_applied_by_a_priest() \
-                   - self.amount_of_first_masses_applied_by_a_priest()
+            - self.amount_of_first_masses_applied_by_a_priest()
 
         return round(float(bination * self.BINATION), 2)
 
@@ -458,10 +456,8 @@ class ComputeEmployee(EmployeeCollation):
             self.who_recived, "1"))
 
         # total (net) salary
-        total = (self.total_wage_for_priest()
-                 + self.pars_for_priest()
-                 - total_tax) \
-                - self.sum_of_recieved_by_a_priest()
+        total = (self.total_wage_for_priest() + self.pars_for_priest()
+                 - total_tax) - self.sum_of_recieved_by_a_priest()
 
         return round(total, 2)
 
