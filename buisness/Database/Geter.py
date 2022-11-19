@@ -12,14 +12,16 @@ class MonthlyStmtGeter(Filter):
         # self.query.get_conn_details("monthly_stmt")
 
     def get_monthly_stmt_by_uniqueID(self, when, uniID):
-        query = self.sql_querry(f"SELECT * FROM monthly_stmt WHERE stmt_date LIKE ('{when}') AND uniqueID IS ('{uniID}');")
+        query = self.sql_querry(
+            f"SELECT * FROM monthly_stmt WHERE stmt_date LIKE ('{when}') AND uniqueID IS ('{uniID}');")
         if len(query) > 0:
             return query
         else:
             return (),
 
     def get_general_stmt_by_uniqueID_and_date(self, when, uniID):
-        query = self.sql_querry(f"SELECT * FROM general_stmt WHERE monthly_stmt_date LIKE ('{when}') AND uniqueID IS ('{uniID}');")
+        query = self.sql_querry(
+            f"SELECT * FROM general_stmt WHERE monthly_stmt_date LIKE ('{when}') AND uniqueID IS ('{uniID}');")
         if len(query) > 0 and query is not None:
             return query
         else:
@@ -36,14 +38,14 @@ class GuestsGetter(Filter):
         # self.query.get_conn_details("intentions")
 
     def get_guests(self, when):
-        guest_list = []
-        query = self.sql_querry(f"SELECT * FROM intentions LEFT OUTER JOIN employees "
-                                      f"ON employees.abreviation = intentions.celebrated_by "
-                                      f"WHERE intentions.celebration_date LIKE ('{when}-__');")
-        for _ in query:
-            if _[10] is None:
-                guest_list.append(_[4])
-        return list(Counter(guest_list).items())
+        query = self.sql_querry(f"SELECT * FROM intentions "
+                                f"LEFT OUTER JOIN employees "
+                                f"ON employees.abreviation = "
+                                f"intentions.celebrated_by "
+                                f"WHERE intentions.celebration_date "
+                                f"LIKE ('{when}-__') and employees.on_duty "
+                                f"IS NOT ('1');")
+        return list(Counter([x[4] for x in query if x[4] != '']).items())
 
 
 class IntentionsColsGetter(Filter):
@@ -57,7 +59,8 @@ class IntentionsColsGetter(Filter):
 
     def get_abreviations(self):
         """ Returns list of abreviations """
-        query = self.sql_querry(f"SELECT abreviation FROM employees WHERE on_duty IS ('1');")
+        query = self.sql_querry(
+            f"SELECT abreviation FROM employees WHERE on_duty IS ('1');")
         uni_list = []
         if (len(query)) != 0:
             for _ in query:
@@ -86,7 +89,8 @@ class UniqueIDGetter(Filter):
 
     def get_uniqueID(self, abrev, onduty):
         try:
-            query = self.sql_querry(f"SELECT uniqueID FROM employees WHERE abreviation IS '{abrev}' AND on_duty IS ('{onduty}');")
+            query = self.sql_querry(
+                f"SELECT uniqueID FROM employees WHERE abreviation IS '{abrev}' AND on_duty IS ('{onduty}');")
             assert len(query) == 1
             return query[0][0] if len(query) == 1 else None
         except:
@@ -94,7 +98,8 @@ class UniqueIDGetter(Filter):
 
     def get_list_uniqueID_when_on_duty(self):
         """ Returns list of actualy working [on_duty] employees """
-        query = self.sql_querry(f"SELECT uniqueID FROM employees WHERE on_duty IS ('1');")
+        query = self.sql_querry(
+            f"SELECT uniqueID FROM employees WHERE on_duty IS ('1');")
         uni_list = []
         if (len(query)) != 0:
             for _ in query:
@@ -102,5 +107,3 @@ class UniqueIDGetter(Filter):
             return uni_list
         else:
             return []
-
-

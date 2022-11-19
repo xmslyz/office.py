@@ -8,7 +8,7 @@ class GeneralStmt(Filter):
         self.qdate = qdate
 
     def sum_taxes_for_employee(self, qid):
-        result = Filter().search_employees_by_uniqueID(qid)
+        result = self.search_employees_by_uniqueID(qid)
         tax_sum = 0
         try:
             if result is None:
