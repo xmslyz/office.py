@@ -2,7 +2,9 @@ import buisness.Computing.statements_computer
 
 
 coll = buisness.Computing.statements_computer.ComputeEmployee("2022-10", "PK")
-comp = buisness.Computing.statements_computer.EmployeeCollation("2022-10", "PK")
+comp = buisness.Computing.statements_computer.EmployeeCollation(
+    "2022-10", "PK"
+)
 
 
 def list_of_recieved_by_a_priest():

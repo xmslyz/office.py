@@ -38,7 +38,7 @@ class test_get_conn_details(TestCase):
         with self.assertRaises(Exception) as context:
             conn.get_conn_details("constans")
         self.assertTrue("Nie ma takiego klucza" in str(context.exception))
-        
+
     def test_get_empty_key(self):
         conn = connector.Connection()
         with self.assertRaises(Exception) as context:
@@ -59,7 +59,6 @@ class test_get_conn_details(TestCase):
 
 
 class test_dbname_input(TestCase):
-
     def test_dbname__correct_form(self):
         test_db = setter.DBSettings()
         test_db.db_name = "constans"
@@ -78,8 +77,10 @@ class test_dbname_input(TestCase):
     def test_dbname__empty(self):
         test_db = setter.DBSettings()
         with self.assertRaises(Exception) as context:
-            test_db.db_name = ''
-        self.assertTrue('Nazwa bazy danych nie może być pusta.' in str(context.exception))
+            test_db.db_name = ""
+        self.assertTrue(
+            "Nazwa bazy danych nie może być pusta." in str(context.exception)
+        )
 
     def test_dbname__name_with_ext(self):
         test_db = setter.DBSettings()
@@ -93,23 +94,28 @@ class test_dbname_input(TestCase):
 
 
 class test_path_input(TestCase):
-
     def test_path__nonalfanumeric(self):
         test_db = setter.DBSettings()
         test_db.db_path = "QQQQ\\aaa"
-        assert test_db.db_path == str(pathlib.PurePath(os.getcwd(), "QQQQ\\aaa"))
+        assert test_db.db_path == str(
+            pathlib.PurePath(os.getcwd(), "QQQQ\\aaa")
+        )
 
     def test_path__emptypath(self):
         test_db = setter.DBSettings()
         with self.assertRaises(Exception) as context:
-            test_db.db_path = ''
-        self.assertTrue('Ścieżka katalogu nie może być pusta' in str(context.exception))
+            test_db.db_path = ""
+        self.assertTrue(
+            "Ścieżka katalogu nie może być pusta" in str(context.exception)
+        )
 
     def test_path__Nonepath(self):
         test_db = setter.DBSettings()
         with self.assertRaises(Exception) as context:
             test_db.db_path = None
-        self.assertTrue('Ścieżka katalogu nie może być pusta' in str(context.exception))
+        self.assertTrue(
+            "Ścieżka katalogu nie może być pusta" in str(context.exception)
+        )
 
 
 class test_tablename_input(TestCase):
@@ -121,14 +127,18 @@ class test_tablename_input(TestCase):
     def test_dbtablename__empty(self):
         test_db = setter.DBSettings()
         with self.assertRaises(Exception) as context:
-            test_db.db_table_name = ''
-        self.assertTrue('Nazwa tabeli nie może być pusta.' in str(context.exception))
+            test_db.db_table_name = ""
+        self.assertTrue(
+            "Nazwa tabeli nie może być pusta." in str(context.exception)
+        )
 
     def test_dbtablename__None(self):
         test_db = setter.DBSettings()
         with self.assertRaises(Exception) as context:
             test_db.db_table_name = None
-        self.assertTrue('Nazwa tabeli nie może być pusta.' in str(context.exception))
+        self.assertTrue(
+            "Nazwa tabeli nie może być pusta." in str(context.exception)
+        )
 
     def test_dbtablename__name_with_ext(self):
         test_db = setter.DBSettings()
@@ -141,28 +151,38 @@ class test_file_pathinput(TestCase):
         test_db = setter.DBSettings()
         test_db.db_name = "test.db"
         test_db.db_path = "TEST\\test"
-        test_db.db_file_path = ''
-        assert test_db.db_file_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
+        test_db.db_file_path = ""
+        assert test_db.db_file_path == str(
+            pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db")
+        )
 
     def test_file_path_nonalfanumeric(self):
         test_db = setter.DBSettings()
         test_db.db_name = "test.db"
         test_db.db_path = "T@EST\\tes^t"
-        test_db.db_file_path = ''
-        assert test_db.db_file_path == str(pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db"))
+        test_db.db_file_path = ""
+        assert test_db.db_file_path == str(
+            pathlib.PurePath(os.getcwd(), "TEST\\test", "test.db")
+        )
 
     def test_file_path_Nonepath(self):
         test_db = setter.DBSettings()
         with self.assertRaises(Exception) as context:
             test_db.db_file_path = None
-        self.assertTrue('Ścieżka katalogu nie może być NoneType.' in str(context.exception))
+        self.assertTrue(
+            "Ścieżka katalogu nie może być NoneType." in str(context.exception)
+        )
 
     def test_file_path_NoSetter(self):
         test_db = setter.DBSettings()
         test_db.db_name = "test.db"
         test_db.db_path = "TEST\\test"
-        assert test_db.db_file_path == str(pathlib.PurePath(os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db").joinpath())
+        assert test_db.db_file_path == str(
+            pathlib.PurePath(
+                os.getcwd(), "DatabaseLayer\\SQLDataBase", "accounting.db"
+            ).joinpath()
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

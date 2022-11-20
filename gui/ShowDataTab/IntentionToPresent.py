@@ -25,4 +25,6 @@ class Button_Show_Mass_Record:
                 priest_reciving
             ) = (
                 celebrated_by
-            ) = celebration_date = celebration_hour = celebration_type = gregorian = ""
+            ) = (
+                celebration_date
+            ) = celebration_hour = celebration_type = gregorian = ""
