@@ -1155,14 +1155,16 @@ class TestDatabaseBasicUsage(unittest.TestCase):
             ],
         )
 
-        msg = """INSERT INTO monthly_stmt VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?) """
+        msg = """INSERT INTO monthly_stmt VALUES 
+        (NULL,?,?,?,?,?,?,?,?,?,?,?,?)"""
         self.mstmt.create_connection(
             2,
             msg,
             [mth_stmt1, mth_stmt2, mth_stmt3, mth_stmt4, mth_stmt5, mth_stmt6],
         )
 
-        msg = """INSERT INTO general_stmt VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?) """
+        msg = """INSERT INTO general_stmt VALUES 
+        (NULL,?,?,?,?,?,?,?,?,?,?,?,?) """
         self.mstmt.create_connection(
             2,
             msg,
@@ -1203,11 +1205,13 @@ class TestDatabaseBasicUsage(unittest.TestCase):
 
     #  TEST IF TABLE EXIST
     def test_if_int_exist(self):
-        msg = f"SELECT name FROM sqlite_master WHERE type='table' AND name='{self.int.table_name}';"
+        msg = f"SELECT name FROM sqlite_master WHERE type='table' " \
+              f"AND name='{self.int.table_name}';"
         assert self.int.sql_querry(msg)[0][0] == "intentions"
 
     def test_if_emp_exist(self):
-        msg = f"SELECT name FROM sqlite_master WHERE type='table' AND name='{self.emp.table_name}';"
+        msg = f"SELECT name FROM sqlite_master WHERE type='table' " \
+              f"AND name='{self.emp.table_name}';"
         assert self.emp.sql_querry(msg)[0][0] == "employees"
 
     # TEST IF IT IS FILLED
@@ -1224,7 +1228,7 @@ class TestDatabaseBasicUsage(unittest.TestCase):
     def test_emp_abreviation(self):
         assert (
             self.emp.sql_querry(
-                "SELECT abreviation FROM employees WHERE abreviation IS ('AA') "
+                "SELECT abreviation FROM employees WHERE abreviation IS ('AA')"
             )[0][0]
             == "AA"
         )

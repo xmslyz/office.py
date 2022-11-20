@@ -22,8 +22,8 @@ class test_get_conn_details(TestCase):
 
     def test_get_conn_by_key_5(self):
         conn = connector.Connection()
-        conn.get_conn_details("pars")
-        assert conn.table_name == "pars"
+        conn.get_conn_details("office")
+        assert conn.table_name == "office"
         assert conn.db_name == "sofa.db"
 
     def test_get_connby_key_6(self):
