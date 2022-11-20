@@ -28,6 +28,14 @@ def find_in_office(column_name, value):
     return Connection().sql_querry(stmt, dblink="office")
 
 
+def count_amount_to_pars():
+    """Searches in 'office' table where [column_name] is [value]"""
+
+    stmt = f'SELECT o_amount FROM office WHERE ' \
+           f'o_amount IS NOT ("");'
+    return Connection().sql_querry(stmt, dblink="office")
+
+
 def delete_last_form_office():
     """Deletes las record in table
 

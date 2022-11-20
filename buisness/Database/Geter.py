@@ -50,6 +50,18 @@ class IntentionsColsGetter(Connection):
         """Returns everything from one column"""
         return self.sql_querry(f"SELECT {col} FROM intentions;")
 
+    def get_list_to_pars(self):
+        """Returns cualified to recive pars """
+        prob = self.sql_querry(f"SELECT uniqueID FROM employees WHERE "
+                               f"function IS ('Proboszcz');",
+                               dblink="employees")
+
+        wik = self.sql_querry(f"SELECT uniqueID FROM employees WHERE "
+                               f"function IS ('Wikary');",
+                               dblink="employees")
+
+        return prob, wik
+
 
 class UniqueIDGetter(Connection):
     def __init__(self):
