@@ -15,16 +15,6 @@ class StipendRecord:
         self.__gregorian = False
         self.__first_mass = True
 
-    def show_income(self):
-        print(
-            f"{self.__type}:\n"
-            f"Msza [{self.__celebration_type}] {self.__celebration_date} o godz. {self.__celebration_hour}\n"
-            f"Intencję w wysokości {self.__amount} przyjął {self.__priest_reciving}\n"
-            f"Odprawił {self.__celebrated_by}\n"
-            f"'greg': {self.__gregorian}\n"
-            f"'first': {self.__first_mass}"
-        )
-
     @property
     def type(self):
         return self.__type

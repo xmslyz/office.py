@@ -48,7 +48,7 @@ class IntentionsColsGetter(Connection):
 
     def get_one(self, col):
         """Returns everything from one column"""
-        return self.sql_querry("SELECT {col} FROM intentions;")
+        return self.sql_querry(f"SELECT {col} FROM intentions;")
 
 
 class UniqueIDGetter(Connection):

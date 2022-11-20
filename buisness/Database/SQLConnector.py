@@ -33,17 +33,24 @@ class Connection:
         self.table_name = rs.db_table_name
         self.file_path = rs.db_file_path
 
-    def __open_connection(self):
-        self.__con = sqlite3.connect(
-            self.file_path,
-            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,
-        )
+    def __open_connection(self, dblink=None):
+        if dblink:
+            self.get_conn_details(dblink)
+
+        self.__con = sqlite3.connect(self.file_path)
         self.__cur = self.__con.cursor()
 
-    def sql_querry(self, sql_stmt) -> str:
-        self.__open_connection()
+    def sql_querry(self, sql_stmt, value=None, dblink=None) -> str:
+        if dblink:
+            self.__open_connection(dblink)
+        else:
+            self.__open_connection()
+
         try:
-            self.__cur.execute(sql_stmt)
+            if value:
+                self.__cur.execute(sql_stmt, value)
+            else:
+                self.__cur.execute(sql_stmt)
             return self.__cur.fetchall()
         except:
             raise Exception("No such table. Program will close up now.")
@@ -87,10 +94,10 @@ class KeyGeter:
             "table_name": "general_stmt",
             "file": "",
         },
-        "pars": {
+        "office": {
             "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
-            "table_name": "pars",
+            "table_name": "office",
             "file": "",
         },
         "testintentions": {
@@ -136,9 +143,11 @@ class KeyGeter:
         # db.get_conn_details(2, 2, 0)
         # result = 0
         if const == "bin":
-            # result = db.sql_querry('SELECT value FROM constants WHERE name IS "binacja";')
+            # result = db.sql_querry('SELECT value FROM constants '
+            #                        'WHERE name IS "binacja";')
             return "50"
         elif const == "inv":
-            # result = db.sql_querry('SELECT value FROM constants WHERE name IS "invited";')
+            # result = db.sql_querry('SELECT value FROM constants '
+            #                        'WHERE name IS "invited";')
             return "60"
         # return int(result[0][0])
