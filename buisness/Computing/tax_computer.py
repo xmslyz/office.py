@@ -26,7 +26,7 @@ class GeneralStmt(Connection):
                 return 0
             else:
                 taxes = result
-                tax_list = re.sub(r'[^0-9.,]+', '', str(taxes)).split(",")
+                tax_list = re.sub(r"[^0-9.,]+", "", str(taxes)).split(",")
                 for tax in tax_list:
                     if tax != "":
                         tax_sum += float(tax)

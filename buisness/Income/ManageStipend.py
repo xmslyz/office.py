@@ -10,53 +10,59 @@ class CreateNewStipend(DBConnector):
         super().__init__()
 
     def insert_record(self, val, *, amount=1):
-        """ Wstawia tyle wierszy ile amount, data celebracji += 1 dzień """
+        """Wstawia tyle wierszy ile amount, data celebracji += 1 dzień"""
         assert amount > 0
         if self.is_first_checker(val) == 0:
             val.is_first = True
         else:
             val.is_first = False
         for x in range(0, amount):
-            values = (val.type,
-                      val.amount,
-                      val.reciving_priest,
-                      val.celebrating_priest,
-                      self.day_aumenter(x, val),
-                      val.hour_of_celebration,
-                      val.type_of_mass,
-                      val.is_gregorian,
-                      val.is_first
-                      )
+            values = (
+                val.type,
+                val.amount,
+                val.reciving_priest,
+                val.celebrating_priest,
+                self.day_aumenter(x, val),
+                val.hour_of_celebration,
+                val.type_of_mass,
+                val.is_gregorian,
+                val.is_first,
+            )
             self.is_first_checker(val)
-            sql_stmt = (f"INSERT INTO {self.table_name} "
-                        f"(type, "
-                        f"amount, "
-                        f"priest_reciving, "
-                        f"celebrated_by, "
-                        f"celebration_date, "
-                        f"celebration_hour, "
-                        f"celebration_type, "
-                        f"gregorian, "
-                        f"first_mass) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
+            sql_stmt = (
+                f"INSERT INTO {self.table_name} "
+                f"(type, "
+                f"amount, "
+                f"priest_reciving, "
+                f"celebrated_by, "
+                f"celebration_date, "
+                f"celebration_hour, "
+                f"celebration_type, "
+                f"gregorian, "
+                f"first_mass) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            )
             self.create_connection(0, sql_stmt, values)
 
     def day_aumenter(self, x, val):
-        """ Dodaje +1 dzień do daty celebracji """
-        first_day = datetime.datetime.strptime(val.date_of_celebration,
-                                               "%Y-%m-%d")
+        """Dodaje +1 dzień do daty celebracji"""
+        first_day = datetime.datetime.strptime(
+            val.date_of_celebration, "%Y-%m-%d"
+        )
         next_day = first_day + datetime.timedelta(days=x)
         next_day.strftime("%Y-%m-%d")
         return next_day.strftime("%Y-%m-%d")
 
     def is_first_checker(self, val):
-        """ Sprawdzam czy to pierwsza msza w tym dniu danego księdza """
+        """Sprawdzam czy to pierwsza msza w tym dniu danego księdza"""
         dbsearcher = Connection()
         dbsearcher.get_conn_details("intentions")
         who_celebrated_query = val.celebrating_priest
         celebration_day_query = val.date_of_celebration
-        stmt = f'SELECT * FROM intentions WHERE' \
-               f'celebrated_by IS ("{who_celebrated_query}") ' \
-               f'AND celebration_date IS ("{celebration_day_query}");'
+        stmt = (
+            f"SELECT * FROM intentions WHERE"
+            f'celebrated_by IS ("{who_celebrated_query}") '
+            f'AND celebration_date IS ("{celebration_day_query}");'
+        )
 
         return len(dbsearcher.sql_querry(stmt))
 
@@ -71,9 +77,11 @@ class UpdateMassStipend(DBConnector):
 
         Jeśli tak to first_mass = False
         """
-        sql_stmt = f"SELECT celebrated_by, celebration_hour, " \
-                   f"celebration_date, first_mass FROM intentions " \
-                   f"WHERE celebration_date IS ('{val.date_of_celebration}');"
+        sql_stmt = (
+            f"SELECT celebrated_by, celebration_hour, "
+            f"celebration_date, first_mass FROM intentions "
+            f"WHERE celebration_date IS ('{val.date_of_celebration}');"
+        )
         con = dbs.Connection()
         con.get_conn_details("intentions")
         query = con.sql_querry(sql_stmt)
@@ -95,23 +103,27 @@ class UpdateMassStipend(DBConnector):
         else:
             val.is_first = True
 
-        values = (val.amount,
-                  val.reciving_priest,
-                  val.celebrating_priest,
-                  val.date_of_celebration,
-                  val.hour_of_celebration,
-                  val.type_of_mass,
-                  val.is_gregorian,
-                  val.is_first)
-        sql_stmt = (f"UPDATE {self.table_name} SET "
-                    f"amount = ?, "
-                    f"priest_reciving = ?, "
-                    f"celebrated_by = ?, "
-                    f"celebration_date = ?, "
-                    f"celebration_hour = ? , "
-                    f"celebration_type = ?, "
-                    f"gregorian = ?,"
-                    f"first_mass = ? WHERE id = '{id_num}';")
+        values = (
+            val.amount,
+            val.reciving_priest,
+            val.celebrating_priest,
+            val.date_of_celebration,
+            val.hour_of_celebration,
+            val.type_of_mass,
+            val.is_gregorian,
+            val.is_first,
+        )
+        sql_stmt = (
+            f"UPDATE {self.table_name} SET "
+            f"amount = ?, "
+            f"priest_reciving = ?, "
+            f"celebrated_by = ?, "
+            f"celebration_date = ?, "
+            f"celebration_hour = ? , "
+            f"celebration_type = ?, "
+            f"gregorian = ?,"
+            f"first_mass = ? WHERE id = '{id_num}';"
+        )
         self.create_connection(0, sql_stmt, values)
 
 

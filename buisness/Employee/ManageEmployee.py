@@ -15,17 +15,21 @@ class NewEmployee(DBConnector):
         self.__insert_new_monthly_stmt(uniqueID)
 
     def __insert_new_employee(self, val):
-        sql_stmt = (f"INSERT INTO {self.table_name} "
-                    f"(uniqueID,type,name,surname,shortname,abreviation,function,taxes) "
-                    f"VALUES (?,?,?,?,?,?,?,?);")
-        values = (val.uniqueID,
-                  val.type,
-                  val.name,
-                  val.surname,
-                  val.shortname,
-                  val.abreviation,
-                  val.function,
-                  val.taxes)
+        sql_stmt = (
+            f"INSERT INTO {self.table_name} "
+            f"(uniqueID,type,name,surname,shortname,abreviation,function,taxes) "
+            f"VALUES (?,?,?,?,?,?,?,?);"
+        )
+        values = (
+            val.uniqueID,
+            val.type,
+            val.name,
+            val.surname,
+            val.shortname,
+            val.abreviation,
+            val.function,
+            val.taxes,
+        )
         self.create_connection(0, sql_stmt, values)
         return val
 
@@ -35,10 +39,11 @@ class NewEmployee(DBConnector):
         coll = buisness.Employee.Identity.EmployeeCollations()
         coll.uniqueID = uniqueID
         coll.monthly_stmt = None
-        sql_stmt = (f"INSERT INTO {colldb.table_name}"
-                    f"(uniqueID, stmt_date) VALUES (?,?);")
-        values = (coll.uniqueID,
-                  coll.monthly_stmt)
+        sql_stmt = (
+            f"INSERT INTO {colldb.table_name}"
+            f"(uniqueID, stmt_date) VALUES (?,?);"
+        )
+        values = (coll.uniqueID, coll.monthly_stmt)
         self.create_connection(0, sql_stmt, values)
 
 
@@ -55,6 +60,7 @@ class DeleteEmployeeData(Connection):
     """
     usuwanie z rejestru
     """
+
     pass
 
 
@@ -62,4 +68,5 @@ class RetireEmployee(Connection):
     """
     wyłączanie employee z rozliczenia
     """
+
     pass

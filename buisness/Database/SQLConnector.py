@@ -11,11 +11,13 @@ class Connection:
         self.table_name = None
 
     def __repr__(self):
-        return f'Connection:\n\t' \
-               f'PATH: {self.path}\n\t' \
-               f'FILE PATH: {self.file_path}\n\t' \
-               f'DATABASE NAME: {self.db_name}\n\t' \
-               f'TABLE NAME: {self.table_name}\n'
+        return (
+            f"Connection:\n\t"
+            f"PATH: {self.path}\n\t"
+            f"FILE PATH: {self.file_path}\n\t"
+            f"DATABASE NAME: {self.db_name}\n\t"
+            f"TABLE NAME: {self.table_name}\n"
+        )
 
     def get_conn_details(self, dblink):
         val = KeyGeter().uncode(dblink)
@@ -32,7 +34,10 @@ class Connection:
         self.file_path = rs.db_file_path
 
     def __open_connection(self):
-        self.__con = sqlite3.connect(self.file_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        self.__con = sqlite3.connect(
+            self.file_path,
+            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,
+        )
         self.__cur = self.__con.cursor()
 
     def sql_querry(self, sql_stmt) -> str:
@@ -56,68 +61,68 @@ class KeyGeter:
             "path": "DatabaseLayer\\Constants",
             "db_name": "constants.db",
             "table_name": "constants",
-            "file": ""
+            "file": "",
         },
         "intentions": {
-            "path": 'DatabaseLayer\\SQLDataBase',
+            "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
             "table_name": "intentions",
-            "file": ""
+            "file": "",
         },
         "employees": {
-            "path": 'DatabaseLayer\\SQLDataBase',
+            "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
             "table_name": "employees",
-            "file": ""
+            "file": "",
         },
         "monthly_stmt": {
-            "path": 'DatabaseLayer\\SQLDataBase',
+            "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
             "table_name": "monthly_stmt",
-            "file": ""
+            "file": "",
         },
         "general_stmt": {
-            "path": 'DatabaseLayer\\SQLDataBase',
+            "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
             "table_name": "general_stmt",
-            "file": ""
+            "file": "",
         },
         "pars": {
-            "path": 'DatabaseLayer\\SQLDataBase',
+            "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
             "table_name": "pars",
-            "file": ""
+            "file": "",
         },
         "testintentions": {
-            "path": 'DatabaseLayer\\TestDataBase',
+            "path": "DatabaseLayer\\TestDataBase",
             "db_name": "sofa.db",
             "table_name": "intentions",
-            "file": ""
+            "file": "",
         },
         "testemployees": {
-            "path": 'DatabaseLayer\\TestDataBase',
+            "path": "DatabaseLayer\\TestDataBase",
             "db_name": "sofa.db",
             "table_name": "employees",
-            "file": ""
+            "file": "",
         },
         "testmonthly_stmt": {
-            "path": 'DatabaseLayer\\TestDataBase',
+            "path": "DatabaseLayer\\TestDataBase",
             "db_name": "sofa.db",
             "table_name": "monthly_stmt",
-            "file": ""
+            "file": "",
         },
         "testgeneral_stmt": {
-            "path": 'DatabaseLayer\\TestDataBase',
+            "path": "DatabaseLayer\\TestDataBase",
             "db_name": "sofa.db",
             "table_name": "general_stmt",
-            "file": ""
+            "file": "",
         },
         "testpars": {
-            "path": 'DatabaseLayer\\TestDataBase',
+            "path": "DatabaseLayer\\TestDataBase",
             "db_name": "sofa.db",
             "table_name": "pars",
-            "file": ""
-        }
+            "file": "",
+        },
     }
 
     def uncode(self, keyname):

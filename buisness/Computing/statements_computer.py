@@ -6,12 +6,14 @@ from buisness.Input import Caster as cast
 
 
 class Collation(Connection):
-    """ Conn_details : "intentions" """
+    """Conn_details : "intentions" """
 
-    BINATION = float(buisness.Database.SQLConnector.KeyGeter.constants_getter(
-        "bin"))
-    GUEST = float(buisness.Database.SQLConnector.KeyGeter.constants_getter(
-        "inv"))
+    BINATION = float(
+        buisness.Database.SQLConnector.KeyGeter.constants_getter("bin")
+    )
+    GUEST = float(
+        buisness.Database.SQLConnector.KeyGeter.constants_getter("inv")
+    )
 
     def __init__(self, qdate):
 
@@ -47,10 +49,11 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = 'SELECT * FROM intentions;'
+        stmt = "SELECT * FROM intentions;"
 
-        return [x for x in self.sql_querry(stmt)
-                if x[5].startswith(self.qdate)]
+        return [
+            x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)
+        ]
 
     def binations__list(self):
         """
@@ -61,8 +64,9 @@ class Collation(Connection):
 
         stmt = 'SELECT * FROM intentions WHERE first_mass IS ("0");'
 
-        return [x for x in self.sql_querry(stmt)
-                if x[5].startswith(self.qdate)]
+        return [
+            x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)
+        ]
 
     def gregorian__list(self):
         """
@@ -74,8 +78,9 @@ class Collation(Connection):
 
         stmt = 'SELECT * FROM intentions WHERE gregorian IS ("1");'
 
-        return [x for x in self.sql_querry(stmt)
-                if x[5].startswith(self.qdate)]
+        return [
+            x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)
+        ]
 
     def aplicated_stipends__list(self):
         """
@@ -87,8 +92,9 @@ class Collation(Connection):
 
         stmt = 'SELECT * FROM intentions WHERE celebrated_by IS NOT ("");'
 
-        return [x for x in self.sql_querry(stmt)
-                if x[5].startswith(self.qdate)]
+        return [
+            x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)
+        ]
 
     def paid_not_applicated__list(self):
         """
@@ -98,12 +104,15 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = 'SELECT * FROM intentions WHERE ' \
-               'celebrated_by LIKE ("") ' \
-               'AND amount LIKE ("%.%");'
+        stmt = (
+            "SELECT * FROM intentions WHERE "
+            'celebrated_by LIKE ("") '
+            'AND amount LIKE ("%.%");'
+        )
 
-        return [x for x in self.sql_querry(stmt)
-                if x[5].startswith(self.qdate)]
+        return [
+            x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)
+        ]
 
     def not_paid_but_aplicated__list(self):
         """
@@ -113,13 +122,16 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = 'SELECT * FROM intentions WHERE ' \
-               'celebrated_by LIKE ("_%") ' \
-               'AND amount IS ("")' \
-               'AND gregorian IS ("0");'
+        stmt = (
+            "SELECT * FROM intentions WHERE "
+            'celebrated_by LIKE ("_%") '
+            'AND amount IS ("")'
+            'AND gregorian IS ("0");'
+        )
 
-        return [x for x in self.sql_querry(stmt)
-                if x[5].startswith(self.qdate)]
+        return [
+            x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)
+        ]
 
     def not_paid_nor_aplicated__list(self):
         """
@@ -129,13 +141,16 @@ class Collation(Connection):
         :return: list: complete row
         """
 
-        stmt = 'SELECT * FROM intentions WHERE ' \
-               'celebrated_by IS ("") ' \
-               'AND amount IS ("")' \
-               'AND gregorian IS ("0");'
+        stmt = (
+            "SELECT * FROM intentions WHERE "
+            'celebrated_by IS ("") '
+            'AND amount IS ("")'
+            'AND gregorian IS ("0");'
+        )
 
-        return [x for x in self.sql_querry(stmt)
-                if x[5].startswith(self.qdate)]
+        return [
+            x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)
+        ]
 
     def amount_of_all_paid(self):
         """
@@ -144,11 +159,11 @@ class Collation(Connection):
         :return: int
         """
 
-        stmt = 'SELECT * FROM intentions WHERE ' \
-               'amount IS NOT ("");'
+        stmt = "SELECT * FROM intentions WHERE " 'amount IS NOT ("");'
 
-        return len([x for x in self.sql_querry(stmt)
-                    if x[5].startswith(self.qdate)])
+        return len(
+            [x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)]
+        )
 
     def amount_of_binations(self):
         """
@@ -166,11 +181,11 @@ class Collation(Connection):
         :return: int
         """
 
-        stmt = 'SELECT * FROM intentions WHERE ' \
-               'gregorian IS ("1");'
+        stmt = "SELECT * FROM intentions WHERE " 'gregorian IS ("1");'
 
-        return len([x for x in self.sql_querry(stmt)
-                    if x[5].startswith(self.qdate)])
+        return len(
+            [x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)]
+        )
 
     def amount_of_guest_masses(self):
         """
@@ -201,11 +216,13 @@ class Collation(Connection):
 
         :return: float
         """
-        stmt = 'SELECT * FROM intentions;'
+        stmt = "SELECT * FROM intentions;"
 
-        result = [x[2] for x in self.sql_querry(stmt)
-                  if x[5].startswith(self.qdate) and isinstance(x[2],
-                                                                float)]
+        result = [
+            x[2]
+            for x in self.sql_querry(stmt)
+            if x[5].startswith(self.qdate) and isinstance(x[2], float)
+        ]
         return float(sum(result))
 
     def sum_of_all_gregorian(self):
@@ -214,17 +231,18 @@ class Collation(Connection):
 
         :return: float
         """
-        stmt = 'SELECT * FROM intentions ' \
-               'WHERE gregorian IS "1";'
+        stmt = "SELECT * FROM intentions " 'WHERE gregorian IS "1";'
 
-        result = [x[2] for x in self.sql_querry(stmt)
-                  if x[5].startswith(self.qdate) and isinstance(x[2],
-                                                                float)]
+        result = [
+            x[2]
+            for x in self.sql_querry(stmt)
+            if x[5].startswith(self.qdate) and isinstance(x[2], float)
+        ]
         return float(sum(result))
 
 
 class Compute(Collation):
-    """ Conn_details : "intentions" """
+    """Conn_details : "intentions" """
 
     def mediana(self):
         """
@@ -234,28 +252,36 @@ class Compute(Collation):
         """
 
         # net sum
-        netsum = self.sum_of_all_recived() - self.sum_of_all_gregorian() - \
-            self.sum_of_binations() - self.sum_for_guests()
+        netsum = (
+            self.sum_of_all_recived()
+            - self.sum_of_all_gregorian()
+            - self.sum_of_binations()
+            - self.sum_for_guests()
+        )
 
         # adding gregorian sum
         total = netsum + self.gregorian_sum_of_medianas()
 
         # when is not negative raises exeptions
         if (self.amount_of_aplicated() - self.amount_of_binations()) < 0:
-            raise Exception("Ilość zaaplikowanych intencji nie może być "
-                            "ujemna")
+            raise Exception(
+                "Ilość zaaplikowanych intencji nie może być ujemna"
+            )
         else:
-            divider = self.amount_of_aplicated() \
-                      - self.amount_of_binations() \
-                      - self.amount_of_guest_masses()
+            divider = (
+                self.amount_of_aplicated()
+                - self.amount_of_binations()
+                - self.amount_of_guest_masses()
+            )
             if divider > 0:
                 self.counted_mediana = round((total / divider), 2)
                 return round((total / divider), 2)
             elif divider == 0:
                 return 0
             else:
-                raise ZeroDivisionError("Ilość zaaplikowanych intencji nie "
-                                        "może być ujemna")
+                raise ZeroDivisionError(
+                    "Ilość zaaplikowanych intencji nie " "może być ujemna"
+                )
 
     def sum_of_binations(self):
         """
@@ -300,7 +326,7 @@ class Compute(Collation):
 
 
 class EmployeeCollation(Collation):
-    """ Collator for employee (lists, sums & ammounts).
+    """Collator for employee (lists, sums & ammounts).
 
     Conn_details : "intentions".
     """
@@ -323,13 +349,16 @@ class EmployeeCollation(Collation):
         :return: float
         """
 
-        stmt = f'SELECT * FROM intentions ' \
-               f'WHERE priest_reciving IS ("{self.who_recived}");'
+        stmt = (
+            f"SELECT * FROM intentions "
+            f'WHERE priest_reciving IS ("{self.who_recived}");'
+        )
 
-        return [x for x in
-                self.sql_querry(stmt)
-                if x[5].startswith(self.qdate) and isinstance(x[2],
-                                                              float)]
+        return [
+            x
+            for x in self.sql_querry(stmt)
+            if x[5].startswith(self.qdate) and isinstance(x[2], float)
+        ]
 
     def sum_of_recieved_by_a_priest(self):
         """
@@ -347,12 +376,14 @@ class EmployeeCollation(Collation):
         :return: int
         """
 
-        stmt = f'SELECT * FROM intentions ' \
-               f'WHERE celebrated_by IS ("{self.who_recived}");'
+        stmt = (
+            f"SELECT * FROM intentions "
+            f'WHERE celebrated_by IS ("{self.who_recived}");'
+        )
 
-        return len([x for x in
-                    self.sql_querry(stmt)
-                    if x[5].startswith(self.qdate)])
+        return len(
+            [x for x in self.sql_querry(stmt) if x[5].startswith(self.qdate)]
+        )
 
     def amount_of_first_masses_applied_by_a_priest(self):
         """
@@ -361,13 +392,19 @@ class EmployeeCollation(Collation):
         :return: float
         """
 
-        stmt = f'SELECT * FROM intentions ' \
-               f'WHERE celebrated_by IS ("{self.who_recived}") ' \
-               f'AND first_mass IS "1";'
+        stmt = (
+            f"SELECT * FROM intentions "
+            f'WHERE celebrated_by IS ("{self.who_recived}") '
+            f'AND first_mass IS "1";'
+        )
 
-        return len([x[2] for x in
-                    self.sql_querry(stmt)
-                    if x[5].startswith(self.qdate)])
+        return len(
+            [
+                x[2]
+                for x in self.sql_querry(stmt)
+                if x[5].startswith(self.qdate)
+            ]
+        )
 
     def amount_of_bination_applied_by_a_priest(self):
         """
@@ -376,17 +413,23 @@ class EmployeeCollation(Collation):
         :return: float
         """
 
-        stmt = f'SELECT * FROM intentions ' \
-               f'WHERE celebrated_by IS ("{self.who_recived}") ' \
-               f'AND first_mass IS "0";'
+        stmt = (
+            f"SELECT * FROM intentions "
+            f'WHERE celebrated_by IS ("{self.who_recived}") '
+            f'AND first_mass IS "0";'
+        )
 
-        return len([x[2] for x in
-                    self.sql_querry(stmt)
-                    if x[5].startswith(self.qdate)])
+        return len(
+            [
+                x[2]
+                for x in self.sql_querry(stmt)
+                if x[5].startswith(self.qdate)
+            ]
+        )
 
 
 class ComputeEmployee(EmployeeCollation):
-    """ Computer for employee.
+    """Computer for employee.
 
     Conn_details : "intentions".
     """
@@ -411,8 +454,9 @@ class ComputeEmployee(EmployeeCollation):
 
         med = self.compute.mediana()
         if med > 0:
-            return round(self.amount_of_first_masses_applied_by_a_priest()
-                         * med, 2)
+            return round(
+                self.amount_of_first_masses_applied_by_a_priest() * med, 2
+            )
         else:
             raise Exception("Średnia intencja nie może być ujemna")
 
@@ -423,8 +467,10 @@ class ComputeEmployee(EmployeeCollation):
         :return: float
         """
 
-        bination = self.amount_of_all_masses_applied_by_a_priest() \
+        bination = (
+            self.amount_of_all_masses_applied_by_a_priest()
             - self.amount_of_first_masses_applied_by_a_priest()
+        )
 
         return round(float(bination * self.BINATION), 2)
 
@@ -436,7 +482,8 @@ class ComputeEmployee(EmployeeCollation):
         """
 
         return round(
-            self.quota_for_priest() + self.bination_quota_for_priest(), 2)
+            self.quota_for_priest() + self.bination_quota_for_priest(), 2
+        )
 
     def net_for_priest(self):
         """
@@ -452,12 +499,14 @@ class ComputeEmployee(EmployeeCollation):
         # geting employee's total tax
         tax = buisness.Computing.tax_computer.GeneralStmt(self.qdate)
         tax.get_conn_details("testemployees")
-        total_tax = tax.sum_taxes_for_employee(uid.get_uniqueID(
-            self.who_recived, "1"))
+        total_tax = tax.sum_taxes_for_employee(
+            uid.get_uniqueID(self.who_recived, "1")
+        )
 
         # total (net) salary
-        total = (self.total_wage_for_priest() + self.pars_for_priest()
-                 - total_tax) - self.sum_of_recieved_by_a_priest()
+        total = (
+            self.total_wage_for_priest() + self.pars_for_priest() - total_tax
+        ) - self.sum_of_recieved_by_a_priest()
 
         return round(total, 2)
 

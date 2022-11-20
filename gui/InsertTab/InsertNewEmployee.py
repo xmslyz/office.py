@@ -13,16 +13,12 @@ class Button_Add_New_Employee:
 class Input_Add_New_Employee:
     def get_new_employee_data():
         # przykładowe dane otrzymane z GUI
-        name = 'Arturo'
-        surname = 'Marzo'
-        shortname = 'Arturito'
-        abreviation = 'AM'
-        function = 'Residente'
-        taxes = {
-            'dziesięcina': '230.00',
-            'dke': '100',
-            'szkoła': '120'
-        }
+        name = "Arturo"
+        surname = "Marzo"
+        shortname = "Arturito"
+        abreviation = "AM"
+        function = "Residente"
+        taxes = {"dziesięcina": "230.00", "dke": "100", "szkoła": "120"}
 
         # tworzy pusty obiekt rejestru dla księgi intencji
         employee_obj = buisness.Employee.Identity.EmployeeIdentity()

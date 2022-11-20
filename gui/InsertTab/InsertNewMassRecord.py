@@ -6,7 +6,6 @@ import buisness.Employee.Identity
 
 
 class Button_Add_New_Record:
-
     def add_new_mass_record(self):
         """
         Wrzuca dane z obiektu do tabeli.
@@ -21,7 +20,8 @@ class Button_Add_New_Record:
 
 
 class Input_Add_New_Record:
-    """ ilość powtórzeń """
+    """ilość powtórzeń"""
+
     def insert_batch_job():
         reps = 1
         return reps

@@ -32,7 +32,6 @@ class Build_DB_Button:
 
 
 class Drop_DB_Button:
-
     def drop_database(self):
         self.__drop_db_intentions()
         self.__drop_db_employees()
@@ -61,7 +60,6 @@ class Drop_DB_Button:
 
 
 class Remove_DB_Files:
-
     def remove_db_file():
         mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("intentions")
@@ -70,9 +68,7 @@ class Remove_DB_Files:
 
 
 class Format_DB:
-
     def format_database():
         Drop_DB_Button().drop_database()
         Remove_DB_Files.remove_db_file()
         Build_DB_Button().build_database()
-

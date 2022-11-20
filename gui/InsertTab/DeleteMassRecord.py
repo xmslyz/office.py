@@ -6,7 +6,7 @@ class Button_Delete_Mass_Record:
         """
         Usuwa wiersz w tabeli intencje dla id = ?
         """
-        input_from_gui = '246'
+        input_from_gui = "246"
         up = buisness.Income.ManageStipend.DeleteMassStipend()
         up.get_conn_details("intentions")
         up.delete(input_from_gui)
