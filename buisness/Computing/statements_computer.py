@@ -3,6 +3,7 @@ import buisness.Database.SQLConnector
 from buisness.Database.SQLConnector import Connection
 import buisness.Computing.tax_computer
 from buisness.Input import Caster as cast
+from buisness.Computing.pars_computer import pars_na_osobe
 
 
 class Collation(Connection):
@@ -516,5 +517,4 @@ class ComputeEmployee(EmployeeCollation):
 
         :return: float
         """
-
-        return 0.0
+        return pars_na_osobe()
