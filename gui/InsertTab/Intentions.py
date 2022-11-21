@@ -6,9 +6,9 @@ class TabIntentions:
         # przykładowe dane z GUI
         amount = 55
         reciving_priest = "MS"
-        celebrating_priest = "SO"
+        celebrating_priest = "MS"
         hour_oc = "12:00:00"
-        date_oc = "2022-12-31"
+        date_oc = "2022-11-01"
         type_of_mass = "test"
         is_gregorian = False
 

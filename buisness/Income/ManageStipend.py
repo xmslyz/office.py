@@ -3,6 +3,7 @@ import buisness.Database.Geter
 from buisness.Database import SQLConnector as dbs
 from buisness.Database.Builder import DBConnector
 from buisness.Database.SQLConnector import Connection
+from buisness.Database.Geter import IntentionsColsGetter as icget
 
 
 class CreateNewStipend(DBConnector):
@@ -55,16 +56,19 @@ class CreateNewStipend(DBConnector):
     def is_first_checker(self, val):
         """Sprawdzam czy to pierwsza msza w tym dniu danego księdza"""
         dbsearcher = Connection()
-        dbsearcher.get_conn_details("intentions")
         who_celebrated_query = val.celebrating_priest
         celebration_day_query = val.date_of_celebration
         stmt = (
-            f"SELECT * FROM intentions WHERE"
+            f"SELECT * FROM intentions WHERE "
             f'celebrated_by IS ("{who_celebrated_query}") '
             f'AND celebration_date IS ("{celebration_day_query}");'
         )
 
-        return len(dbsearcher.sql_querry(stmt))
+        employees = icget().get_abreviations()
+        if val.celebrating_priest in employees:
+            return len(dbsearcher.sql_querry(stmt, dblink="employees"))
+        else:
+            return 0
 
 
 class UpdateMassStipend(DBConnector):
