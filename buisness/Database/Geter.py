@@ -24,16 +24,14 @@ class GuestsGetter(Connection):
 
 class IntentionsColsGetter(Connection):
     def __init__(self):
-        """
-        "employees"
-        """
         super().__init__()
 
     def get_abreviations(self):
         """Returns list of abreviations"""
+
         query = self.sql_querry(
-            "SELECT abreviation FROM employees WHERE on_duty IS ('1');"
-        )
+            "SELECT abreviation FROM employees WHERE on_duty IS ('1');",
+            dblink="employees")
         uni_list = []
         if (len(query)) != 0:
             for _ in query:
@@ -82,8 +80,8 @@ class UniqueIDGetter(Connection):
     def get_list_uniqueID_when_on_duty(self):
         """Returns list of actualy working [on_duty] employees"""
         query = self.sql_querry(
-            "SELECT uniqueID FROM employees WHERE on_duty IS ('1');"
-        )
+            "SELECT uniqueID FROM employees WHERE on_duty IS ('1');",
+            dblink=self.dblink)
         uni_list = []
         if (len(query)) != 0:
             for _ in query:
