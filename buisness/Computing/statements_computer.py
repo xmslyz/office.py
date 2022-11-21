@@ -501,7 +501,7 @@ class ComputeEmployee(EmployeeCollation):
         tax = buisness.Computing.tax_computer.GeneralStmt(self.qdate)
         tax.get_conn_details("testemployees")
         total_tax = tax.sum_taxes_for_employee(
-            uid.get_uniqueID(self.who_recived, "1")
+            uid.get_uniqueID(self.who_recived)
         )
 
         # total (net) salary

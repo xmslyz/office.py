@@ -65,18 +65,15 @@ class IntentionsColsGetter(Connection):
 
 class UniqueIDGetter(Connection):
     def __init__(self):
-        """
-        "employees"
-        """
         super().__init__()
-        # self.query = Filter()
-        # self.query.get_conn_details("employees")
+        self.dblink = "employees"
 
-    def get_uniqueID(self, abrev, onduty):
+    def get_uniqueID(self, abrev, onduty=1):
         try:
             query = self.sql_querry(
-                f"SELECT uniqueID FROM employees WHERE abreviation IS '{abrev}' AND on_duty IS ('{onduty}');"
-            )
+                f"SELECT uniqueID FROM employees "
+                f"WHERE abreviation IS '{abrev}' "
+                f"AND on_duty IS '{onduty}';", dblink=self.dblink)
             assert len(query) == 1
             return query[0][0] if len(query) == 1 else None
         except:

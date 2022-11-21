@@ -11,6 +11,7 @@ class EmployeeIdentity:
         self.__abreviation = None
         self.__function = None
         self.__taxes = None
+        self.__on_duty = None
 
     def __repr__(self):
         print(
@@ -112,7 +113,24 @@ class EmployeeIdentity:
 
     @taxes.setter
     def taxes(self, value) -> str:
-        self.__taxes = re.sub(r"[^0-9,.]+", "", str(value))
+        self.__taxes = re.sub(r"[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ{_\".,:}0-9"
+                              r"]+", "",
+                              str(value))
+
+    @property
+    def is_working(self):
+        return self.__on_duty
+
+    @is_working.getter
+    def is_working(self):
+        return self.__on_duty
+
+    @is_working.setter
+    def is_working(self, value) -> bool:
+        if isinstance(value, bool):
+            self.__on_duty = value
+        else:
+            raise Exception("Nie boolowski typ danych")
 
 
 class EmployeeCollations:
