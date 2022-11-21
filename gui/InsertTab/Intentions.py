@@ -1,28 +1,8 @@
 from buisness.Income import ManageStipend, Stipend
 
 
-class Button_Add_New_Record:
-    def add_new_mass_record(self):
-        """
-        Wrzuca dane z obiektu do tabeli.
-        : jobs: dla ilu kolejnych dni (od daty początkowej) default = 1
-        :return:
-        """
-        jobs = Input_Add_New_Record.insert_batch_job()
-        stipend = Input_Add_New_Record.insert_mass_records()
-        stip = ManageStipend.CreateNewStipend()
-        stip.get_conn_details("intentions")
-        stip.insert_record(val=stipend, amount=jobs)
-
-
-class Input_Add_New_Record:
-    """ilość powtórzeń"""
-
-    def insert_batch_job():
-        reps = 1
-        return reps
-
-    def insert_mass_records():
+class TabIntentions:
+    def get_intention_data(self):
         # przykładowe dane z GUI
         amount = 55
         reciving_priest = "MS"
@@ -44,44 +24,28 @@ class Input_Add_New_Record:
 
         return batch
 
+    def add_new_record(self, reps=1):
+        """
+        Wrzuca dane z obiektu do tabeli.
+        : reps: dla ilu kolejnych dni (od daty początkowej) default = 1
+        :return:
+        """
+        stipend = self.get_intention_data()
+        stip = ManageStipend.CreateNewStipend()
+        stip.get_conn_details("intentions")
+        stip.insert_record(val=stipend, amount=reps)
 
-class Button_Update_Mass_Record:
-    def update_intention_row(self):
+    def update_intention(self):
         """
         Aktualizuje wiersz w tabeli intencje dla id = ?
         """
         input_from_gui = "245"
-        valinput = Input_Actual_Data.recive_updated_data()
+        valinput = self.get_intention_data()
         up = ManageStipend.UpdateMassStipend()
         up.get_conn_details("intentions")
         up.update(valinput, input_from_gui)
 
-
-class Input_Actual_Data:
-    def recive_updated_data():
-        # przykładowe dane
-        amount = "100"
-        reciving_priest = "ZZ"
-        celebrating_priest = "PP"
-        hour_oc = "07:00:00"
-        date_oc = "2022-10-01"
-        type_of_mass = ""
-        is_gregorian = False
-
-        # tworzy pusty obiekt rejestru dla księgi intencji
-        stipend = Stipend.StipendRecord()
-        stipend.amount = amount
-        stipend.reciving_priest = reciving_priest
-        stipend.celebrating_priest = celebrating_priest
-        stipend.hour_of_celebration = hour_oc
-        stipend.date_of_celebration = date_oc
-        stipend.type_of_mass = type_of_mass
-        stipend.is_gregorian = is_gregorian
-        return stipend
-
-
-class Button_Delete_Mass_Record:
-    def delete_intention_row(self):
+    def delete_intention(self):
         """
         Usuwa wiersz w tabeli intencje dla id = ?
         """
