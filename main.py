@@ -12,16 +12,10 @@ class Call:
         for x in range(1, 13):
             days_in_month = calendar.monthrange(self.year, x)
             for day in range(1, days_in_month[1] + 1):
-                dow = calendar.weekday(self.year, x, day)
-                if dow == 6:
-                    h = ["7:00", "9:00", "10:30", "12:00", "14:00", "18:00",
-                         "19:30"]
-                else:
-                    h = ["6:30", "7:00", "18:00"]
+                days_of_week = calendar.weekday(self.year, x, day)
                 my_l += f'{i},' \
                        f'{self.year}-{x:02}-{day:02},' \
-                       f'{dow},' \
-                       f'{h},' \
+                       f'{days_of_week},' \
                        f'" "' \
                        f';\n'
                 i += 1
