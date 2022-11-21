@@ -7,7 +7,8 @@ def pars_na_osobe():
         [x[0] for x in buisness.Income.ManageOffice.count_amount_to_pars()]
     )
 
-    cualified_list = buisness.Database.Geter.IntentionsColsGetter().get_list_to_pars()
+    cualified_list = buisness.Database.Geter.IntentionsColsGetter()\
+        .get_list_to_pars()
 
     amount_cualified = (len(cualified_list[0]) * 2) + len(cualified_list[1])
 

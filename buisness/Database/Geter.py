@@ -52,13 +52,13 @@ class IntentionsColsGetter(Connection):
 
     def get_list_to_pars(self):
         """Returns cualified to recive pars """
-        prob = self.sql_querry(f"SELECT uniqueID FROM employees WHERE "
-                               f"function IS ('Proboszcz');",
+        prob = self.sql_querry("SELECT uniqueID FROM employees WHERE "
+                               "function IS ('Proboszcz');",
                                dblink="employees")
 
-        wik = self.sql_querry(f"SELECT uniqueID FROM employees WHERE "
-                               f"function IS ('Wikary');",
-                               dblink="employees")
+        wik = self.sql_querry("SELECT uniqueID FROM employees WHERE "
+                              "function IS ('Wikary');",
+                              dblink="employees")
 
         return prob, wik
 
@@ -76,7 +76,7 @@ class UniqueIDGetter(Connection):
                 f"AND on_duty IS '{onduty}';", dblink=self.dblink)
             assert len(query) == 1
             return query[0][0] if len(query) == 1 else None
-        except:
+        except IndexError:
             raise Exception("Brak takiego rejestru")
 
     def get_list_uniqueID_when_on_duty(self):

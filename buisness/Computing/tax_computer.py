@@ -17,19 +17,19 @@ class GeneralStmt(Connection):
         conn = Connection()
         conn.get_conn_details("employees")
         stmt = f"SELECT taxes FROM employees WHERE uniqueID IS '{qid}';"
-        result = conn.sql_querry(stmt)[0][0]
 
         # computing tax from taxes
         tax_sum = 0
         try:
-            if result is None:
-                return 0
-            else:
+            result = conn.sql_querry(stmt)[0][0]
+            if result:
                 taxes = result
                 tax_list = re.sub(r"[^0-9.,]+", "", str(taxes)).split(",")
                 for tax in tax_list:
                     if tax != "":
                         tax_sum += float(tax)
-            return tax_sum
-        except:
+                return tax_sum
+            else:
+                return 0
+        except IndexError:
             return 0

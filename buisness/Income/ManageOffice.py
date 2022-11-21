@@ -1,6 +1,7 @@
 from buisness.Database.SQLConnector import Connection
 from buisness.Income.Office import OfficeRecord as offrec
 
+
 def create_office_table():
     """Creates office table"""
 
@@ -31,8 +32,8 @@ def find_in_office(column_name, value):
 def count_amount_to_pars():
     """Searches in 'office' table where [column_name] is [value]"""
 
-    stmt = f'SELECT o_amount FROM office WHERE ' \
-           f'o_amount IS NOT ("");'
+    stmt = 'SELECT o_amount FROM office WHERE ' \
+           'o_amount IS NOT ("");'
     return Connection().sql_querry(stmt, dblink="office")
 
 
@@ -44,7 +45,7 @@ def delete_last_form_office():
 
     # gets list od id's
     get_id = Connection().sql_querry(
-        f"SELECT oid FROM office;", dblink="office"
+        "SELECT oid FROM office;", dblink="office"
     )
 
     # deletes the last from the id list
@@ -145,10 +146,3 @@ def office_income_record(amount, reciving, date_of_r, kind, ref, date_of_c):
     )
 
     return val
-
-
-
-
-
-
-

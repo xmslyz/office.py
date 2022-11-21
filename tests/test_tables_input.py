@@ -220,7 +220,7 @@ class TestIsGregorian(TestCase):
     def test_boolean(self):
         stip = Stipend.StipendRecord()
         stip.is_gregorian = True
-        assert stip.is_gregorian == True
+        assert stip.is_gregorian is True
 
     def test_not_boolean(self):
         stip = Stipend.StipendRecord()
@@ -245,7 +245,7 @@ class TestIsFirst(TestCase):
     def test_boolean(self):
         stip = Stipend.StipendRecord()
         stip.is_first = True
-        assert stip.is_first == True
+        assert stip.is_first is True
 
     def test_not_boolean(self):
         stip = Stipend.StipendRecord()

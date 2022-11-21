@@ -18,26 +18,12 @@ class Connection:
             f"TABLE NAME: {self.table_name}\n"
         )
 
-    def get_conn_details(self, dblink):
-        val = KeyGeter().uncode(dblink)
-
-        rs = AtributesSetter.DBSettings()
-        rs.db_path = val["path"]
-        rs.db_name = val["db_name"]
-        rs.db_file_path = val["file"]
-        rs.db_table_name = val["table_name"]
-
-        self.path = rs.db_path
-        self.db_name = rs.db_name
-        self.table_name = rs.db_table_name
-        self.file_path = rs.db_file_path
-
-    def __open_connection(self, dblink=None):
-        if dblink:
-            self.get_conn_details(dblink)
-
-        self.__con = sqlite3.connect(self.file_path)
-        self.__cur = self.__con.cursor()
+    def check_ifexist(self, table_name):
+        self.sql_querry(
+            f"SELECT name "
+            f"FROM sqlite_master "
+            f"WHERE type='table' "
+            f"AND name='{table_name}';")
 
     def sql_querry(self, sql_stmt, value=None, dblink=None) -> str:
         if dblink:
@@ -50,15 +36,59 @@ class Connection:
                 self.__cur.execute(sql_stmt, value)
             else:
                 self.__cur.execute(sql_stmt)
+
             return self.__cur.fetchall()
-        except:
-            raise Exception("No such table. Program will close up now.")
+
+        except sqlite3.OperationalError:
+            raise Exception("Nie ma takiej tabeli.")
+
+        except AttributeError:
+            raise Exception("Połączenie z bazą danych nie ma "
+                            "niezbędnych atrybutów")
+
+        # except Er:
+        #     raise Exception("No such table. Program will close up now.")
+
         finally:
             self.__close_conection()
 
+    def __open_connection(self, dblink=None):
+        if dblink:
+            self.get_conn_details(dblink)
+
+        try:
+            if not self.file_path:
+                self.file_path = ''
+            self.__con = sqlite3.connect(self.file_path)
+            self.__cur = self.__con.cursor()
+
+        except TypeError:
+            raise Exception("file-path nie może być pusta")
+
     def __close_conection(self):
-        self.__con.commit()
-        self.__cur.close()
+        try:
+            self.__con.commit()
+            self.__cur.close()
+        except AttributeError:
+            raise Exception("'Connection' object has no attribute")
+
+    def get_conn_details(self, dblink):
+        val = KeyGeter().uncode(dblink)
+
+        try:
+            rs = AtributesSetter.DBSettings()
+            rs.db_path = val["path"]
+            rs.db_name = val["db_name"]
+            rs.db_file_path = val["file"]
+            rs.db_table_name = val["table_name"]
+
+            self.path = rs.db_path
+            self.db_name = rs.db_name
+            self.table_name = rs.db_table_name
+            self.file_path = rs.db_file_path
+
+        except TypeError:
+            raise Exception("Obiekt nie może być NoneType")
 
 
 class KeyGeter:

@@ -56,10 +56,14 @@ class StipendRecord:
     @reciving_priest.setter
     def reciving_priest(self, value) -> str:
         """
-        First letter of name and surname. Max. 3 chars (in case of similar abrev.)
+        First letter of name and surname.
+
+        Max. 3 chars (in case of similar abrev.)
+
         :param value:
         :return:
         """
+
         if len(value) > 3:
             raise Exception("Przekroczono dopuszczalną ilość znaków (3).")
         result = re.sub(
@@ -78,10 +82,14 @@ class StipendRecord:
     @celebrating_priest.setter
     def celebrating_priest(self, value) -> str:
         """
-        First letter of name and surname. Max. 3 chars (in case of similar abrev.)
+        First letter of name and surname.
+
+        Max. 3 chars (in case of similar abrev.)
+
         :param value:
         :return:
         """
+
         if len(value) > 3:
             raise Exception("Przekroczono dopuszczalną ilość znaków (3).")
         result = re.sub(

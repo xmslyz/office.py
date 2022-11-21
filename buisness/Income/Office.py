@@ -53,7 +53,10 @@ class OfficeRecord:
     @reciving_priest.setter
     def reciving_priest(self, value) -> str:
         """
-        First letter of name and surname. Max. 3 chars (in case of similar abrev.)
+        First letter of name and surname.
+
+        Max. 3 chars (in case of similar abrev.)
+
         :param value:
         :return:
         """

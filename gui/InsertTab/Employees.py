@@ -1,7 +1,9 @@
 from buisness.Database.Geter import UniqueIDGetter
 from buisness.Employee import Identity, ManageEmployee
-from buisness.Employee.ManageEmployee import UpdateEmployeeData, \
-    DeleteEmployeeData
+from buisness.Employee.ManageEmployee import (
+    UpdateEmployeeData,
+    DeleteEmployeeData,
+)
 
 
 class TabEmployee:
@@ -55,6 +57,3 @@ class TabEmployee:
         )
 
         return None
-
-
-

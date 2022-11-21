@@ -6,25 +6,24 @@ class Button_Show_Mass_Record:
         """Pobiera dane dla GUI na podstawie id"""
         input_from_gui = "4"
         sql_stmt = (
-            f"SELECT amount, priest_reciving, celebrated_by, celebration_date, celebration_hour, celebration_type, gregorian FROM intentions "
+            f"SELECT amount, "
+            f"priest_reciving, "
+            f"celebrated_by, "
+            f"celebration_date, "
+            f"celebration_hour, "
+            f"celebration_type, "
+            f"gregorian "
+            f"FROM intentions "
             f"WHERE id IS ('{input_from_gui}');"
         )
-        con = buisness.Database.ScanRecords.Connection()
+        con = buisness.Database.SQLConnector.Connection()
         con.get_conn_details("intentions")
-        query = con.sql_querry(sql_stmt)
-        if query:
-            amount = sql_stmt[0]
-            priest_reciving = sql_stmt[1]
-            celebrated_by = sql_stmt[2]
-            celebration_date = sql_stmt[3]
-            celebration_hour = sql_stmt[4]
-            celebration_type = sql_stmt[5]
-            gregorian = sql_stmt[6]
-        else:
-            amount = (
-                priest_reciving
-            ) = (
-                celebrated_by
-            ) = (
-                celebration_date
-            ) = celebration_hour = celebration_type = gregorian = ""
+        if con.sql_querry(sql_stmt):
+            # amount = sql_stmt[0]
+            # priest_reciving = sql_stmt[1]
+            # celebrated_by = sql_stmt[2]
+            # celebration_date = sql_stmt[3]
+            # celebration_hour = sql_stmt[4]
+            # celebration_type = sql_stmt[5]
+            # gregorian = sql_stmt[6]
+            print()

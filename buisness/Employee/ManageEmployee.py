@@ -48,7 +48,7 @@ class UpdateEmployeeData(Connection):
     def update_employee(self, val, qid):
 
         sql_stmt = (
-            f"UPDATE employees " 
+            f"UPDATE employees "
             f"SET "
             f"type = '{val.type}', "
             f"name = '{val.name}', "
@@ -73,7 +73,6 @@ class DeleteEmployeeData(Connection):
     def delete_employee(self, qid):
         sql_stmt = f"DELETE FROM employees WHERE uniqueID IS '{qid}';"
         self.sql_querry(sql_stmt, dblink="employees")
-
 
 
 class RetireEmployee(Connection):

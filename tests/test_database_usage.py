@@ -14,74 +14,74 @@ class TestDatabaseBasicUsage(unittest.TestCase):
 
         # create necessary tables
         msg = (
-            f"CREATE TABLE IF NOT EXISTS intentions "
-            f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            f"type TEXT, "
-            f"amount REAL,"
-            f"priest_reciving TEXT,"
-            f"celebrated_by TEXT,"
-            f"celebration_date TEXT,"
-            f"celebration_hour TEXT,"
-            f"celebration_type TEXT,"
-            f"gregorian INTEGER,"
-            f"first_mass INTEGER);"
+            "CREATE TABLE IF NOT EXISTS intentions "
+            "(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            "type TEXT, "
+            "amount REAL,"
+            "priest_reciving TEXT,"
+            "celebrated_by TEXT,"
+            "celebration_date TEXT,"
+            "celebration_hour TEXT,"
+            "celebration_type TEXT,"
+            "gregorian INTEGER,"
+            "first_mass INTEGER);"
         )
         self.int.create_connection(0, msg, "")
 
         self.gstmt = DBConnector()
         self.gstmt.get_conn_details("testgeneral_stmt")
         msg = (
-            f"CREATE TABLE IF NOT EXISTS general_stmt "
-            f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            f"uniqueID TEXT, "
-            f"type TEXT, "
-            f"monthly_stmt_date TEXT, "
-            f"intention_amount INTEGER, "
-            f"intention_sum REAL, "
-            f"bination_amount INTEGER, "
-            f"bination_sum REAL, "
-            f"pars REAL, "
-            f"pretax REAL, "
-            f"taxes REAL, "
-            f"receival REAL, "
-            f"net REAL);"
+            "CREATE TABLE IF NOT EXISTS general_stmt "
+            "(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            "uniqueID TEXT, "
+            "type TEXT, "
+            "monthly_stmt_date TEXT, "
+            "intention_amount INTEGER, "
+            "intention_sum REAL, "
+            "bination_amount INTEGER, "
+            "bination_sum REAL, "
+            "pars REAL, "
+            "pretax REAL, "
+            "taxes REAL, "
+            "receival REAL, "
+            "net REAL);"
         )
         self.gstmt.create_connection(0, msg, "")
 
         self.mstmt = DBConnector()
         self.mstmt.get_conn_details("testmonthly_stmt")
         msg = (
-            f"CREATE TABLE IF NOT EXISTS monthly_stmt "
-            f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            f"uniqueID TEXT, "
-            f"type TEXT, "
-            f"stmt_date TEXT, "
-            f"intention_amount INTEGER, "
-            f"intention_sum REAL, "
-            f"bination_amount INTEGER, "
-            f"bination_sum REAL, "
-            f"pars REAL, "
-            f"pretax REAL, "
-            f"taxes REAL, "
-            f"receival REAL, "
-            f"net REAL);"
+            "CREATE TABLE IF NOT EXISTS monthly_stmt "
+            "(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            "uniqueID TEXT, "
+            "type TEXT, "
+            "stmt_date TEXT, "
+            "intention_amount INTEGER, "
+            "intention_sum REAL, "
+            "bination_amount INTEGER, "
+            "bination_sum REAL, "
+            "pars REAL, "
+            "pretax REAL, "
+            "taxes REAL, "
+            "receival REAL, "
+            "net REAL);"
         )
         self.mstmt.create_connection(0, msg, "")
 
         self.emp = DBConnector()
         self.emp.get_conn_details("testemployees")
         msg = (
-            f"CREATE TABLE IF NOT EXISTS employees "
-            f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  "
-            f"uniqueID TEXT, "
-            f"type TEXT, "
-            f"name TEXT, "
-            f"surname TEXT, "
-            f"shortname TEXT, "
-            f"abreviation TEXT, "
-            f"function TEXT, "
-            f"taxes TEXT,"
-            f"on_duty INTEGER);"
+            "CREATE TABLE IF NOT EXISTS employees "
+            "(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  "
+            "uniqueID TEXT, "
+            "type TEXT, "
+            "name TEXT, "
+            "surname TEXT, "
+            "shortname TEXT, "
+            "abreviation TEXT, "
+            "function TEXT, "
+            "taxes TEXT,"
+            "on_duty INTEGER);"
         )
         self.emp.create_connection(0, msg, "")
 
@@ -1155,16 +1155,16 @@ class TestDatabaseBasicUsage(unittest.TestCase):
             ],
         )
 
-        msg = """INSERT INTO monthly_stmt VALUES 
-        (NULL,?,?,?,?,?,?,?,?,?,?,?,?)"""
+        msg = """INSERT INTO monthly_stmt VALUES (
+        NULL,?,?,?,?,?,?,?,?,?,?,?,?)"""
         self.mstmt.create_connection(
             2,
             msg,
             [mth_stmt1, mth_stmt2, mth_stmt3, mth_stmt4, mth_stmt5, mth_stmt6],
         )
 
-        msg = """INSERT INTO general_stmt VALUES 
-        (NULL,?,?,?,?,?,?,?,?,?,?,?,?) """
+        msg = """INSERT INTO general_stmt VALUES (
+        NULL,?,?,?,?,?,?,?,?,?,?,?,?) """
         self.mstmt.create_connection(
             2,
             msg,
@@ -1191,27 +1191,31 @@ class TestDatabaseBasicUsage(unittest.TestCase):
         )
 
     def tearDown(self):
-        mysql = f"DROP TABLE IF EXISTS employees"
+        mysql = "DROP TABLE IF EXISTS employees"
         self.emp.create_connection(0, mysql, "")
 
-        mysql = f"DROP TABLE IF EXISTS intentions"
+        mysql = "DROP TABLE IF EXISTS intentions"
         self.int.create_connection(0, mysql, "")
 
-        mysql = f"DROP TABLE IF EXISTS monthly_stmt"
+        mysql = "DROP TABLE IF EXISTS monthly_stmt"
         self.gstmt.create_connection(0, mysql, "")
 
-        mysql = f"DROP TABLE IF EXISTS general_stmt"
+        mysql = "DROP TABLE IF EXISTS general_stmt"
         self.mstmt.create_connection(0, mysql, "")
 
     #  TEST IF TABLE EXIST
     def test_if_int_exist(self):
-        msg = f"SELECT name FROM sqlite_master WHERE type='table' " \
-              f"AND name='{self.int.table_name}';"
+        msg = (
+            f"SELECT name FROM sqlite_master WHERE type='table' "
+            f"AND name='{self.int.table_name}';"
+        )
         assert self.int.sql_querry(msg)[0][0] == "intentions"
 
     def test_if_emp_exist(self):
-        msg = f"SELECT name FROM sqlite_master WHERE type='table' " \
-              f"AND name='{self.emp.table_name}';"
+        msg = (
+            f"SELECT name FROM sqlite_master WHERE type='table' "
+            f"AND name='{self.emp.table_name}';"
+        )
         assert self.emp.sql_querry(msg)[0][0] == "employees"
 
     # TEST IF IT IS FILLED

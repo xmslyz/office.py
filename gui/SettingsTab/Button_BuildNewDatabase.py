@@ -63,7 +63,8 @@ class Remove_DB_Files:
     def remove_db_file():
         mydb = buisness.Database.Builder.DBCreationStmts()
         mydb.get_conn_details("intentions")
-        # zabezpieczenie przed usunięciem, w programie może to być monitorowane komunikatem okienka pop-up proszącym o potiwerdzenie operacji
+        # zabezpieczenie przed usunięciem, w programie może to być monitorowane
+        # komunikatem okienka pop-up proszącym o potiwerdzenie operacji
         mydb.file_destroyer(confirmed=True)
 
 
