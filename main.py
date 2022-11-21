@@ -28,7 +28,6 @@ class Call:
 
 
 def main():
-    print("hi")
     Call(2022).addRecords()
 
 
