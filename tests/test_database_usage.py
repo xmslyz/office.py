@@ -28,46 +28,6 @@ class TestDatabaseBasicUsage(unittest.TestCase):
         )
         self.int.create_connection(0, msg, "")
 
-        self.gstmt = DBConnector()
-        self.gstmt.get_conn_details("testgeneral_stmt")
-        msg = (
-            "CREATE TABLE IF NOT EXISTS general_stmt "
-            "(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            "uniqueID TEXT, "
-            "type TEXT, "
-            "monthly_stmt_date TEXT, "
-            "intention_amount INTEGER, "
-            "intention_sum REAL, "
-            "bination_amount INTEGER, "
-            "bination_sum REAL, "
-            "pars REAL, "
-            "pretax REAL, "
-            "taxes REAL, "
-            "receival REAL, "
-            "net REAL);"
-        )
-        self.gstmt.create_connection(0, msg, "")
-
-        self.mstmt = DBConnector()
-        self.mstmt.get_conn_details("testmonthly_stmt")
-        msg = (
-            "CREATE TABLE IF NOT EXISTS monthly_stmt "
-            "(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-            "uniqueID TEXT, "
-            "type TEXT, "
-            "stmt_date TEXT, "
-            "intention_amount INTEGER, "
-            "intention_sum REAL, "
-            "bination_amount INTEGER, "
-            "bination_sum REAL, "
-            "pars REAL, "
-            "pretax REAL, "
-            "taxes REAL, "
-            "receival REAL, "
-            "net REAL);"
-        )
-        self.mstmt.create_connection(0, msg, "")
-
         self.emp = DBConnector()
         self.emp.get_conn_details("testemployees")
         msg = (
@@ -1155,53 +1115,12 @@ class TestDatabaseBasicUsage(unittest.TestCase):
             ],
         )
 
-        msg = """INSERT INTO monthly_stmt VALUES (
-        NULL,?,?,?,?,?,?,?,?,?,?,?,?)"""
-        self.mstmt.create_connection(
-            2,
-            msg,
-            [mth_stmt1, mth_stmt2, mth_stmt3, mth_stmt4, mth_stmt5, mth_stmt6],
-        )
-
-        msg = """INSERT INTO general_stmt VALUES (
-        NULL,?,?,?,?,?,?,?,?,?,?,?,?) """
-        self.mstmt.create_connection(
-            2,
-            msg,
-            [
-                gen_stmt1,
-                gen_stmt2,
-                gen_stmt3,
-                gen_stmt4,
-                gen_stmt5,
-                gen_stmt6,
-                gen_stmt7,
-                gen_stmt8,
-                gen_stmt9,
-                gen_stmt10,
-                gen_stmt11,
-                gen_stmt12,
-                gen_stmt13,
-                gen_stmt14,
-                gen_stmt15,
-                gen_stmt16,
-                gen_stmt17,
-                gen_stmt18,
-            ],
-        )
-
     def tearDown(self):
         mysql = "DROP TABLE IF EXISTS employees"
         self.emp.create_connection(0, mysql, "")
 
         mysql = "DROP TABLE IF EXISTS intentions"
         self.int.create_connection(0, mysql, "")
-
-        mysql = "DROP TABLE IF EXISTS monthly_stmt"
-        self.gstmt.create_connection(0, mysql, "")
-
-        mysql = "DROP TABLE IF EXISTS general_stmt"
-        self.mstmt.create_connection(0, mysql, "")
 
     #  TEST IF TABLE EXIST
     def test_if_int_exist(self):
@@ -1243,12 +1162,6 @@ class TestDatabaseBasicUsage(unittest.TestCase):
         res = gget.get_guests("2022-11")
         assert res == [("ZZ", 2), ("GG", 1), ("HH", 1)]
 
-    def test_get_abreviations(self):
-        abrget = IntentionsColsGetter()
-        abrget.get_conn_details("testemployees")
-        result = abrget.get_abreviations()
-        assert result == ["AA", "BB", "CC", "DD", "EE"]
-
     def test_get_all_data(self):
         abrget = IntentionsColsGetter()
         abrget.get_conn_details("testemployees")
@@ -1261,28 +1174,6 @@ class TestDatabaseBasicUsage(unittest.TestCase):
         result = abrget.get_one("amount")
         assert result[0] == (100,)
         assert result[10] == (90,)
-
-    # def test_get_uniqueID_onduty(self):
-    #     uniq = UniqueIDGetter()
-    #     uniq.get_conn_details("testemployees")
-    #     result = uniq.get_uniqueID("AA", "1")
-    #     assert result == "aa1"
-
-    # def test_get_uniqueID_notonduty(self):
-    #     uniq = UniqueIDGetter()
-    #     uniq.get_conn_details("testemployees")
-    #     print(uniq.__repr__())
-    #     with self.assertRaises(Exception) as context:
-    #         uniq.get_uniqueID("FF", "1")
-    #     print(uniq.get_uniqueID("FF", "1"))
-    #     # self.assertTrue("Brak takiego rejestru" in str(context.exception))
-
-    def test_get_list_unique(self):
-        uniq = UniqueIDGetter()
-        uniq.get_conn_details("testemployees")
-
-        result = uniq.get_list_uniqueID_when_on_duty()
-        assert result == ["aa1", "bb2", "cc3", "dd4", "ee5"]
 
 
 if __name__ == "__main__":

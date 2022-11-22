@@ -30,7 +30,7 @@ class test_get_conn_details(TestCase):
         conn = connector.Connection()
         conn.get_conn_details("constants")
         assert conn.table_name == "constants"
-        assert conn.db_name == "constants.db"
+        assert conn.db_name == "sofa.db"
 
     # Key errors
     def test_get_wrong_key_spelling(self):
