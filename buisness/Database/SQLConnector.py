@@ -93,16 +93,16 @@ class Connection:
 
 class KeyGeter:
     as_dic = {
-        "builder": {
+        "constants": {
             "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
-            "table_name": "kozi",
+            "table_name": "constants",
             "file": "",
         },
-        "constants": {
-            "path": "DatabaseLayer\\Constants",
-            "db_name": "constants.db",
-            "table_name": "constants",
+        "home_outcomes": {
+            "path": "DatabaseLayer\\SQLDataBase",
+            "db_name": "sofa.db",
+            "table_name": "home_outcomes",
             "file": "",
         },
         "intentions": {

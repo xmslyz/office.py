@@ -76,3 +76,53 @@ class KOZI:
             f'WHERE const IS ("0");'
         )
         self.conn.sql_querry(sql_stmt=stmt, dblink="kozi")
+
+
+class Kitchen:
+    def __init__(self):
+        self.conn = Connection()
+
+    def get_home_outcomes(self):
+        stmt = (
+            'SELECT * FROM home_outcomes'
+        )
+
+        result = self.conn.sql_querry(stmt, dblink="home_outcomes")
+
+        return result
+
+    def build_home_outcome_table(self):
+        self.__drop_home_outcome()
+        stmt = (
+            'CREATE TABLE IF NOT EXISTS home_outcomes ('
+            'const INTEGER,'
+            'food INTEGER,'
+            'cook INTEGER);'
+        )
+        self.conn.sql_querry(stmt, dblink="home_outcomes")
+        self.__set_home_outcome()
+
+    def __set_home_outcome(self):
+        values = (0, 0, 0)
+        stmt = (
+            'INSERT INTO home_outcomes ('
+            'const,'
+            'food, cook) '
+            'VALUES(?,?,?);'
+        )
+        self.conn.sql_querry(stmt, value=values, dblink="home_outcomes")
+
+    def __drop_home_outcome(self):
+        stmt = (
+            'DROP TABLE IF EXISTS home_outcomes'
+        )
+        self.conn.sql_querry(stmt, dblink="home_outcomes")
+
+    def update_home_outcome(self, val):
+        stmt = (
+            f'UPDATE home_outcomes SET '
+            f'food = {val.get("food")},' 
+            f'cook = {val.get("cook")} ' 
+            f'WHERE const IS ("0");'
+        )
+        self.conn.sql_querry(sql_stmt=stmt, dblink="home_outcomes")

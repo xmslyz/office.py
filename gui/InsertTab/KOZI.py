@@ -1,4 +1,4 @@
-from buisness.Outcome.Fees import KOZI
+from buisness.Solids.Fees import KOZI
 
 
 def input_update_kozi():
