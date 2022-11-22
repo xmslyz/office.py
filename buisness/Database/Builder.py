@@ -61,7 +61,7 @@ class DBCreationStmts(DBConnector):
 
     def db_intentions(self):
         mysql = (
-            f"CREATE TABLE IF NOT EXISTS {self.table_name} "
+            f"CREATE TABLE IF NOT EXISTS intentions "
             f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
             f"type TEXT NOT NULL DEFAULT 'Stypendium mszalne', "
             f"amount REAL DEFAULT 0,"
@@ -73,7 +73,8 @@ class DBCreationStmts(DBConnector):
             f"gregorian INTEGER DEFAULT 0,"
             f"first_mass INTEGER DEFAULT 1);"
         )
-        self.create_connection(0, mysql, "")
+        # self.create_connection(0, mysql, "")
+        self.sql_querry(mysql)
 
     def db_general_stmt(self):
         mysql = (
@@ -115,7 +116,7 @@ class DBCreationStmts(DBConnector):
 
     def db_employee(self):
         mysql = (
-            f"CREATE TABLE IF NOT EXISTS {self.table_name} "
+            f"CREATE TABLE IF NOT EXISTS employees "
             f"(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
             f"uniqueID TEXT NOT NULL, "
             f"type TEXT NOT NULL DEFAULT 'Dane osobowe', "

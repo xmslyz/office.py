@@ -93,6 +93,12 @@ class Connection:
 
 class KeyGeter:
     as_dic = {
+        "builder": {
+            "path": "DatabaseLayer\\SQLDataBase",
+            "db_name": "sofa.db",
+            "table_name": "kozi",
+            "file": "",
+        },
         "constants": {
             "path": "DatabaseLayer\\Constants",
             "db_name": "constants.db",
@@ -111,22 +117,16 @@ class KeyGeter:
             "table_name": "employees",
             "file": "",
         },
-        "monthly_stmt": {
-            "path": "DatabaseLayer\\SQLDataBase",
-            "db_name": "sofa.db",
-            "table_name": "monthly_stmt",
-            "file": "",
-        },
-        "general_stmt": {
-            "path": "DatabaseLayer\\SQLDataBase",
-            "db_name": "sofa.db",
-            "table_name": "general_stmt",
-            "file": "",
-        },
         "office": {
             "path": "DatabaseLayer\\SQLDataBase",
             "db_name": "sofa.db",
             "table_name": "office",
+            "file": "",
+        },
+        "kozi": {
+            "path": "DatabaseLayer\\SQLDataBase",
+            "db_name": "sofa.db",
+            "table_name": "kozi",
             "file": "",
         },
         "testintentions": {
@@ -139,18 +139,6 @@ class KeyGeter:
             "path": "DatabaseLayer\\TestDataBase",
             "db_name": "sofa.db",
             "table_name": "employees",
-            "file": "",
-        },
-        "testmonthly_stmt": {
-            "path": "DatabaseLayer\\TestDataBase",
-            "db_name": "sofa.db",
-            "table_name": "monthly_stmt",
-            "file": "",
-        },
-        "testgeneral_stmt": {
-            "path": "DatabaseLayer\\TestDataBase",
-            "db_name": "sofa.db",
-            "table_name": "general_stmt",
             "file": "",
         },
         "testpars": {

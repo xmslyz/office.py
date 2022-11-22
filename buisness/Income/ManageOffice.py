@@ -22,6 +22,29 @@ def create_office_table():
     return None
 
 
+def office_income_record(amount, reciving, date_of_r, kind, ref, date_of_c):
+
+    income = offrec()
+    income.amount = amount
+    income.reciving_priest = reciving
+    income.date_of_reciving = date_of_r
+    income.kind = kind
+    income.reference = ref
+    income.date_of_celebration = date_of_c
+
+    val = (
+        income.type,
+        income.amount,
+        income.reciving_priest,
+        income.date_of_reciving,
+        income.kind,
+        income.reference,
+        income.date_of_celebration
+    )
+
+    return val
+
+
 def find_in_office(column_name, value):
     """Searches in 'office' table where [column_name] is [value]"""
 
@@ -123,26 +146,3 @@ def insert_to_office(val):
     conn.sql_querry(stmt, value=val, dblink="office")
 
     return None
-
-
-def office_income_record(amount, reciving, date_of_r, kind, ref, date_of_c):
-
-    income = offrec()
-    income.amount = amount
-    income.reciving_priest = reciving
-    income.date_of_reciving = date_of_r
-    income.kind = kind
-    income.reference = ref
-    income.date_of_celebration = date_of_c
-
-    val = (
-        income.type,
-        income.amount,
-        income.reciving_priest,
-        income.date_of_reciving,
-        income.kind,
-        income.reference,
-        income.date_of_celebration
-    )
-
-    return val

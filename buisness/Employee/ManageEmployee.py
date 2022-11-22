@@ -60,7 +60,6 @@ class UpdateEmployeeData(Connection):
             f"on_duty = {val.is_working} "
             f"WHERE uniqueID IS '{qid}';"
         )
-        print(sql_stmt)
         self.sql_querry(sql_stmt, dblink="employees")
 
         return None
