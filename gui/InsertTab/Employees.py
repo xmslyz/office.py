@@ -1,9 +1,26 @@
-from buisness.Database.Geter import UniqueIDGetter
+import ast
+
+from buisness.Database.Geter import UniqueIDGetter, IntentionsColsGetter
 from buisness.Employee import Identity, ManageEmployee
 from buisness.Employee.ManageEmployee import (
     UpdateEmployeeData,
     DeleteEmployeeData,
 )
+
+
+class EmployeeTaxes:
+
+    def add_tax(self, uid, tax_name, tax_amount) -> dict:
+        actual_taxes = self.__extract_taxes(uid)
+        if actual_taxes:
+            actual_taxes[tax_name] = tax_amount
+            return str(actual_taxes)
+        else:
+            return str({})
+
+    def __extract_taxes(self, uid):
+        return ast.literal_eval(IntentionsColsGetter()
+                                 .get_tax_by_uid(uid)[0][0])
 
 
 class TabEmployee:
@@ -17,8 +34,8 @@ class TabEmployee:
         shortname = "BiBio"
         abreviation = "BB"
         function = "Wikarxy"
-        taxes = {"dziesięcina": "230.00", "dke": "100", "szkoła": "120"}
-        on_duty = False
+        taxes = {}  # ??
+        on_duty = True
 
         employee_obj.name = name
         employee_obj.surname = surname
@@ -41,7 +58,7 @@ class TabEmployee:
     def update_employee(self):
         # get employees uniqueID
         get_uid = UniqueIDGetter()
-        qid = get_uid.get_uniqueID("BB", 0)
+        qid = get_uid.get_uniqueID("BB")
 
         employee_obj = self.get_employee_data()
         update_emp = UpdateEmployeeData()

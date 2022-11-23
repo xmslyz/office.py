@@ -40,6 +40,14 @@ class IntentionsColsGetter(Connection):
         else:
             return []
 
+    def get_tax_by_uid(self, uid):
+        stmt = (
+            f'SELECT taxes FROM employees '
+            f'WHERE uniqueID IS ("{uid}")'
+        )
+
+        return self.sql_querry(sql_stmt=stmt, dblink="employees")
+
     def get_all(self):
         """Returns everything"""
         return self.sql_querry("SELECT * FROM intentions;")
