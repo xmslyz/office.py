@@ -3,7 +3,7 @@ import buisness.Database.SQLConnector
 from buisness.Database.SQLConnector import Connection
 import buisness.Computing.tax_computer
 from buisness.Input import Caster as cast
-from buisness.Computing.pars_computer import pars_na_osobe
+from buisness.Computing.pars_computer import ParsComputer
 
 
 class Collation(Connection):
@@ -517,4 +517,12 @@ class ComputeEmployee(EmployeeCollation):
 
         :return: float
         """
-        return pars_na_osobe()
+        query = self.sql_querry(f"SELECT function FROM employees WHERE "
+                                f"abreviation IS ('{self.who_recived}')")
+
+        if query == "Proboszcz":
+            return ParsComputer().pars_for_one() * 2
+        elif query == "Wikariusz":
+            return ParsComputer().pars_for_one()
+        else:
+            return 0
