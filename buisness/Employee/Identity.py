@@ -6,6 +6,7 @@ class EmployeeIdentity:
     def __init__(self):
         self.__type = "Dane osobowe"
         self.__name = None
+        self.__middlename = None
         self.__surname = None
         self.__shortname = None
         self.__abreviation = None
@@ -18,6 +19,7 @@ class EmployeeIdentity:
             f"EmployeeIdentity:\n"
             f"type -> {self.__type}\t\n"
             f"name -> {self.__name}\t\n"
+            f"name -> {self.__middlename}\t\n"
             f"surname -> {self.__surname}\t\n"
             f"shortname -> {self.__shortname}\t\n"
             f"abreviation -> {self.__abreviation}\t\n"
@@ -44,6 +46,20 @@ class EmployeeIdentity:
     @name.setter
     def name(self, value) -> str:
         self.__name = re.sub(
+            r"[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+", "", str(value).strip()
+        )
+
+    @property
+    def middlename(self):
+        return self.__middlename
+
+    @middlename.getter
+    def middlename(self):
+        return self.__middlename
+
+    @middlename.setter
+    def middlename(self, value) -> str:
+        self.__middlename = re.sub(
             r"[^-\' A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+", "", str(value).strip()
         )
 

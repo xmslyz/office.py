@@ -121,6 +121,7 @@ class DBCreationStmts(DBConnector):
             f"uniqueID TEXT NOT NULL, "
             f"type TEXT NOT NULL DEFAULT 'Dane osobowe', "
             f"name TEXT, "
+            f"middlename TEXT, "
             f"surname TEXT, "
             f"shortname TEXT, "
             f"abreviation TEXT, "

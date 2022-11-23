@@ -8,7 +8,7 @@ from buisness.Employee.ManageEmployee import (
 )
 
 
-class EmployeeTaxes:
+class EmployeeDetails:
 
     def add_tax(self, uid, tax_name, tax_amount) -> dict:
         actual_taxes = self.__extract_taxes(uid)
@@ -22,6 +22,18 @@ class EmployeeTaxes:
         return ast.literal_eval(IntentionsColsGetter()
                                  .get_tax_by_uid(uid)[0][0])
 
+    def add_abreviation_sugestion(self):
+        # get Name from QT object
+        qtName = "Adam"
+        # get MiddleName from QT object
+        qtMiddleName = "Antoni"
+        # get Surname from QT object
+        qtSurname = "Adamski"
+
+        return f'{qtName[0].upper()}' \
+               f'{qtMiddleName[0].upper()}' \
+               f'{qtSurname[0].upper()}'
+
 
 class TabEmployee:
     def get_employee_data(self):
@@ -30,6 +42,7 @@ class TabEmployee:
 
         # przykładowe dane otrzymane z GUI
         name = "Chichini"
+        middlename = ""
         surname = "Bitucco"
         shortname = "BiBio"
         abreviation = "BB"
@@ -38,6 +51,7 @@ class TabEmployee:
         on_duty = True
 
         employee_obj.name = name
+        employee_obj.middlename = middlename
         employee_obj.surname = surname
         employee_obj.shortname = shortname
         employee_obj.abreviation = abreviation
