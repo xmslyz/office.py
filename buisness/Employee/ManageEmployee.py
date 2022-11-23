@@ -18,18 +18,20 @@ class NewEmployee(DBConnector):
             f"(uniqueID,"
             f"type,"
             f"name,"
+            f"middlename,"
             f"surname,"
             f"shortname,"
             f"abreviation,"
             f"function,"
             f"taxes,"
             f"on_duty) "
-            f"VALUES (?,?,?,?,?,?,?,?,?);"
+            f"VALUES (?,?,?,?,?,?,?,?,?,?);"
         )
         values = (
             val.uniqueID,
             val.type,
             val.name,
+            val.middlename,
             val.surname,
             val.shortname,
             val.abreviation,
@@ -52,6 +54,7 @@ class UpdateEmployeeData(Connection):
             f"SET "
             f"type = '{val.type}', "
             f"name = '{val.name}', "
+            f"middlename = '{val.middlename}', "
             f"surname = '{val.surname}', "
             f"shortname = '{val.shortname}', "
             f"abreviation = '{val.abreviation}', "
